@@ -23,7 +23,7 @@ public class PropertiesFile {
 	{
 		
 		try {
-			InputStream input = new FileInputStream("/Users/Mate/Downloads/ecdh/ECDH/src/config/config.properties");
+			InputStream input = new FileInputStream("/Users/Mate/ecdh/ECDH/src/config/config.properties");
 		    prop.load(input);
 		    System.out.println(prop.getProperty("browser"));
 		    System.out.println(prop.getProperty("OS"));
@@ -44,7 +44,7 @@ public class PropertiesFile {
       { 
 		
 		try {
-			OutputStream output = new FileOutputStream("/Users/Mate/Downloads/ecdh/ECDH/src/config/config.properties");
+			OutputStream output = new FileOutputStream("/Users/Mate/ecdh/ECDH/src/config/config.properties");
 			
 			prop.setProperty("result","pass");
 			prop.store(output, null);
