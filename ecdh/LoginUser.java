@@ -16,8 +16,11 @@ public class LoginUser {
 		
 		System.out.println(System.getProperty("os.name"));
 		
-	
-		InputStream input = new FileInputStream("/Users/Mate/ecdh/ECDH/src/config/configexample.properties");
+		
+		String path = System.getProperty("user.dir");
+		
+		System.out.println(path);
+		InputStream input = new FileInputStream(path + "/src/config/config.properties");
 	    prop.load(input);
 	    
 		TestBase.url = prop.getProperty("url");
