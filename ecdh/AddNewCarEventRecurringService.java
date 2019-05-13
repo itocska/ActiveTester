@@ -5,10 +5,10 @@ import org.openqa.selenium.WebDriverException;
 public class AddNewCarEventRecurringService {
   public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("AddNewCarEventRecurringService", 0);
 		try {
-		  TestBase.login("vorosborisz@gmail.com", "letstest");
+		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.oneStepInner();
 		  TestBase.addNewCarEventRecurringService();
 		  

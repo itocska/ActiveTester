@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriverException;
 public class RegisterActivateDeleteCompany extends TestBase {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("RegisterActivateDeleteCompany", 1);
 		//VideoRecord.startRecording("RegisterActivateDeleteCompany");
 		
@@ -16,7 +16,7 @@ public class RegisterActivateDeleteCompany extends TestBase {
 		  Integer randomNum = 1 + rand.nextInt((3000000 - 1) + 1);
 		  String randNum = String.valueOf(randomNum);
 			
-		  String companyEmail = "ecdhtest@gmail.com";
+		  String companyEmail = TestBase.companyUser;
 		  String companyName = "Teszt Ceg" + randNum;
 		  TestBase.registerCompany(companyName, companyEmail);
 		  TestBase.activateCompany(true, companyEmail);

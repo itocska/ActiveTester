@@ -5,11 +5,11 @@ import org.openqa.selenium.WebDriverException;
 public class RegisterActivatefillDetailsDeleteUser {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("RegisterActivatefillDetailsDeleteUser", 1);
 		try {
-		  TestBase.registerUser("ecdhtest@gmail.com", "letstest");
-		  TestBase.activateUser();
+			TestBase.registerUser(TestBase.personalUser, TestBase.personalPassword);
+			TestBase.activateUser();
 		  //TestBase.deleteUser();  
 		} 
 		catch (AssertionError|WebDriverException e) {

@@ -11,11 +11,10 @@ public class LoginCompany {
 	public static void main(String[] args) throws Throwable {
 		
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("LoginCompany", 0);
 		try {
-		  String companyEmail = "ecdhtest@gmail.com";
-		  TestBase.login(companyEmail, "letstest");
+		  TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 		  //TestBase.activateCompany(false, companyEmail);
 		} 
 		catch (AssertionError|WebDriverException e) {

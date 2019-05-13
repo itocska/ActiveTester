@@ -7,11 +7,11 @@ public class RegisterWithoutAcceptRules extends TestBase {
 	public static void main(String[] args) throws Throwable {
 		
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("RegisterWithoutAcceptRules", 1);
 		try {
-		  TestBase.registerUser("vorosborisz@gmail.com", "letstest", false);
-		  TestBase.goToPage("https://rc.ecdh.hu");
+		  TestBase.registerUser(TestBase.personalUser, TestBase.personalPassword, false);
+		  TestBase.goToPage(TestBase.url);
 		  TestBase.registerUserWrongEmail();
 		} 
 		catch (AssertionError|WebDriverException e) {

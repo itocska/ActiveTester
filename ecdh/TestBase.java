@@ -36,6 +36,11 @@ import com.sun.glass.events.KeyEvent;
 
 import de.svenjacobs.loremipsum.LoremIpsum;
 
+//byITO
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+//end
 
 public class TestBase {
 	
@@ -44,12 +49,55 @@ public class TestBase {
 	public static WebDriverWait wait;
 	private static int close;
 	public static String url;
+	public static String personalUser;
+	public static String personalPassword;
+	public static String companyUser;
+	public static String companyPassword;
+	public static String testerMail;
+	public static String testerPassword;
+	public static String adminUser;
+	public static String adminPassword;
+	public static String exampleNick;
 
+	
+	//byITOtest
+	public static Properties prop = new Properties();
+	
+    //end
+	
 	public static void main(String arg, int close) throws Throwable {
-
-		//System.setProperty("webdriver.chrome.driver", "/www/webdrivers/chromedriver");
-		String path = (new File("")).getAbsolutePath();
-		System.setProperty("webdriver.chrome.driver", path + "/webdriver/chromedriver.exe");
+		
+		//byITOtest
+		String path = System.getProperty("user.dir");
+		InputStream input = new FileInputStream(path + "/src/config/configexample.properties");
+	    prop.load(input);
+		
+		if (System.getProperty("os.name")=="Mac OS X"){
+			System.setProperty("webdriver.chrome.driver", "/www/webdrivers/chromedriver");
+		}else {
+			String pathcr = (new File("")).getAbsolutePath();
+			System.setProperty("webdriver.chrome.driver", pathcr + "/webdriver/chromedriver.exe");
+		}
+		String activePUser = prop.getProperty("pUser");
+		String activeCUser = prop.getProperty("cUser");
+		String activeAUser = prop.getProperty("aUser");
+		String activeTMail = prop.getProperty("tMail");
+		
+		personalUser = prop.getProperty(activePUser);
+		personalPassword = prop.getProperty(activePUser+"Pass");
+		companyUser = prop.getProperty(activeCUser);
+		companyPassword = prop.getProperty(activeCUser+"Pass");
+		adminUser = prop.getProperty(activeAUser);
+		adminPassword = prop.getProperty(activeAUser+"Pass");
+		//csak a mailer privát adatai
+		testerMail = prop.getProperty(activeTMail);
+		testerPassword = prop.getProperty(activeTMail+"Pass");
+		
+		exampleNick =prop.getProperty("examNick");
+		
+		url = prop.getProperty("url");
+		//end
+		
 		driver = new ChromeDriver();
 		
 		wait = new WebDriverWait(driver, 10);
@@ -66,9 +114,6 @@ public class TestBase {
 		
 		TestBase.close = close;
 		
-		if (url.isEmpty() ) {
-			url = "http://rc.ecdh.hu";
-		}
 		
 		try {
 			goToPage(url);
@@ -83,8 +128,6 @@ public class TestBase {
 			throw e;
 		}
 		
-		
-		
 	}
 
 	protected static void deleteUser() throws IOException, InterruptedException {
@@ -98,43 +141,43 @@ public class TestBase {
 	}
 
 	protected static void activateUser() throws Exception {
-		/*
 		driver.get("https://gmail.com");
-		
-		driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys("vorosborisz@gmail.com");
-		driver.findElement(By.xpath("//*[text()='Next']")).click();
-		
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
-
-		driver.findElement(By.cssSelector("input[type=password]")).sendKeys("vivaretina");
-		driver.findElement(By.xpath("//*[text()='Next']")).click();
-		Log.log("Login Gmail");
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='ECDH regisztráció megerõsítése']")));
-		driver.findElement(By.xpath("//*[text()='ECDH regisztráció megerõsítése']")).click();
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Személyes fiók aktiválása")));
-		driver.findElement(By.partialLinkText("Személyes fiók aktiválása")).click();
-		Log.log("New user account activation");
-		
-		System.out.println(driver.getTitle());
-		
-		for (String winHandle : driver.getWindowHandles()) { 
-	        System.out.println(winHandle);
-	        driver.switchTo().window(winHandle);       
-	    }
-		
-		System.out.println(driver.getTitle());
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Aktiválás']")));
-		assertTrue("Registration succeed", driver.getPageSource().contains("befejezte"));
-		Log.log("Activation succeed");
-		*/
-		driver.get(Gmail.getMails("{email}", "{password}", "ECDH", "href=\"(.*?)\">Személyes fiók aktiválása"));
-		
-		
-	}
-
+	       
+        driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys(testerMail);
+        driver.findElement(By.xpath("//*[text()='Következõ']")).click();
+       
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
+ 
+        driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
+        driver.findElement(By.xpath("//*[text()='Következõ']")).click();
+        Log.log("Login Gmail");
+       
+        sleep(6000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='Regisztráció megerõsítése (ECDH)'])[2]")));
+        driver.findElement(By.xpath("(//*[text()='Regisztráció megerõsítése (ECDH)'])[2]")).click();
+       
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")));
+        driver.findElement(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")).click();
+        Log.log("New user account activation");
+       
+        System.out.println(driver.getTitle());
+       
+        for (String winHandle : driver.getWindowHandles()) {
+            System.out.println(winHandle);
+            driver.switchTo().window(winHandle);      
+        }
+       
+        System.out.println(driver.getTitle());
+       
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Aktiválás']")));
+        assertTrue("Registration succeed", driver.getPageSource().contains("befejezte"));
+        Log.log("Activation succeed");
+   
+        //driver.get(Gmail.getMails("{email}", "{password}", "ECDH", "href=\"(.*?)\">Személyes fiók aktiválása"));
+       
+       
+    }
+	
 	private static void acceptCookies() throws IOException, InterruptedException {
 		Log.log("Accept cookies");
 		try {
@@ -326,8 +369,8 @@ public class TestBase {
 		
 		driver.findElement(By.cssSelector(".multiselect")).click();
 
-		driver.findElement(By.id("user-password")).sendKeys("letstest");
-		driver.findElement(By.id("user-confirm-password")).sendKeys("letstest");
+		driver.findElement(By.id("user-password")).sendKeys(companyPassword);
+		driver.findElement(By.id("user-confirm-password")).sendKeys(companyPassword);
 		
 		WebElement myElement = driver.findElement(By.xpath("//label[@for=\"user-accept-rules2\"]"));
 		WebElement parent = myElement.findElement(By.xpath(".."));
@@ -355,12 +398,12 @@ public class TestBase {
 
 	public static void activateCompany(Boolean realActivation, String companyEmail) throws Exception {
 		if (realActivation) {
-		  driver.get(Gmail.getMails("ecdhtest@gmail.com", "letstest", "ECDH", "href=\"(.*?)\">Addig is tekintsd meg"));
+		  driver.get(Gmail.getMails(companyUser, companyPassword, "ECDH", "href=\"(.*?)\">Addig is tekintsd meg"));
 		}
 		
 		Log.log("Email aktiválás sikeres.");
 		
-		TestBase.goToPage("https://rc.ecdh.hu/hu/ceg-adat-modositas");
+		TestBase.goToPage(url+"/hu/ceg-adat-modositas");
 		driver.findElement(By.cssSelector("textarea[name='description']")).sendKeys("Rövid leírás teszt");
 		
 		Random rand = new Random();
@@ -389,7 +432,7 @@ public class TestBase {
 		rand = new Random();
 		randomNum = 1000 + rand.nextInt((999 - 1) + 1);
 		amount = String.valueOf(randomNum);
-		driver.findElement(By.cssSelector("input[name='email']")).sendKeys("vorosborisz" + amount + "@gmail.com");
+		driver.findElement(By.cssSelector("input[name='email']")).sendKeys(exampleNick + amount + "@gmail.com");
 		
 		TestBase.select("phone_country", "Válasszon");
 		
@@ -398,7 +441,7 @@ public class TestBase {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), \"Sikeres\")]")));
 
 		Log.log("Narancs mezõk kitöltve.");
-		goToPage("https://rc.ecdh.hu/hu/kijelentkezes");		
+		goToPage(url+"/hu/kijelentkezes");		
 		
 	}
 	
@@ -917,30 +960,30 @@ public class TestBase {
 	}
 	
 	public static void adminLogin() throws IOException, InterruptedException {
-		goToPage("https://rc.ecdh.hu/hu/bejelentkezes");
-		fillName("username", "info@ecdh.hu");
-		fillName("password", "M1ntamóku?");
+		goToPage(url+"/hu/bejelentkezes");
+		fillName("username", adminUser);
+		fillName("password", adminPassword);
 		driver.findElement(By.className("btn-secondary")).click();
 		Thread.sleep(5000);
 	}
 
 	public static void adminActivatecompany(String companyEmail) throws IOException {
-		goToPage("https://rc.ecdh.hu/hu/admin/car/car-companies");
+		goToPage(url+"/hu/admin/car/car-companies");
 		driver.findElement(By.cssSelector("tr:nth-child(1) a:nth-child(2)")).click();
-		goToPage("https://rc.ecdh.hu/hu/admin/car/car-users");
+		goToPage(url+"/hu/admin/car/car-users");
 		driver.findElement(By.cssSelector("tr:nth-child(1) a:nth-child(2)")).click();
-		goToPage("https://rc.ecdh.hu/hu/kijelentkezes");
+		goToPage(url+"/hu/kijelentkezes");
 	}
 
 	public static void deleteCompany(String companyName) throws IOException {
-		goToPage("https://rc.ecdh.hu/hu/admin/car/car-companies");
+		goToPage(url+"/hu/admin/car/car-companies");
 		driver.findElement(By.xpath("//*[contains(text(), '" + companyName + "')]/following::a[4]")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirmation .popover-content .bgm-lightblue")));
 		driver.findElement(By.cssSelector(".confirmation .popover-content .bgm-lightblue")).click();
 	}
 	
 	public static void deleteUser(String userName) throws IOException {
-		goToPage("https://rc.ecdh.hu/hu/admin/car/car-users");
+		goToPage(url+"/hu/admin/car/car-users");
 		driver.findElement(By.xpath("//*[contains(text(), '" + userName + "')]/following::a[4]")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirmation .popover-content .bgm-lightblue")));
 		driver.findElement(By.cssSelector(".confirmation .popover-content .bgm-lightblue")).click();
@@ -996,7 +1039,7 @@ public class TestBase {
 	}
 
 	public static String checkRequest(String requestId) throws IOException, InterruptedException {
-		TestBase.goToPage("https://rc.ecdh.hu/hu/gumi-erdeklodesek");
+		TestBase.goToPage(url+"/hu/gumi-erdeklodesek");
 		
 		assertTrue("Tire request succeed", driver.getPageSource().contains(requestId));
 		Log.log("Gumi ajánlatkérés megérkezett.");
@@ -1030,7 +1073,7 @@ public class TestBase {
 	}
 	
 	public static String checkRequestPart(String requestId) throws IOException, InterruptedException {
-		TestBase.goToPage("https://rc.ecdh.hu/hu/alkatresz-erdeklodesek");
+		TestBase.goToPage(url+"/hu/alkatresz-erdeklodesek");
 		
 		assertTrue("Tire request succeed", driver.getPageSource().contains(requestId));
 		Log.log("Gumi ajánlatkérés megérkezett.");
@@ -1090,7 +1133,7 @@ public class TestBase {
 
 	public static void userLogout() throws IOException {
 		Log.log("Kijelentkezés a fiókból.");
-		goToPage("https://rc.ecdh.hu/hu/kijelentkezes");
+		goToPage(url+"/hu/kijelentkezes");
 	}
 
 	public static void registerUserWrongEmail() throws IOException {
@@ -1241,7 +1284,7 @@ public class TestBase {
 	}
 
 	public static String GetCompanyName() throws IOException {
-		goToPage("https://rc.ecdh.hu/hu/car-companies/edit");
+		goToPage(url+"/hu/car-companies/edit");
 		return driver.findElement(By.id("name")).getAttribute("value");
 	}
 	
@@ -1489,7 +1532,7 @@ public class TestBase {
 	}
 
 	public static void addNewCarEventRecurringService() throws IOException, InterruptedException {
-		goToPage("https://rc.ecdh.hu/hu/szerviz-esemeny-letrehozasa/2/" + getCarId());
+		goToPage(url+"/hu/szerviz-esemeny-letrehozasa/2/" + getCarId());
 		fillName("service_interval_month", "48");
 		fillName("service_interval_km", "20000");
 		click(".ts-date-picker");
@@ -1534,7 +1577,7 @@ public class TestBase {
 	}
 
 	public static void addNewCarEventPenalty() throws IOException, InterruptedException {
-      goToPage("https://rc.ecdh.hu/hu/birsag-esemeny-letrehozasa/" + getCarId());
+      goToPage(url+"/hu/birsag-esemeny-letrehozasa/" + getCarId());
       String penaltyType = randomSelect("penalty_type");
       driver.findElement(By.cssSelector("input[name=\"penalty_date\"]")).click();
       LocalDate dueDate = LocalDate.now().plusMonths(3);
@@ -1579,7 +1622,7 @@ public class TestBase {
 	
 
 	public static void addNewCarEventHighwayFee() throws IOException, InterruptedException {
-		//goToPage("https://rc.ecdh.hu/hu/autopalya-matrica-hozzadasa/" + getCarId());
+		//goToPage(url+"/hu/autopalya-matrica-hozzadasa/" + getCarId());
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_highway_ticket")));
 		clickLinkWithText("Pályamatrica");
@@ -1648,7 +1691,7 @@ public class TestBase {
 	}
 
 	public static void addNewCarEventCompulsoryInsurance() throws IOException, InterruptedException {
-		//goToPage("https://rc.ecdh.hu/hu/biztositas-hozzadasa/" + getCarId() + "/1");
+		//goToPage(url+"/hu/biztositas-hozzadasa/" + getCarId() + "/1");
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_insurance")));
 		clickLinkWithText("Kötelezõ");
@@ -1706,7 +1749,7 @@ public class TestBase {
 	}
 
 	public static void addNewCarEventCascoInsurance() throws IOException, InterruptedException {
-		//goToPage("https://rc.ecdh.hu/hu/biztositas-hozzadasa/" + getCarId() + "/2");
+		//goToPage(url+"/hu/biztositas-hozzadasa/" + getCarId() + "/2");
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_insurance")));
 		clickLinkWithText("Casco");
@@ -1953,7 +1996,7 @@ public class TestBase {
 	}
 
 	public static void buildCompanyPage() throws IOException, InterruptedException {
-		goToPage("https://rc.ecdh.hu/hu/ceg-oldal-szerkesztes");
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		
 		
 		if (driver.findElements(By.xpath("//a/descendant-or-self::*[contains(text(),\"kattintson ide cégoldala létrehozásához\")]")).size() != 0) {
@@ -2019,7 +2062,7 @@ public class TestBase {
 	}
 
 	public static void CompanyWebpage() throws IOException, InterruptedException {
-		goToPage("https://rc.ecdh.hu/hu/ceg-oldal-szerkesztes");
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		clickLinkWithText("Menü szerkesztése");
 		sleep(6000);
 		driver.findElement(By.id("car-company-page-menus-add")).click();
@@ -2032,7 +2075,7 @@ public class TestBase {
 	}
 
 	public static void addGPS() throws IOException, InterruptedException {
-		TestBase.login("vorosborisz@gmail.com", "letstest");
+		TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		List<WebElement> elements = driver.findElements(By.cssSelector(".card .profile-car-item"));
 		List<String> numberPlates = new ArrayList<String>();
 		List<String> gpsCodes = new ArrayList<String>();
@@ -2045,12 +2088,12 @@ public class TestBase {
 		  numberPlates.add(element.findElement(By.className("numberplate")).getText());
 		}
 		
-		goToPage("https://rc.ecdh.hu/hu/kijelentkezes");
+		goToPage(url+"/hu/kijelentkezes");
 		TestBase.adminLogin();
 		
 		int c = 0;
 		for (String numberPlate : numberPlates) {
-		  goToPage("https://rc.ecdh.hu/hu/admin/car/car-mycars");
+		  goToPage(url+"/hu/admin/car/car-mycars");
 		  fillName("quick_search", numberPlate);
 		  driver.findElement(By.className("btn-primary")).click();
 		  sleep(1000);
@@ -2060,8 +2103,8 @@ public class TestBase {
 		  c++;
 		}
 		
-		goToPage("https://rc.ecdh.hu/hu/kijelentkezes");
-		TestBase.login("vorosborisz@gmail.com", "letstest");
+		goToPage(url+"/hu/kijelentkezes");
+		TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		clickLinkWithText(numberPlates.get(0));
 		
 		

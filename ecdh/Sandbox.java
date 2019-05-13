@@ -27,12 +27,12 @@ public class Sandbox {
 		
 		try {
 			
-			driver.get("https://dev.ecdh.hu/");
+			driver.get(TestBase.url);
 			
 			driver.findElement(By.name("pass")).sendKeys("kecskesajt");
 			driver.findElement(By.className("btn-success")).click();
 			
-			driver.get("https://dev.ecdh.hu/hu/car-users/activate/success/7dfb2791-dac2-4140-adcb-e24b1ef1ed9e");
+			driver.get(TestBase.url+"/hu/car-users/activate/success/7dfb2791-dac2-4140-adcb-e24b1ef1ed9e");
 			
 			driver.findElement(By.className("ok")).click();
 			Log.log("Accept cookies");

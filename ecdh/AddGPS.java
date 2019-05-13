@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriverException;
 public class AddGPS  extends TestBase {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("AddNewCar", 0);
 		try {
 		  TestBase.addGPS();

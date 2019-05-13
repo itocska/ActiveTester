@@ -22,12 +22,11 @@ public class MyFirstScript {
 		
 		try {
 			
-			driver.get("https://dev.ecdh.hu");
+			driver.get(TestBase.url);
 			Log.log("Go to URL");
 			
 			String actualUrl = driver.getCurrentUrl();
 			Log.log("Check URL");
-			//assertEquals("wrong URL", actualUrl,"http://dev.ecdh.hu");
 
 			driver.findElement(By.name("pass")).sendKeys("kecskesajt");
 			driver.findElement(By.className("btn-success")).click();

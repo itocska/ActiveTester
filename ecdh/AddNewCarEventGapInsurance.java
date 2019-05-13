@@ -5,10 +5,9 @@ import org.openqa.selenium.WebDriverException;
 public class AddNewCarEventGapInsurance {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://ecdh.hu";
 		TestBase.main("AddNewCarEventGapInsurance", 0);
 		try {
-		  TestBase.login("vorosborisz@gmail.com", "letstest");
+		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.oneStepInner();
 		  TestBase.addNewCarEventGapInsurance();
 		  

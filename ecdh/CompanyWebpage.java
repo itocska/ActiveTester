@@ -5,10 +5,10 @@ import org.openqa.selenium.WebDriverException;
 public class CompanyWebpage {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("CompanyWebpage", 0);
 		try {
-		  TestBase.login("ecdhtest@gmail.com", "letstest");
+		  TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 		  TestBase.buildCompanyPage();
 		  
 		  

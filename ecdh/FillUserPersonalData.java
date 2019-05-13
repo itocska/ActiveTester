@@ -5,10 +5,10 @@ import org.openqa.selenium.WebDriverException;
 public class FillUserPersonalData {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("FillPersonalData", 0);
 		try {
-			TestBase.login("vorosborisz@gmail.com", "letstest");
+			TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 			TestBase.FillUserPersonalData();
 		} 
 		catch (AssertionError|WebDriverException e) {

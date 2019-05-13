@@ -5,10 +5,10 @@ import org.openqa.selenium.WebDriverException;
 public class ForgottenPassword extends TestBase {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("ForgottenPassword", 1);
 		try {
-		  TestBase.forgottenPassword("vorosborisz@gmail.com", "vivaretina", "letstest");
+		  TestBase.forgottenPassword(TestBase.personalUser, TestBase.testerPassword, TestBase.personalPassword);
 		} 
 		catch (AssertionError|WebDriverException e) {
 			Log.error = true;

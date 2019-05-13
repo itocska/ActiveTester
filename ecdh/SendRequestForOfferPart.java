@@ -5,19 +5,19 @@ import org.openqa.selenium.WebDriverException;
 public class SendRequestForOfferPart {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("SendRequestForOfferPart", 0);
 		try {
-		  TestBase.login("vorosborisz@gmail.com", "letstest");
+		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.oneStepInner();
 		  String requestId = TestBase.SendRequestPart();
 		  System.out.println("REQID" + requestId);
 		  TestBase.userLogout();
-		  TestBase.login("ecdhtest@gmail.com", "letstest");
+		  TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 		  TestBase.checkRequestPart(requestId);
 		  String companyName = TestBase.GetCompanyName();
 		  TestBase.userLogout();
-		  TestBase.login("vorosborisz@gmail.com", "letstest");
+		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.checkRequestOffer(companyName, "2000");
 		  
 		  

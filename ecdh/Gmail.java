@@ -33,7 +33,7 @@ public static String getMails(String email, String password, String content, Str
         Session session = Session.getDefaultInstance(props, null);
         Store store = session.getStore("imaps");
         store.connect("imap.gmail.com", email, password);
-        //store.connect("totalstudio.hu", 993, "test@ecdh.hu","ECDH123456");
+
 
         Folder folder = store.getFolder("INBOX");
         folder.open(Folder.READ_WRITE);

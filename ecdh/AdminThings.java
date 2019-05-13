@@ -8,12 +8,12 @@ public class AdminThings {
 		//VideoRecord.startRecording("AdminThings");
 
 		
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("AdminThings", 1);
 		try {
 		  TestBase.adminLogin();
 		  //TestBase.deleteCompany("Teszt Ceg 32");
-		  //TestBase.deleteUser("vorosborisz@gmail.com");
+		  //TestBase.deleteUser(Testbase.personalUser);
 
 		} 
 		catch (AssertionError|WebDriverException e) {

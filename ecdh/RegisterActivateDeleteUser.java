@@ -8,10 +8,10 @@ public class RegisterActivateDeleteUser {
 	
 	public static void main(String[] args) throws Throwable {
 	
-		TestBase.url = "https://rc.ecdh.hu";
+		
 		TestBase.main("RegisterActivateDelete", 0);
 		try {
-			TestBase.registerUser("vorosborisz@gmail.com", "letstest");
+			TestBase.registerUser(TestBase.personalUser, TestBase.personalPassword);
 			TestBase.activateUser();
 		  //TestBase.deleteUser();
 		} 

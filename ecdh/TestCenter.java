@@ -7,7 +7,7 @@ public class TestCenter {
 		try {
 		  LoginUser.main(args);
 		  TestBase.deleteUserCars();
-		  String[] account = {"vorosborisz@gmail.com", "letstest"};
+		  String[] account = {TestBase.personalUser, TestBase.personalPassword};
 		  DeleteUser.main(account);
 		}
         catch (TimeoutException e) {
