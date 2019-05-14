@@ -57,7 +57,6 @@ public class TestBase {
 	public static String testerPassword;
 	public static String adminUser;
 	public static String adminPassword;
-	public static String exampleNick;
 
 	
 	//byITOtest
@@ -93,7 +92,6 @@ public class TestBase {
 		testerMail = prop.getProperty(activeTMail);
 		testerPassword = prop.getProperty(activeTMail+"Pass");
 		
-		exampleNick =prop.getProperty("examNick");
 		
 		url = prop.getProperty("url");
 		//end
@@ -432,7 +430,7 @@ public class TestBase {
 		rand = new Random();
 		randomNum = 1000 + rand.nextInt((999 - 1) + 1);
 		amount = String.valueOf(randomNum);
-		driver.findElement(By.cssSelector("input[name='email']")).sendKeys(exampleNick + amount + "@gmail.com");
+		driver.findElement(By.cssSelector("input[name='email']")).sendKeys("xyz" + amount + "@gmail.com");
 		
 		TestBase.select("phone_country", "Válasszon");
 		
