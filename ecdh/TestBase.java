@@ -142,17 +142,17 @@ public class TestBase {
 		driver.get("https://gmail.com");
 	       
         driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys(testerMail);
-        driver.findElement(By.xpath("//*[text()='Következõ']")).click();
+        driver.findElement(By.xpath("//*[text()='Következő']")).click();
        
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
  
         driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
-        driver.findElement(By.xpath("//*[text()='Következõ']")).click();
+        driver.findElement(By.xpath("//*[text()='Következő']")).click();
         Log.log("Login Gmail");
        
         sleep(6000);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='Regisztráció megerõsítése (ECDH)'])[2]")));
-        driver.findElement(By.xpath("(//*[text()='Regisztráció megerõsítése (ECDH)'])[2]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH)'])[2]")));
+        driver.findElement(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH)'])[2]")).click();
        
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")));
         driver.findElement(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")).click();
@@ -231,12 +231,12 @@ public class TestBase {
 		fillName("user[password]", password);
 		fillName("user[confirm_password]", password);
 
-		Log.log("Kötelezõ mezõk mellõzése (felhasználási, adatvédelmi feltételek).");
+		Log.log("Kötelező mezők mellőzése (felhasználási, adatvédelmi feltételek).");
 		
 		click(".register");
 		Log.log("Regisztráció gomb megnyomása.");	
 	
-		assertTrue("Regisztrálás a kötelezõk nélkül blokkolva", !driver.getPageSource().contains("A regisztrációd sikeres"));
+		assertTrue("Regisztrálás a kötelezők nélkül blokkolva", !driver.getPageSource().contains("A regisztrációd sikeres"));
 		Log.log("Regisztrálás blokkolva"); 
 	}
 
@@ -438,7 +438,7 @@ public class TestBase {
 		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), \"Sikeres\")]")));
 
-		Log.log("Narancs mezõk kitöltve.");
+		Log.log("Narancs mezők kitöltve.");
 		goToPage(url+"/hu/kijelentkezes");		
 		
 	}
@@ -637,9 +637,9 @@ public class TestBase {
 		click(".sprite-fueling");
 		
 		submit();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'A mezõ nem lehet üres')]")));
-		assertTrue("Kötelezõ mezõk validálása", driver.getPageSource().contains("A mezõ nem lehet üres"));
-		Log.log("Kötelezõ mezõk validálása."); 
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'A mező nem lehet üres')]")));
+		assertTrue("Kötelező mezők validálása", driver.getPageSource().contains("A mező nem lehet üres"));
+		Log.log("Kötelező mezők validálása."); 
 		
 		Random rand = new Random();
 		Integer randomNum = 1 + rand.nextInt((30 - 1) + 1);
@@ -1191,7 +1191,7 @@ public class TestBase {
 
 	public static void deleteCarNote() throws IOException, InterruptedException {
 		String note = driver.findElement(By.cssSelector(".car-mycar-notes .note-item:nth-child(3)")).getText();
-		Log.log("Törlendõ jegyzet: " + note);
+		Log.log("Törlendő jegyzet: " + note);
 		driver.findElement(By.cssSelector(".car-mycar-notes .note-item:nth-child(3) .note-delete")).click();
 		sleep(10000);
 		
@@ -1238,7 +1238,7 @@ public class TestBase {
 		
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '2 194 562 Ft')]")));
 		assertTrue("Car found", driver.getPageSource().contains("BMW 116"));
-		Log.log("Autó szerepel a használtautó keresõben.");
+		Log.log("Autó szerepel a használtautó keresőben.");
 	}
 
 	private static void click(String css) {
@@ -1298,8 +1298,8 @@ public class TestBase {
 		clickLinkWithText("Ajánlatkérés");
 		click(".sprite-technical");
 		clickXpath("//span[contains(text(),'Fékrendszer')]/following-sibling::i");
-		clickXpath("//span[contains(text(),'Fékcsõ')]/following-sibling::a");
-		driver.findElement(By.xpath("//span[contains(text(),'Fékcsõ')]/following-sibling::a")).click();
+		clickXpath("//span[contains(text(),'Fékcső')]/following-sibling::a");
+		driver.findElement(By.xpath("//span[contains(text(),'Fékcső')]/following-sibling::a")).click();
 		clickLinkWithText("Ajánlatkérés");
 		
 		fillName("loc_zip_id_ac", "10");
@@ -1353,7 +1353,7 @@ public class TestBase {
 		clickLinkWithText("Módosítások mentése");
 		Thread.sleep(5000);
 		click(".logo");
-		Log.log("Vissza a fõoldalra.");
+		Log.log("Vissza a főoldalra.");
 		clickLinkWithText("profil szerkesztése");
 		checkField("mobile", "3636123456");
 		checkField("user[last_name]", "Teszt");
@@ -1381,12 +1381,12 @@ public class TestBase {
 		try {
 		  assertEquals(data, expectedValue);
 		} catch (Exception e) {
-		    System.out.println("Mezõ: " + name + " - nem az elvárt érték");
-		    Log.log("Mezõ: " + name + " - nem az elvárt érték");
+		    System.out.println("Mező: " + name + " - nem az elvárt érték");
+		    Log.log("Mező: " + name + " - nem az elvárt érték");
 		    throw e;
 		}
-		System.out.println("Mezõ: " + name + " - OK " + expectedValue);
-		Log.log("Mezõ: " + name + " - OK " + expectedValue);
+		System.out.println("Mező: " + name + " - OK " + expectedValue);
+		Log.log("Mező: " + name + " - OK " + expectedValue);
 		
 	}
 
@@ -1394,7 +1394,7 @@ public class TestBase {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), \"" + string + "\")]")));
         
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(string));
-		Log.log("Képernyõn: " + string);
+		Log.log("Képernyőn: " + string);
 	}
 
 	public static void test() {
@@ -1548,7 +1548,7 @@ public class TestBase {
 		String noteText = "Test note " + randNumber;
 		fillName("note", noteText);
 		submit();
-		clickLinkWithText("Idõszakos szerviz");
+		clickLinkWithText("Időszakos szerviz");
 		onScreen(partName);
 		onScreen(noteText);
 		String pattern = "###,###";
@@ -1692,7 +1692,7 @@ public class TestBase {
 		//goToPage(url+"/hu/biztositas-hozzadasa/" + getCarId() + "/1");
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_insurance")));
-		clickLinkWithText("Kötelezõ");
+		clickLinkWithText("Kötelező");
 		
 		String company = randomSelect("company");
 		driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
@@ -1707,7 +1707,7 @@ public class TestBase {
 		fillName("price", stringPrice);
 		submit();
 		
-		String pattern = "//dt[contains(text(),'Kötelezõ gépjármû biztosítás')]//following-sibling::dd[1]";
+		String pattern = "//dt[contains(text(),'Kötelező gépjármû biztosítás')]//following-sibling::dd[1]";
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement insuranceParent = driver.findElement(By.xpath(pattern));
 		String insurance = insuranceParent.findElement(By.tagName("a")).getText();
@@ -1729,7 +1729,7 @@ public class TestBase {
 		checkPrice(price, " ");
 
 		clickLinkWithText("Szerkesztés");
-		checkSelect("type", "Kötelezõ gépjármû biztosítás");
+		checkSelect("type", "Kötelező gépjármû biztosítás");
 		checkSelect("company", company);
 		
 		checkField("ident", ident);
@@ -1743,7 +1743,7 @@ public class TestBase {
 		
 		sleep(8000);
 		assertTrue("Event deleted", !driver.getPageSource().contains("CASCO biztosítás"));
-		Log.log("Esemény: Kötelezõ gépjármû biztosítás sikeresen törölve."); 	
+		Log.log("Esemény: Kötelező gépjármû biztosítás sikeresen törölve."); 	
 	}
 
 	public static void addNewCarEventCascoInsurance() throws IOException, InterruptedException {
@@ -1981,7 +1981,7 @@ public class TestBase {
 		
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '2 194 562 Ft')]")));
 		assertTrue("Car found", driver.getPageSource().contains("BMW 116"));
-		Log.log("Autó szerepel a használtautó keresõben.");
+		Log.log("Autó szerepel a használtautó keresőben.");
 		
 	}
 	
