@@ -16,7 +16,7 @@ public class AddNewCar extends TestBase {
 		  TestBase.passShepherd();
 		  TestBase.addNewCar();
 		  
-		  
+		  //test
 		} 
 		catch (AssertionError|WebDriverException e) {
 			Log.error = true;
