@@ -1558,6 +1558,7 @@ public class TestBase {
 		
 		Log.log(partName + " alkatrész kiválasztva.");
 		int randPrice = new Random().nextInt(123456);
+		sleep(5000);
 		fillName("car_mycar_service_log_items[0][price]", "" + randPrice);
 		fillName("car_mycar_service_log_items[0][item_description]", "part " + randNumber);
 		String noteText = "Test note " + randNumber;
@@ -1566,25 +1567,40 @@ public class TestBase {
 		clickLinkWithText("Időszakos szerviz");
 		onScreen(partName);
 		onScreen(noteText);
-		String pattern = "###,###";
-		DecimalFormat format = new DecimalFormat(pattern); 
-		String stringPrice = format.format(randPrice);
-		//String stringPriceSpace = stringPrice.replaceAll(",", "\u00a0");
-		String stringPriceSpace = stringPrice.replaceAll(",", " ");
-		onScreen(stringPriceSpace);
+		checkPrice(randPrice, " ");
 		clickLinkWithText("Szerkesztés");
 		onScreen(partName);
 		onScreen(noteText);
 		checkField("car_mycar_service_log_items[0][price]", randPrice + "");
+
+		click(".removeOfferItem");
+
+		list = driver.findElements(By.className("changeMainPart"));
+		size = list.size();
+		randNumber = new Random().nextInt(size - 1) + 1;
+		partName = list.get(randNumber).getText();
+		list.get(randNumber).click();
+		Log.log(partName + " alkatrész kiválasztva.");
+		randPrice = new Random().nextInt(123456);
+		sleep(5000);
+		fillName("car_mycar_service_log_items[1][price]", "" + randPrice);
+		fillName("car_mycar_service_log_items[1][item_description]", "part " + randNumber);
+		int randPrice2 = new Random().nextInt(123456);
+		fillName("price_work", "" + randPrice2);
 		submit();
 		
+		clickLinkWithText("Időszakos szerviz");
+		onScreen(partName);
+		onScreen(noteText);
+		checkPrice(randPrice, " ");
+		checkPrice(randPrice2, " ");
+		
 		click("i.fa-trash");
-		click("a[data-apply=\"confirmation\"]");
+		clickLinkWithText("Esemény törlése");
 		
 		sleep(10000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
-		Log.log("Esemény: egyéb sikeresen törölve."); 	
-		
+		Log.log("Esemény: egyéb sikeresen törölve.");
 			
 		
 	}
