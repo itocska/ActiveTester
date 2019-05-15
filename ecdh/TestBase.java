@@ -32,8 +32,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.sun.glass.events.KeyEvent;
-
 import de.svenjacobs.loremipsum.LoremIpsum;
 
 //byITO
@@ -71,9 +69,9 @@ public class TestBase {
 		InputStream input = new FileInputStream(path + "/src/config/config.properties");
 	    prop.load(input);
 		
-		if (System.getProperty("os.name")=="Mac OS X"){
+		if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0){
 			System.setProperty("webdriver.chrome.driver", "/www/webdrivers/chromedriver");
-		}else {
+		} else {
 			String pathcr = (new File("")).getAbsolutePath();
 			System.setProperty("webdriver.chrome.driver", pathcr + "/webdriver/chromedriver.exe");
 		}
@@ -126,6 +124,10 @@ public class TestBase {
 			throw e;
 		}
 		
+	}
+
+	private static void print(String string) {
+		System.out.println(string);
 	}
 
 	protected static void deleteUser() throws IOException, InterruptedException {
