@@ -55,6 +55,9 @@ public class TestBase {
 	public static String testerPassword;
 	public static String adminUser;
 	public static String adminPassword;
+	public static String dbUser;
+	public static String dbPass;
+	public static String myUrl;
 
 	
 	//byITOtest
@@ -89,6 +92,9 @@ public class TestBase {
 		//csak a mailer privát adatai
 		testerMail = prop.getProperty(activeTMail);
 		testerPassword = prop.getProperty(activeTMail+"Pass");
+		dbUser = prop.getProperty("dbUser");
+		dbPass = prop.getProperty("dbPass");
+		myUrl = prop.getProperty("dbURL");
 		
 		
 		url = prop.getProperty("url");
