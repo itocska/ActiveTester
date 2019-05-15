@@ -1590,7 +1590,10 @@ public class TestBase {
 	}
 
 	public static void addNewCarEventPenalty() throws IOException, InterruptedException {
-      goToPage(url+"/hu/birsag-esemeny-letrehozasa/" + getCarId());
+      //goToPage(url+"/hu/birsag-esemeny-letrehozasa/" + getCarId());
+	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-penalty")));
+	  click(".sprite-penalty");
+
       String penaltyType = randomSelect("penalty_type");
       driver.findElement(By.cssSelector("input[name=\"penalty_date\"]")).click();
       LocalDate dueDate = LocalDate.now().plusMonths(3);
@@ -1621,10 +1624,10 @@ public class TestBase {
       submit();
       clickLinkWithText(penaltyType);
       onScreen("Igen");
-      
-      click("i.fa-trash-alt");
-	  //click("a[data-apply=\"confirmation\"]");
-	
+
+      click("i.fa-trash");
+      clickLinkWithText("Esemény törlése");
+
 	  sleep(8000);
 	  assertTrue("Event deleted", !driver.getPageSource().contains(penaltyType));
 	  Log.log("Esemény: Bírság sikeresen törölve."); 
