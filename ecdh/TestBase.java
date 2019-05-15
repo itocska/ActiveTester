@@ -875,7 +875,7 @@ public class TestBase {
 		checkField("price", priceString);
 		checkField("note", noteText);
 		submit();
-		
+
 		click("i.fa-trash");
 		click("a[data-apply=\"confirmation\"]");
 		
@@ -1594,7 +1594,7 @@ public class TestBase {
 		onScreen(noteText);
 		checkPrice(randPrice, " ");
 		checkPrice(randPrice2, " ");
-		
+
 		click("i.fa-trash");
 		clickLinkWithText("Esemény törlése");
 		
@@ -1607,6 +1607,7 @@ public class TestBase {
 
 	public static void addNewCarEventPenalty() throws IOException, InterruptedException {
       //goToPage(url+"/hu/birsag-esemeny-letrehozasa/" + getCarId());
+	  clickLinkWithText("esemény hozzáadása");
 	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-penalty")));
 	  click(".sprite-penalty");
 
@@ -1843,8 +1844,9 @@ public class TestBase {
 		String pattern = "###,###";
 		DecimalFormat format = new DecimalFormat(pattern); 
 		String stringPrice = format.format(num);
-		String stringPriceSpace = stringPrice.replaceAll(",", delimiter);
-		onScreen(stringPriceSpace);
+		String[] parts = stringPrice.split(",");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), \"" + parts[0] + "\") and contains(text(), \"" + parts[1] + "\")]")));
+        Log.log("Képernyőn: " + parts[0] + " " + parts[1]);
 	}
 
 	public static void addNewCarEventGapInsurance() throws IOException, InterruptedException {
