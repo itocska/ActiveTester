@@ -946,7 +946,13 @@ public class TestBase {
 		String randNum = String.valueOf(randomNum);
 		String eventText = "Teszt esemény " + randNum;
 		driver.findElement(By.cssSelector("input[name=\"title\"]")).sendKeys("Teszt esemény " + randNum);
-		driver.findElement(By.cssSelector("input[name=\"event_date\"]")).sendKeys("2018-01-06");
+
+		click("input[name=\"event_date\"]");
+		click(".logo-title");
+
+		int randNumber = new Random().nextInt(123456);
+		String noteText = "Test note " + randNumber;
+		fillName("note", noteText);
 		
 		driver.findElement(By.className("submitBtn")).click();
 		
@@ -960,6 +966,7 @@ public class TestBase {
 		
 		clickLinkWithText(eventText);
 		driver.findElement(By.cssSelector("a.red-link")).click();
+		clickLinkWithText("Esemény törlése");
 		
 		assertTrue("Event deleted", !driver.getPageSource().contains(eventText));
 		Log.log("Esemény: egyéb sikeresen törölve."); 	
@@ -1631,7 +1638,7 @@ public class TestBase {
 		//goToPage(url+"/hu/autopalya-matrica-hozzadasa/" + getCarId());
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_highway_ticket")));
-		clickLinkWithText("Pályamatrica");
+		click(".sprite-mycar_highway_ticket");
 		
 		driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
 		List<WebElement> list = driver.findElements(By.cssSelector("input[type=\"radio\"]"));
