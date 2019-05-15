@@ -1400,7 +1400,7 @@ public class TestBase {
 
 	private static void onScreen(String string) throws IOException {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), \"" + string + "\")]")));
-        
+        System.out.println(string);
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(string));
 		Log.log("Képernyőn: " + string);
 	}
@@ -1816,8 +1816,22 @@ public class TestBase {
 	public static void checkPrice(int num, String delimiter) throws IOException {
 		String pattern = "###,###";
 		DecimalFormat format = new DecimalFormat(pattern); 
+		
+			System.out.println(format);
+		
 		String stringPrice = format.format(num);
+		
+			System.out.println(stringPrice);
+			
 		String stringPriceSpace = stringPrice.replaceAll(",", delimiter);
+		
+			System.out.println(delimiter);
+			
+		stringPriceSpace = stringPriceSpace.replaceAll("&nbsp;", "test");
+		stringPriceSpace = stringPriceSpace.replaceAll(" ", "test");
+		
+			System.out.println(stringPriceSpace);
+			
 		onScreen(stringPriceSpace);
 	}
 
