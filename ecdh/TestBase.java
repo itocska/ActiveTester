@@ -840,7 +840,7 @@ public class TestBase {
 		
 		String cleaningType = randomSelect("cleaning_type");
 		click("input[name=\"cleaning_date\"]");
-		click("body");
+		click(".logo-title");
 		
 		Random rand = new Random();
 		Integer randomNum = 1000 + rand.nextInt((50000 - 1) + 1);
@@ -867,7 +867,7 @@ public class TestBase {
 		clickLinkWithText("Autó tisztítva");
 		onScreen(now);
 		onScreen(cleaningType);
-		checkPrice(price, " ");
+		checkPrice(price, " ");
 		onScreen(noteText);
 		
 		clickLinkWithText("Szerkesztés");
@@ -881,7 +881,7 @@ public class TestBase {
 		
 		sleep(8000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
-		Log.log("Esemény: tisztítás sikeresen törölve."); 	
+		Log.log("Esemény: tisztítás sikeresen törölve.");
 	}
 
 	public static void addNewCarEventAccident() throws IOException, InterruptedException {
@@ -1393,7 +1393,7 @@ public class TestBase {
 		    Log.log("Mező: " + name + " - nem az elvárt érték");
 		    throw e;
 		}
-		System.out.println("Mező: " + name + " - OK " + expectedValue);
+
 		Log.log("Mező: " + name + " - OK " + expectedValue);
 		
 	}
@@ -1816,22 +1816,8 @@ public class TestBase {
 	public static void checkPrice(int num, String delimiter) throws IOException {
 		String pattern = "###,###";
 		DecimalFormat format = new DecimalFormat(pattern); 
-		
-			System.out.println(format);
-		
 		String stringPrice = format.format(num);
-		
-			System.out.println(stringPrice);
-			
 		String stringPriceSpace = stringPrice.replaceAll(",", delimiter);
-		
-			System.out.println(delimiter);
-			
-		stringPriceSpace = stringPriceSpace.replaceAll("&nbsp;", "test");
-		stringPriceSpace = stringPriceSpace.replaceAll(" ", "test");
-		
-			System.out.println(stringPriceSpace);
-			
 		onScreen(stringPriceSpace);
 	}
 
