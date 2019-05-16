@@ -788,8 +788,9 @@ public class TestBase {
 		
 		click("input[name=\"service_date\"]");
 		//click("body");
+		driver.findElement(By.cssSelector(".data-sheet dt")).click();
 		
-		clickLinkWithText("Új gumi felvétele");
+		clickLinkWithText("Új felvétele");
 		
 		randomSelect("width");
 		randomSelect("height");
@@ -817,7 +818,7 @@ public class TestBase {
 		
 		int price = 1000 + rand.nextInt((50000 - 1) + 1);
 		String priceString = "" + price;
-		fillName("car_mycar_service_log_items[0][price]", priceString);
+		//fillName("car_mycar_service_log_items[0][price]", priceString);
 		randomSelect("car_mycar_service_log_items[0][tire_position]");
 		fillName("car_company_id_ac", "Abc Kft.");
 		
