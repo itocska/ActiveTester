@@ -1853,7 +1853,8 @@ public class TestBase {
 		String pattern = "###,###";
 		DecimalFormat format = new DecimalFormat(pattern); 
 		String stringPrice = format.format(num);
-		String[] parts = stringPrice.split(",");
+		String commaStringPrice = stringPrice.replaceAll("[^0-9]",delimiter);
+		String[] parts = commaStringPrice.split(delimiter);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), \"" + parts[0] + "\") and contains(text(), \"" + parts[1] + "\")]")));
         Log.log("Képernyőn: " + parts[0] + " " + parts[1]);
 	}
