@@ -730,10 +730,16 @@ public class TestBase {
 		checkField("test_date", now);
 		checkField("car_company_id_ac", "Abc kft.");
 		onScreen(noteText);
+		
+		driver.findElement(By.cssSelector(".checkbox-taxi label")).click();
 		submit();
 		
+		clickLinkWithText("Műszaki vizsga");
+		now = dateLocale(LocalDate.now().plusYears(1));
+		onScreen(now);
+		
 		click("i.fa-trash");
-		click("a[data-apply=\"confirmation\"]");
+		clickLinkWithText("Esemény törlése");
 		
 		sleep(6000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
