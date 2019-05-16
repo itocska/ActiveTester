@@ -206,6 +206,7 @@ public class TestBase {
 	}
 	
 	public static void fillName(String name, String text) throws IOException {
+		print("FOUND: " + driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size());
       if (driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size() != 0) {
 	    driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).clear();
 	    if (name == "doors") {
@@ -699,12 +700,13 @@ public class TestBase {
 		click(".sprite-mot");
 		
 		click("input[name=\"test_date\"]");
-		click("body");
+		click(".logo-title");
 		
 		Random rand = new Random();
 		int randomNum = 1000 + rand.nextInt((50000 - 1) + 1);
 		String noteText = "Note " + String.valueOf(randomNum);
 		fillName("note", noteText);
+		
 		fillName("car_company_id_ac", "Abc kft.");
 		submit();
 		
@@ -733,7 +735,7 @@ public class TestBase {
 		click("i.fa-trash");
 		click("a[data-apply=\"confirmation\"]");
 		
-		sleep(10000);
+		sleep(6000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
 		Log.log("Esemény: mûszaki vizsga sikeresen törölve.");
 		
