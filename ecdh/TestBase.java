@@ -55,6 +55,9 @@ public class TestBase {
 	public static String testerPassword;
 	public static String adminUser;
 	public static String adminPassword;
+	public static String dbUser;
+	public static String dbPass;
+	public static String myUrl;
 
 	
 	//byITOtest
@@ -89,6 +92,9 @@ public class TestBase {
 		//csak a mailer privát adatai
 		testerMail = prop.getProperty(activeTMail);
 		testerPassword = prop.getProperty(activeTMail+"Pass");
+		dbUser = prop.getProperty("dbUser");
+		dbPass = prop.getProperty("dbPass");
+		myUrl = prop.getProperty("dbURL");
 		
 		
 		url = prop.getProperty("url");
@@ -200,6 +206,7 @@ public class TestBase {
 	}
 	
 	public static void fillName(String name, String text) throws IOException {
+		print("FOUND: " + driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size());
       if (driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size() != 0) {
 	    driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).clear();
 	    if (name == "doors") {
@@ -693,12 +700,13 @@ public class TestBase {
 		click(".sprite-mot");
 		
 		click("input[name=\"test_date\"]");
-		click("body");
+		click(".logo-title");
 		
 		Random rand = new Random();
 		int randomNum = 1000 + rand.nextInt((50000 - 1) + 1);
 		String noteText = "Note " + String.valueOf(randomNum);
 		fillName("note", noteText);
+		
 		fillName("car_company_id_ac", "Abc kft.");
 		submit();
 		
@@ -722,12 +730,18 @@ public class TestBase {
 		checkField("test_date", now);
 		checkField("car_company_id_ac", "Abc kft.");
 		onScreen(noteText);
+		
+		driver.findElement(By.cssSelector(".checkbox-taxi label")).click();
 		submit();
 		
-		click("i.fa-trash");
-		click("a[data-apply=\"confirmation\"]");
+		clickLinkWithText("Műszaki vizsga");
+		now = dateLocale(LocalDate.now().plusYears(1));
+		onScreen(now);
 		
-		sleep(10000);
+		click("i.fa-trash");
+		clickLinkWithText("Esemény törlése");
+		
+		sleep(6000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
 		Log.log("Esemény: mûszaki vizsga sikeresen törölve.");
 		
@@ -774,8 +788,9 @@ public class TestBase {
 		
 		click("input[name=\"service_date\"]");
 		//click("body");
+		new Actions(driver).moveByOffset(0, 0).click().build().perform(); 
 		
-		clickLinkWithText("Új gumi felvétele");
+		clickLinkWithText("Új felvétele");
 		
 		randomSelect("width");
 		randomSelect("height");
@@ -803,7 +818,7 @@ public class TestBase {
 		
 		int price = 1000 + rand.nextInt((50000 - 1) + 1);
 		String priceString = "" + price;
-		fillName("car_mycar_service_log_items[0][price]", priceString);
+		//fillName("car_mycar_service_log_items[0][price]", priceString);
 		randomSelect("car_mycar_service_log_items[0][tire_position]");
 		fillName("car_company_id_ac", "Abc Kft.");
 		
@@ -834,7 +849,7 @@ public class TestBase {
 		
 		String cleaningType = randomSelect("cleaning_type");
 		click("input[name=\"cleaning_date\"]");
-		click("body");
+		click(".logo-title");
 		
 		Random rand = new Random();
 		Integer randomNum = 1000 + rand.nextInt((50000 - 1) + 1);
@@ -861,7 +876,7 @@ public class TestBase {
 		clickLinkWithText("Autó tisztítva");
 		onScreen(now);
 		onScreen(cleaningType);
-		checkPrice(price, " ");
+		checkPrice(price, " ");
 		onScreen(noteText);
 		
 		clickLinkWithText("Szerkesztés");
@@ -869,13 +884,13 @@ public class TestBase {
 		checkField("price", priceString);
 		checkField("note", noteText);
 		submit();
-		
+
 		click("i.fa-trash");
 		click("a[data-apply=\"confirmation\"]");
 		
 		sleep(8000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
-		Log.log("Esemény: tisztítás sikeresen törölve."); 	
+		Log.log("Esemény: tisztítás sikeresen törölve.");
 	}
 
 	public static void addNewCarEventAccident() throws IOException, InterruptedException {
@@ -940,7 +955,13 @@ public class TestBase {
 		String randNum = String.valueOf(randomNum);
 		String eventText = "Teszt esemény " + randNum;
 		driver.findElement(By.cssSelector("input[name=\"title\"]")).sendKeys("Teszt esemény " + randNum);
-		driver.findElement(By.cssSelector("input[name=\"event_date\"]")).sendKeys("2018-01-06");
+
+		click("input[name=\"event_date\"]");
+		click(".logo-title");
+
+		int randNumber = new Random().nextInt(123456);
+		String noteText = "Test note " + randNumber;
+		fillName("note", noteText);
 		
 		driver.findElement(By.className("submitBtn")).click();
 		
@@ -954,6 +975,7 @@ public class TestBase {
 		
 		clickLinkWithText(eventText);
 		driver.findElement(By.cssSelector("a.red-link")).click();
+		clickLinkWithText("Esemény törlése");
 		
 		assertTrue("Event deleted", !driver.getPageSource().contains(eventText));
 		Log.log("Esemény: egyéb sikeresen törölve."); 	
@@ -1182,7 +1204,7 @@ public class TestBase {
 		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note")));
 		fillName("note", "Note-" + randNum);
-		click(".submitBtn");
+		click(".submitButton");
 		Log.log("Jegyzet \"Note-" + randNum +"\" beküldve.");
 		
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + randNum + "')]")));
@@ -1212,7 +1234,7 @@ public class TestBase {
 		Integer randomNum = 1 + rand.nextInt((3000000 - 1) + 1);
 		String randNum = String.valueOf(randomNum);
 		fillName("note", "note-" + randNum);
-		submit();
+		click(".submitButton");
 		Log.log("Jegyzet \"note-" + randNum + "\" beküldve.");
 		
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + randNum + "')]")));
@@ -1387,14 +1409,14 @@ public class TestBase {
 		    Log.log("Mező: " + name + " - nem az elvárt érték");
 		    throw e;
 		}
-		System.out.println("Mező: " + name + " - OK " + expectedValue);
+
 		Log.log("Mező: " + name + " - OK " + expectedValue);
 		
 	}
 
 	private static void onScreen(String string) throws IOException {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), \"" + string + "\")]")));
-        
+        System.out.println(string);
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(string));
 		Log.log("Képernyőn: " + string);
 	}
@@ -1557,6 +1579,7 @@ public class TestBase {
 		
 		Log.log(partName + " alkatrész kiválasztva.");
 		int randPrice = new Random().nextInt(123456);
+		sleep(5000);
 		fillName("car_mycar_service_log_items[0][price]", "" + randPrice);
 		fillName("car_mycar_service_log_items[0][item_description]", "part " + randNumber);
 		String noteText = "Test note " + randNumber;
@@ -1565,31 +1588,50 @@ public class TestBase {
 		clickLinkWithText("Időszakos szerviz");
 		onScreen(partName);
 		onScreen(noteText);
-		String pattern = "###,###";
-		DecimalFormat format = new DecimalFormat(pattern); 
-		String stringPrice = format.format(randPrice);
-		//String stringPriceSpace = stringPrice.replaceAll(",", "\u00a0");
-		String stringPriceSpace = stringPrice.replaceAll(",", " ");
-		onScreen(stringPriceSpace);
+		checkPrice(randPrice, " ");
 		clickLinkWithText("Szerkesztés");
 		onScreen(partName);
 		onScreen(noteText);
 		checkField("car_mycar_service_log_items[0][price]", randPrice + "");
+
+		click(".removeOfferItem");
+
+		list = driver.findElements(By.className("changeMainPart"));
+		size = list.size();
+		randNumber = new Random().nextInt(size - 1) + 1;
+		partName = list.get(randNumber).getText();
+		list.get(randNumber).click();
+		Log.log(partName + " alkatrész kiválasztva.");
+		randPrice = new Random().nextInt(123456);
+		sleep(5000);
+		fillName("car_mycar_service_log_items[1][price]", "" + randPrice);
+		fillName("car_mycar_service_log_items[1][item_description]", "part " + randNumber);
+		int randPrice2 = new Random().nextInt(123456);
+		fillName("price_work", "" + randPrice2);
 		submit();
 		
+		clickLinkWithText("Időszakos szerviz");
+		onScreen(partName);
+		onScreen(noteText);
+		checkPrice(randPrice, " ");
+		checkPrice(randPrice2, " ");
+
 		click("i.fa-trash");
-		click("a[data-apply=\"confirmation\"]");
+		clickLinkWithText("Esemény törlése");
 		
 		sleep(10000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
-		Log.log("Esemény: egyéb sikeresen törölve."); 	
-		
+		Log.log("Esemény: egyéb sikeresen törölve.");
 			
 		
 	}
 
 	public static void addNewCarEventPenalty() throws IOException, InterruptedException {
-      goToPage(url+"/hu/birsag-esemeny-letrehozasa/" + getCarId());
+      //goToPage(url+"/hu/birsag-esemeny-letrehozasa/" + getCarId());
+	  clickLinkWithText("esemény hozzáadása");
+	  wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-penalty")));
+	  click(".sprite-penalty");
+
       String penaltyType = randomSelect("penalty_type");
       driver.findElement(By.cssSelector("input[name=\"penalty_date\"]")).click();
       LocalDate dueDate = LocalDate.now().plusMonths(3);
@@ -1620,10 +1662,10 @@ public class TestBase {
       submit();
       clickLinkWithText(penaltyType);
       onScreen("Igen");
-      
-      click("i.fa-trash-alt");
-	  //click("a[data-apply=\"confirmation\"]");
-	
+
+      click("i.fa-trash");
+      clickLinkWithText("Esemény törlése");
+
 	  sleep(8000);
 	  assertTrue("Event deleted", !driver.getPageSource().contains(penaltyType));
 	  Log.log("Esemény: Bírság sikeresen törölve."); 
@@ -1637,7 +1679,7 @@ public class TestBase {
 		//goToPage(url+"/hu/autopalya-matrica-hozzadasa/" + getCarId());
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_highway_ticket")));
-		clickLinkWithText("Pályamatrica");
+		click(".sprite-mycar_highway_ticket");
 		
 		driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
 		List<WebElement> list = driver.findElements(By.cssSelector("input[type=\"radio\"]"));
@@ -1823,8 +1865,10 @@ public class TestBase {
 		String pattern = "###,###";
 		DecimalFormat format = new DecimalFormat(pattern); 
 		String stringPrice = format.format(num);
-		String stringPriceSpace = stringPrice.replaceAll(",", delimiter);
-		onScreen(stringPriceSpace);
+		String commaStringPrice = stringPrice.replaceAll("[^0-9]",delimiter);
+		String[] parts = commaStringPrice.split(delimiter);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), \"" + parts[0] + "\") and contains(text(), \"" + parts[1] + "\")]")));
+        Log.log("Képernyőn: " + parts[0] + " " + parts[1]);
 	}
 
 	public static void addNewCarEventGapInsurance() throws IOException, InterruptedException {

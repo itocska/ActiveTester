@@ -11,8 +11,7 @@ public class DbLog {
 		try
 	    {
 		  Class.forName("com.mysql.jdbc.Driver");
-	      String myUrl = "jdbc:mysql://localhost/testcenter";
-	      Connection conn = DriverManager.getConnection(myUrl, "root", "");
+	      Connection conn = DriverManager.getConnection(TestBase.myUrl, TestBase.dbUser, TestBase.dbPass);
 
 	      String query = " insert into java_log_test (testname, date)"
 	        + " values (?, ?)";
