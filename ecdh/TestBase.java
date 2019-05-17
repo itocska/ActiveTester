@@ -1463,9 +1463,20 @@ public class TestBase {
 
 	public static void addNewCarEventBodyRepair() throws IOException, InterruptedException {
 		clickLinkWithText("esemény hozzáadása");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-cleaning")));
+        sleep(2000);
+        
+        List<WebElement> sprites = driver.findElements(By.cssSelector(".sprite-mycar_service_log-body"));
+        for (WebElement sprite:sprites) {
+          
+        	
+	        if(sprite.isDisplayed()) {
+	        	sprite.click();
+	        }
+        }
+       // print("" + driver.findElements(By.className("sprite-mycar_service_log-body")).size());
+        //clickLinkWithText("Karosszéria javítás");
+        sleep(3000);
 		click(".sprite-mycar_service_log-body");
-		
 		//goToPage(TestBase.url + "/hu/szerviz-esemeny-letrehozasa/4/" + getCarId());
 		click(".ts-date-picker");
 		click("h2");
@@ -1530,6 +1541,7 @@ public class TestBase {
 		submit();
 		
 	}
+
 
 	public static void addNewCarEventRecurringService() throws IOException, InterruptedException {
 		goToPage(url+"/hu/szerviz-esemeny-letrehozasa/2/" + getCarId());
