@@ -788,7 +788,7 @@ public class TestBase {
 		
 		click("input[name=\"service_date\"]");
 		//click("body");
-		driver.findElement(By.cssSelector(".data-sheet dt")).click();
+		new Actions(driver).moveByOffset(0, 0).click().build().perform(); 
 		
 		clickLinkWithText("Új felvétele");
 		
