@@ -1204,7 +1204,7 @@ public class TestBase {
 		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note")));
 		fillName("note", "Note-" + randNum);
-		click(".submitBtn");
+		click(".submitButton");
 		Log.log("Jegyzet \"Note-" + randNum +"\" beküldve.");
 		
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + randNum + "')]")));
@@ -1234,7 +1234,7 @@ public class TestBase {
 		Integer randomNum = 1 + rand.nextInt((3000000 - 1) + 1);
 		String randNum = String.valueOf(randomNum);
 		fillName("note", "note-" + randNum);
-		submit();
+		click(".submitButton");
 		Log.log("Jegyzet \"note-" + randNum + "\" beküldve.");
 		
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + randNum + "')]")));
