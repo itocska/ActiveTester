@@ -1799,7 +1799,7 @@ public class TestBase {
 		
 		sleep(8000);
 		assertTrue("Event deleted", !driver.getPageSource().contains("CASCO biztosítás"));
-		Log.log("Esemény: Kötelező gépjármû biztosítás sikeresen törölve."); 	
+		Log.log("Esemény: Kötelező gépjármű biztosítás sikeresen törölve.");
 	}
 
 	public static void addNewCarEventCascoInsurance() throws IOException, InterruptedException {
