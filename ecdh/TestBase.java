@@ -1791,19 +1791,19 @@ public class TestBase {
 		fillName("price", stringPrice);
 		submit();
 		
-		String pattern = "//dt[contains(text(),'Kötelező gépjármû biztosítás')]//following-sibling::dd[1]";
+		String pattern = "//dt[contains(text(),'Kötelező gépjármű biztosítás')]//following-sibling::dd[1]";
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement insuranceParent = driver.findElement(By.xpath(pattern));
 		String insurance = insuranceParent.findElement(By.tagName("a")).getText();
 		LocalDate dueDate = LocalDate.now().plusYears(1);
 		
-		assertTrue("CASCO biztosítás listázva.", insurance.contains(dateLocale(LocalDate.now())));
+		assertTrue("Kötelező biztosítás listázva.", insurance.contains(dateLocale(LocalDate.now())));
 		if (insurance.contains(dateLocale(LocalDate.now()))) {
-		  Log.log("CASCO biztosítás listázva.");
+		  Log.log("Kötelező biztosítás listázva.");
 		}
 		
-		assertTrue("CASCO biztosítás lejárat OK.", insurance.contains("Lejár: " + dateLocale(dueDate)));
-		Log.log("CASCO biztosítás lejárat OK.");
+		assertTrue("Kötelező biztosítás lejárat OK.", insurance.contains("Lejár: " + dateLocale(dueDate)));
+		Log.log("Kötelező biztosítás lejárat OK.");
 		
 		clickLinkWithText("biztosítás");
 		onScreen(company);
@@ -1813,7 +1813,7 @@ public class TestBase {
 		checkPrice(price, " ");
 
 		clickLinkWithText("Szerkesztés");
-		checkSelect("type", "Kötelező gépjármû biztosítás");
+		checkSelect("type", "Kötelező gépjármű biztosítás");
 		checkSelect("company", company);
 		
 		checkField("ident", ident);
