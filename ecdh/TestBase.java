@@ -389,17 +389,44 @@ public class TestBase {
 		actions.moveToElement(parent, 5, 5).click().build().perform();
 		Log.log("Accept rules");
 		
+		Random rand = new Random();
+		String randNumTax = "";
+		String randNumReg = "";
+		for(int i = 0; i < 11; i++) {
+			Integer randomNumTax = rand.nextInt((9) + 1);
+			randNumTax = randNumTax + String.valueOf(randomNumTax);
+			}
+		driver.findElement(By.cssSelector("input[name='main_company[tax_no]']")).sendKeys(randNumTax);
 		
+		for(int i = 0; i < 10; i++) {
+			Integer randomNumReg = rand.nextInt((9) + 1);
+			randNumReg = randNumReg + String.valueOf(randomNumReg);
+			}
+		driver.findElement(By.cssSelector("input[name='main_company[reg_no]']")).sendKeys(randNumReg);
 		
+		driver.findElement(By.cssSelector("input[name='main_company[email]']")).sendKeys(email);
+		
+		driver.findElement(By.cssSelector("input[name='main_company[car_address][loc_zip_id_ac]']")).sendKeys("1051");
+		sleep(1000);
+		driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
+		
+		//driver.findElement(By.cssSelector("main_company[car_address][street]']")).sendKeys("TestArea");
+		driver.findElement(By.cssSelector("input[name='main_company[car_address][street]']")).sendKeys("Sas");
+		
+		Select areaType = new Select(driver.findElement(By.id("main-company-car-address-street-type")));
+		//Integer randomArea = rand.nextInt((187) + 1);
+		//areaType.selectByValue("randomArea");
+		areaType.selectByValue("1");
+
+		driver.findElement(By.cssSelector("input[name='main_company[car_address][street_num]']")).sendKeys("25");
+		driver.findElement(By.cssSelector("input[name='main_company[car_address][building]']")).sendKeys("A");
+		driver.findElement(By.cssSelector("input[name='main_company[car_address][floor]']")).sendKeys("2");
+		driver.findElement(By.cssSelector("input[name='main_company[car_address][door]']")).sendKeys("204");
+		
+		driver.findElement(By.cssSelector("input[name='user[last_name]']")).sendKeys("Mr");
+		driver.findElement(By.cssSelector("input[name='user[first_name]']")).sendKeys("Tester");
 		
 		driver.findElement(By.className("register")).click();
-
-		
-		
-		
-
-		
-		
 		
 	}
 
