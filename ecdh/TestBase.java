@@ -740,7 +740,7 @@ public class TestBase {
 		
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Autó vizsgáztatva')]")));
 
-		assertTrue("Mûszaki vizsga elmentve", driver.getPageSource().contains("Autó vizsgáztatva"));
+		assertTrue("Műszaki vizsga elmentve", driver.getPageSource().contains("Autó vizsgáztatva"));
 		Log.log("Esemény: mûszaki vizsga elmentve.");
 		
 		onScreen("Abc kft.");
@@ -771,7 +771,7 @@ public class TestBase {
 		
 		sleep(6000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
-		Log.log("Esemény: mûszaki vizsga sikeresen törölve.");
+		Log.log("Esemény: műszaki vizsga sikeresen törölve.");
 		
 	}
 	
