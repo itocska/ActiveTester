@@ -202,7 +202,6 @@ public class TestBase {
 
 	public static void goToPage(String url) throws IOException {
 		driver.get(url);
-		Log.log("Start");
 	}
 	
 	public static void fillName(String name, String text) throws IOException  {
@@ -2222,5 +2221,62 @@ public class TestBase {
 		  
 		}
 	}
+
+	public static void driverLicenceNotifications(int days) throws Exception {
+		goToPage(url);
+		click("a.user-img");
+		clickLinkWithText("Adatmódosítás");
+		LocalDate dueDate = LocalDate.now().plusDays(days);
+	      
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-LL-dd");
+		String strDueDate = dueDate.format(dateFormat);
+	    fillName("driving_licence_expiration", strDueDate);
+	    submit();
+	    
+	    sleep(2000);
+	    goToPage(url + "/hu/admin/car/pages/run-cron/event");
+	    clickLinkWithText("Események cron futtatása");
+	    
+	    goToPage(url);
+	    click(".nav-notifications");
+	    WebElement lastNotification = driver.findElement(By.cssSelector(".nav-notifications .dropdown-menu a:nth-child(1) .notification-title"));
+	    String lastNotificationText = lastNotification.getText();
+	    assertEquals("Jogosítványod lejár", lastNotificationText);
+		Log.log("Jogosítvány lejártáról értesítés +" + days + " nap");
+		lastNotification.click();
+		String URL = driver.getCurrentUrl();
+		assertEquals(url + "/hu/profil-modositas", URL);
+		Log.log("Ugrás a profil oldalra");
+
+		notificationEmail(days);
+		
+		
+	}
+	
+	protected static void notificationEmail(int day) throws Exception {
+		driver.get("https://gmail.com");
+		try {	       
+	        driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys(testerMail);
+	        driver.findElement(By.xpath("//*[text()='Következő']")).click();
+	       
+	        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
+	 
+	        driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
+	        driver.findElement(By.xpath("//*[text()='Következő']")).click();
+	        Log.log("Login Gmail");
+		} catch (NoSuchElementException e){
+			  
+		}
+		
+        sleep(6000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='ECDH Esemény értesítő'])[2]")));
+        driver.findElement(By.xpath("(//*[text()='ECDH Esemény értesítő'])[2]")).click();
+        
+        int found1 = driver.findElements(By.xpath("//*[contains(text(), \"jogosítványod lejárata\")]")).size();
+        String string = day + " nap múlva esedékes lesz";
+        int found2 = driver.findElements(By.xpath("//*[contains(text(), \"" + string + "\")]")).size();
+        assertTrue("Email kiment a jogosítvány lejártáról", found1 > 0 & found2 > 0);
+        Log.log("Email kiment jogosítvány lejártáról +" + day + " nap");
+    }
 	
 }
