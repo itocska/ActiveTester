@@ -1235,8 +1235,8 @@ public class TestBase {
 		driver.findElement(By.className("register")).click();
 		Log.log("Regisztráció gomb megnyomása.");	
 	
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Úgy tûnik elírta az e-mail címét.')]")));
-		assertTrue("Wrong email format", driver.getPageSource().contains("Úgy tûnik elírta az e-mail címét."));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Úgy tűnik elírta az e-mail címét.')]")));
+		assertTrue("Wrong email format", driver.getPageSource().contains("Úgy tűnik elírta az e-mail címét."));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'A két jelszó nem egyezik')]")));		
 		assertTrue("Different passwords", driver.getPageSource().contains("A két jelszó nem egyezik"));
 		Log.log("Regisztrálás blokkolva"); 
@@ -1244,7 +1244,8 @@ public class TestBase {
 	}
 
 	public static void addNewCarNotes() throws IOException {
-		driver.findElement(By.cssSelector(".car-mycar-notes a")).click();
+		//driver.findElement(By.cssSelector(".car-mycar-notes a")).click();
+		driver.findElement(By.cssSelector("a.float-right.popup.btn-icon.btn-primary.small")).click();
 		
 		Random rand = new Random();
 		Integer randomNum = 1 + rand.nextInt((3000000 - 1) + 1);
