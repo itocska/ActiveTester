@@ -58,8 +58,9 @@ public class TestBase {
 	public static String dbUser;
 	public static String dbPass;
 	public static String myUrl;
+	public static String manufacturer;
+	public static String model;
 
-	
 	//byITOtest
 	public static Properties prop = new Properties();
 	
@@ -115,7 +116,7 @@ public class TestBase {
 		
 		
 		TestBase.close = close;
-		
+
 		
 		try {
 			goToPage(url);
@@ -181,7 +182,6 @@ public class TestBase {
    
         //driver.get(Gmail.getMails("{email}", "{password}", "ECDH", "href=\"(.*?)\">Személyes fiók aktiválása"));
        
-       
     }
 	
 	private static void acceptCookies() throws IOException, InterruptedException {
@@ -205,11 +205,15 @@ public class TestBase {
 		Log.log("Start");
 	}
 	
-	public static void fillName(String name, String text) throws IOException {
+	public static void fillName(String name, String text) throws IOException  {
 		print("FOUND: " + driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size());
       if (driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size() != 0) {
 	    driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).clear();
 	    if (name == "doors") {
+	      driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).click();
+	       
+	      driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).clear();
+	      
 	      driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys("3");
 	    } else {
 	      driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys(text);
@@ -559,14 +563,13 @@ public class TestBase {
 		randomSelect("car_year");
 		randomSelect("car_month");
 		sleep(2000);
-		String manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
+		manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
 		sleep(2000);
-		String model = fillCarField("#car-model-id", "#ui-id-2");
+		model = fillCarField("#car-model-id", "#ui-id-2");
 		sleep(2000);
-		//click("#car-type-id");
-		//click("#ui-id-3 li:first-child a");
-		
-		fillName("numberplate", generatePlateNumber());
+		click("#car-type-id");
+		sleep(5000);
+	    fillName("numberplate", generatePlateNumber());
 		fillName("km", "120000");
 		click(".btn-secondary");
 		sleep(3000);
@@ -576,60 +579,78 @@ public class TestBase {
 		sleep(1000);
 		passShepherd();
 		sleep(1000);
-		clickLinkWithText("Adatok szerkesztése");
+		
+	}  
+	public static void fillCarDetail() throws IOException, InterruptedException, AWTException {
+			
+			
+	    clickLinkWithText("Adatok szerkesztése"); 
 		TestBase.select("petrol", "Dízel");
 		randomSelect("car_condition");
+		
 		Random rand = new Random();
 		long leftLimit = 11111111111111111L;
 	    long rightLimit = 99999999999999999L;
 	    long randomLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
-		fillName("vin", String.valueOf(randomLong));
 		
-		rand = new Random();
+	    fillName("vin", String.valueOf(randomLong));
+		
 		Integer randomNum = rand.nextInt(999999999);
 		fillName("motor_number", randomNum.toString());
 		
-		rand = new Random();
-		randomNum = rand.nextInt(1999);
+		randomNum = rand.nextInt(199);
 		fillName("power", randomNum.toString());
+			
+	     
+	    randomNum = rand.nextInt((899999)+100000);
+	    String randomNumSt = String.valueOf(randomNum)+"AB";
+		fillName("traffic_license", randomNumSt);
+			
+
+		randomNum = rand.nextInt((899999)+10000);
+		String randomNumStr = String.valueOf(randomNum)+'A';
+		fillName("registration_number", randomNumStr);
 		
-		rand = new Random();
-		randomNum = rand.nextInt(4) + 1;
+		 
+		randomNum = rand.nextInt(1999);
+	    fillName("fuel_capacity", randomNum.toString());
+		
+		//randomNum = rand.nextInt(4) + 1;
 		//fillName("doors", randomNum.toString());
 		fillName("doors", "3");
-		sleep(25000);
+		sleep(10000);
 		
-		rand = new Random();
+		
 		randomNum = rand.nextInt(4) + 1;
 		//fillName("seats", randomNum.toString());
 		fillName("seats", "4");
-		
-		sleep(5000);
 		
 		randomSelect("make");
 		randomSelect("car_offset");
 		randomSelect("cylinder");
 		randomSelect("warranty");
 		randomSelect("enviromental_v9");
+			
+		randomNum = rand.nextInt(200) + 100;
+		fillName("max_load", randomNum.toString());
 		
-		rand = new Random();
 		randomNum = rand.nextInt(200) + 100;
 		fillName("trunk", randomNum.toString());
-		
-		rand = new Random();
+	
 		randomNum = rand.nextInt(2000) + 1000;
 		fillName("engine_capacity", randomNum.toString());
 		
-		rand = new Random();
 		randomNum = rand.nextInt(3200) + 100;
 		fillName("net_weight", randomNum.toString());
 		randomNum += 100;
 		fillName("weight", randomNum.toString());
 		
+		
 		click(".btn-secondary");
 		Thread.sleep(3000);
 		click(".btn-secondary");
 		Thread.sleep(3000);
+		
 		
 		List<WebElement> elements = driver.findElements(By.className("collapsed"));
 		for (WebElement element : elements) {
@@ -654,17 +675,17 @@ public class TestBase {
 		  }
 		}
 		
-		click(".btn-secondary");
+		click(".btn-primary");
 		Thread.sleep(3000);
 		
 		Log.log("Autó beküldve.");
-
+        
 		clickLinkWithText("1");
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(manufacturer));
 		Log.log("Autó mentve. Gyártó: " + manufacturer);
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(model));
 		Log.log("Modell: " + model);
-
+		
 	}
 	
 	public static void addNewCarEventFuel() throws IOException, InterruptedException {
@@ -1790,7 +1811,8 @@ public class TestBase {
 		fillName("price", stringPrice);
 		submit();
 		
-		String pattern = "//dt[contains(text(),'Kötelező gépjármû biztosítás')]//following-sibling::dd[1]";
+		
+		String pattern = "//dt[contains(text(),'Kötelező gépjármű biztosítás')]//following-sibling::dd[1]";
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement insuranceParent = driver.findElement(By.xpath(pattern));
 		String insurance = insuranceParent.findElement(By.tagName("a")).getText();
@@ -1826,7 +1848,7 @@ public class TestBase {
 		
 		sleep(8000);
 		assertTrue("Event deleted", !driver.getPageSource().contains("CASCO biztosítás"));
-		Log.log("Esemény: Kötelező gépjármű biztosítás sikeresen törölve.");
+		Log.log("Esemény: Kötelező gépjármû biztosítás sikeresen törölve."); 	
 	}
 
 	public static void addNewCarEventCascoInsurance() throws IOException, InterruptedException {

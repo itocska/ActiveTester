@@ -4,18 +4,18 @@ import org.openqa.selenium.WebDriverException;
 
 import ecdh.TestBase;
 
-public class AddNewCar extends TestBase {
+public class FillCarDetail extends TestBase {
 	public static void main(String[] args) throws Throwable {
 		
 		
-		TestBase.main("AddNewCar", 0);
+		TestBase.main("FillCarDetail", 0);
 		try {
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
-		  TestBase.goToPage(TestBase.url + "/hu/sajat-autom-felvitel");
+		  TestBase.oneStepInner();
 		  Thread.sleep(3000);
 		  TestBase.passShepherd();
-		  TestBase.addNewCar();
-		  //test
+		  TestBase.fillCarDetail();
+		  
 		} 
 		catch (AssertionError|WebDriverException e) {
 			Log.error = true;
