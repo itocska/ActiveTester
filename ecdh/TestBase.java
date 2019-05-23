@@ -1496,26 +1496,16 @@ public class TestBase {
 		Log.log("Autó kiválasztva: " + string);
 		
 	}
-
-	public static void deleteCar(String numberPlate) throws IOException {
-		selectCar(numberPlate);
-		clickLinkWithText("Autó törlése");
-		click(".deleteAttachedItem");
-	}
 	
-	public static void deleteUserCars() throws IOException {
-		List<WebElement> elements = driver.findElements(By.cssSelector(".numberplate"));
-		List<String> list = new ArrayList<String>();
-		for (WebElement element : elements) {
-		  String numberplate = element.getText();
-		  list.add(numberplate);
-		} 
-		for( String oneItem : list ) {
-			Log.log(oneItem + " rendszámú autó törölve.");
-	        deleteCar(oneItem);
-		}
-		 
+	public static void deleteUserCars() throws IOException, InterruptedException {
 		
+		click(".numberplate");
+		sleep(1000);
+		clickLinkWithText("Autó törlése");
+		sleep(1000);
+		click(".deleteAttachedItem");
+		sleep(1000);
+		Log.log("Az Autó sikeresen törölve.");
 	}
 	
 	public static void selectCarPartItem(String part) throws IOException {
