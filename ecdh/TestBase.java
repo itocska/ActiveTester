@@ -1636,6 +1636,7 @@ public class TestBase {
 		fillName("service_interval_month", "48");
 		fillName("service_interval_km", "20000");
 		click(".ts-date-picker");
+		driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
 		
 		List<WebElement> list = driver.findElements(By.className("changeMainPart"));
 		int size = list.size();
@@ -1685,11 +1686,79 @@ public class TestBase {
 		click("i.fa-trash");
 		clickLinkWithText("Esemény törlése");
 		
-		sleep(10000);
+		sleep(1000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
 		Log.log("Esemény: egyéb sikeresen törölve.");
 			
 		
+	}
+	
+	public static void addNewCarEventOtherService() throws IOException, InterruptedException {
+		goToPage(url+"/hu/egyeb-szerviz-esemeny-letrehozasa/" + getCarId());
+		sleep(1000);
+		int randNumber = new Random().nextInt(500) + 1;
+		
+		click(".ts-date-picker");
+		driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+		
+		driver.findElement(By.cssSelector(".btn.btn-primary.col-12")).click();
+		sleep(800);
+		driver.findElement(By.cssSelector(".tree-browser li")).click();
+		driver.findElement(By.cssSelector(".tree-browser li a")).click();
+		
+		String partName = driver.findElement(By.id("car-mycar-service-log-items-0-text")).getAttribute("value");
+		
+		Log.log(partName + " alkatrész kiválasztva.");
+		int randPrice = new Random().nextInt(123456);
+		sleep(1000);
+		fillName("car_mycar_service_log_items[0][price]", "" + randPrice);
+		fillName("car_mycar_service_log_items[0][item_description]", "part " + randNumber);
+		fillName("car_company_id_ac","Test Kft.");
+		int randWorkPrice = new Random().nextInt(123456);
+		fillName("price_work", "" + randWorkPrice);
+		String noteText = "Test note " + randNumber;
+		fillName("note", noteText);
+		submit();
+		
+		clickLinkWithText("Egyéb szerviz");
+		onScreen(partName);
+		onScreen(noteText);
+		checkPrice(randPrice, " ");
+		clickLinkWithText("Szerkesztés");
+		sleep(2000);
+		onScreen(partName);
+		onScreen(noteText);
+		checkField("car_mycar_service_log_items[0][price]", randPrice + "");
+
+		click(".removeOfferItem");
+
+		/*list = driver.findElements(By.className("changeMainPart"));
+		size = list.size();
+		randNumber = new Random().nextInt(size - 1) + 1;
+		partName = list.get(randNumber).getText();
+		list.get(randNumber).click();
+		Log.log(partName + " alkatrész kiválasztva.");
+		randPrice = new Random().nextInt(123456);
+		sleep(5000);
+		fillName("car_mycar_service_log_items[1][price]", "" + randPrice);
+		fillName("car_mycar_service_log_items[1][item_description]", "part " + randNumber);
+		int randPrice2 = new Random().nextInt(123456);
+		fillName("price_work", "" + randPrice2);
+		submit();
+		
+		clickLinkWithText("Időszakos szerviz");
+		onScreen(partName);
+		onScreen(noteText);
+		checkPrice(randPrice, " ");
+		checkPrice(randPrice2, " ");
+
+		click("i.fa-trash");
+		clickLinkWithText("Esemény törlése");
+		
+		sleep(1000);
+		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
+		Log.log("Esemény: egyéb sikeresen törölve.");*/
+
 	}
 
 	public static void addNewCarEventPenalty() throws IOException, InterruptedException {
