@@ -140,7 +140,7 @@ public class TestBase {
 	protected static void deleteUser() throws IOException, InterruptedException {
 		click(".user-img");
 		clickLinkWithText("Adatmódosítás");
-		clickLinkWithText("Fiók törlése");	
+		clickLinkWithText("Fiók törlése");	 
 		click(".btn-red");
 		Log.log("Felhasználó törlése.");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert-success")));
@@ -1486,9 +1486,9 @@ public class TestBase {
 		checkField("km", "120000");
 	}
 
-	public static void selectCar(String string) throws IOException {
+	public static void selectCar(String string) throws IOException  {
 		
-		String pattern = "//div[@class=\"numberplate\" and contains(translate(.,'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), \"" + string + "\")]";
+		String pattern = "//a[\"numberplate\" and contains(translate(.,'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), \"" + string + "\")]";
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement myElement = driver.findElement(By.xpath(pattern));
 		WebElement parent = myElement.findElement(By.xpath("../.."));
@@ -1497,17 +1497,26 @@ public class TestBase {
 		
 	}
 	
-	public static void deleteUserCars() throws IOException, InterruptedException {
-		
-		click(".numberplate");
-		sleep(1000);
+	public static void deleteCar(String numberPlate) throws IOException {
+		selectCar(numberPlate);
 		clickLinkWithText("Autó törlése");
-		sleep(1000);
 		click(".deleteAttachedItem");
-		sleep(1000);
-		Log.log("Az Autó sikeresen törölve.");
 	}
 	
+	public static void deleteUserCars() throws IOException {
+		List<WebElement> elements = driver.findElements(By.cssSelector(".numberplate"));
+		List<String> list = new ArrayList<String>();
+		for (WebElement element : elements) {
+		  String numberplate = element.getText();
+		  list.add(numberplate);
+		} 
+		for( String oneItem : list ) {
+			Log.log(oneItem + " rendszámú autó törölve.");
+	        deleteCar(oneItem);
+		}
+		 
+		
+	}
 	public static void selectCarPartItem(String part) throws IOException {
 		Log.log("Try to select:" + part);
 		
