@@ -1542,27 +1542,36 @@ public class TestBase {
         	
 	        if(sprite.isDisplayed()) {
 	        	sprite.click();
+	      
 	        }
         }
-       // print("" + driver.findElements(By.className("sprite-mycar_service_log-body")).size());
-        //clickLinkWithText("Karosszéria javítás");
-        sleep(3000);
-		click(".sprite-mycar_service_log-body");
-		//goToPage(TestBase.url + "/hu/szerviz-esemeny-letrehozasa/4/" + getCarId());
+        
+		driver.findElement(By.cssSelector("input[name=\"service_date\"]")).sendKeys(); 
+		sleep(2000);
+		goToPage(TestBase.url + "/hu/szerviz-esemeny-letrehozasa/4/" + getCarId());
 		click(".ts-date-picker");
 		click("h2");
+		fillName("car_company_id_ac","asq");
+		clickLinkWithText("asqwqsaa (6722 Szeged, Expo lejáró 3. 2)");
+		sleep(2000);
 		clickXpath("//div[contains(text(), \"Kiválasztás\")]");
 		Log.log("Kiválasztás clicked");
-		
 		List<WebElement> items = driver.findElements(By.cssSelector("ul.tree-browser > li"));
 		List<String> list = new ArrayList<String>();
 		String oneItem;
 		
+		
+		int randPrice = new Random().nextInt(123456);
+		fillName("price_work","" + randPrice);
+		
 		for (WebElement item : items) {
-		  oneItem = item.findElement(By.tagName("span")).getText();
-		  if (!oneItem.isEmpty()) {
-		    list.add(oneItem);
-		  }
+		oneItem = item.findElement(By.tagName("span")).getText();
+		
+		if (!oneItem.isEmpty()) {
+		list.add(oneItem);
+		  
+		}
+		
 		}
 		
 		int size = list.size();
@@ -1588,6 +1597,7 @@ public class TestBase {
 			if (size == 1) {
 				selectCarPartItem(list.get(0));
 				Log.log("Try to select:" + list.get(0));
+				sleep(2000);
 			} else {
 		      randomNumber = new Random().nextInt(size - 1) + 1;
 			  selectCarPartItem(list.get(randomNumber));
@@ -1609,8 +1619,16 @@ public class TestBase {
 		}
 		sleep(1000);
 		fillName("car_mycar_service_log_items[0][price]", "20000");
+		int RN = new Random().nextInt(123456);
+		String noteText = "Test note " + RN;
+		driver.findElement(By.cssSelector("textarea[name=\"note\"]")).sendKeys(noteText);
 		submit();
-		
+	    clickLinkWithText("Karosszéria javítás");
+	    click("i.fa-trash");
+		clickLinkWithText("Esemény törlése");
+		sleep(3000);
+		Log.log("A szerviz esemény sikeresen törölve.");
+	    
 	}
 
 
