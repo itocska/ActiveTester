@@ -1516,10 +1516,18 @@ public class TestBase {
 		 
 		
 	}
-	public static void selectCarPartItem(String part) throws IOException {
+	public static void selectCarPartItem(String part, int depth) throws IOException {
 		Log.log("Try to select:" + part);
 		
-		String pattern = "//span[contains(text(), \"" + part + "\")]";
+		String pattern = "(//li/span[contains(text(),\"" + part + "\")]/parent::li//i)[1]";
+		if (depth == 2) {
+			pattern = "(//li[@class=\"active\"]/ul/li/span[contains(text(),\"" + part + "\")]/parent::li//i)[1]";
+		}
+		if (depth == 3) {
+		  pattern = "//li[@class=\"active\"]/ul/li[@class=\"active\"]/ul/li/span[contains(text(),\"" + part + "\")]/parent::li//i";	
+		}
+		
+		
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement myElement = driver.findElement(By.xpath(pattern));
 		WebElement parent = myElement.findElement(By.xpath(".."));
@@ -1549,8 +1557,9 @@ public class TestBase {
 		goToPage(TestBase.url + "/hu/szerviz-esemeny-letrehozasa/4/" + getCarId());
 		click(".ts-date-picker");
 		click("h2");
-		fillName("car_company_id_ac","asq");
-		clickLinkWithText("asqwqsaa (6722 Szeged, Expo lejáró 3. 2)");
+		fillName("car_company_id_ac","a");
+		sleep(3000);
+		click("ul#ui-id-1 li:nth-child(1)");
 		sleep(2000);
 		clickXpath("//div[contains(text(), \"Kiválasztás\")]");
 		Log.log("Kiválasztás clicked");
@@ -1563,19 +1572,16 @@ public class TestBase {
 		fillName("price_work","" + randPrice);
 		
 		for (WebElement item : items) {
-		oneItem = item.findElement(By.tagName("span")).getText();
-		
-		if (!oneItem.isEmpty()) {
-		list.add(oneItem);
-		  
-		}
-		
+		  oneItem = item.findElement(By.tagName("span")).getText();
+		  if (!oneItem.isEmpty()) {
+		    list.add(oneItem);
+		  }
 		}
 		
 		int size = list.size();
 		int randomNumber = new Random().nextInt(size - 1) + 1;
 		Log.log("Elem kiválasztása: " + list.get(randomNumber));
-		selectCarPartItem(list.get(randomNumber));
+		selectCarPartItem(list.get(randomNumber), 1);
 	
 		if (driver.findElements(By.cssSelector("ul.tree-browser li.active ul > li")).size() != 0) {
 
@@ -1593,12 +1599,12 @@ public class TestBase {
 			System.out.println("list size" + size);
 			System.out.println("list" + list);
 			if (size == 1) {
-				selectCarPartItem(list.get(0));
+				selectCarPartItem(list.get(0), 2);
 				Log.log("Try to select:" + list.get(0));
 				sleep(2000);
 			} else {
 		      randomNumber = new Random().nextInt(size - 1) + 1;
-			  selectCarPartItem(list.get(randomNumber));
+			  selectCarPartItem(list.get(randomNumber), 2);
 			}
 		}
 		
@@ -1611,12 +1617,22 @@ public class TestBase {
 			} 
 			size = list.size();
 		    randomNumber = new Random().nextInt(size - 1) + 1;
-			selectCarPartItem(list.get(randomNumber));
+			selectCarPartItem(list.get(randomNumber), 3);
 			
 			
 		}
 		sleep(1000);
 		fillName("car_mycar_service_log_items[0][price]", "20000");
+		
+		// Test third level accessibility
+		clickXpath("//div[contains(text(), \"Kiválasztás\")]");
+		Log.log("Kiválasztás clicked");
+		clickXpath("//span[contains(text(), \"Szélvédő és egyéb üvegek\")]");
+		clickXpath("//li[@class=\"active\"]/ul/li/span[contains(text(),\"Oldalsó ajtó üveg\")]");
+		clickXpath("//li[@class=\"active\"]/ul/li[@class=\"active\"]//li/span[contains(text(),\"Bal hátsó\")]/parent::li//i");
+		sleep(3000);
+		fillName("car_mycar_service_log_items[1][price]", "12435");
+		
 		int RN = new Random().nextInt(123456);
 		String noteText = "Test note " + RN;
 		driver.findElement(By.cssSelector("textarea[name=\"note\"]")).sendKeys(noteText);
