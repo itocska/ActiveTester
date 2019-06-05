@@ -347,6 +347,84 @@ public class TestBase {
 		Log.log("Index " + i + " selected from " + string);
 		
 	}
+	
+	public static void CarLimit() throws IOException, InterruptedException, AWTException  {
+   	 
+    	
+    	
+   	 clickLinkWithText("Előfizetek");
+   	 fillName("name", "Teszt Ember");
+   	 fillName("email", personalUser);
+   	 Select orszag = new Select(driver.findElement(By.name("phone_country")));
+		 orszag.selectByVisibleText("Magyarország");
+   	 fillName("phone","709874512");
+
+   	Select cusType = new Select(driver.findElement(By.name("customer_type")));
+		Random rand = new Random();
+		Integer randomNumif = rand.nextInt(2);
+		
+		if(randomNumif==1) {
+			cusType.selectByVisibleText("magánszemély");
+			driver.findElement(By.cssSelector("input[name='invoice[loc_zip_id_ac]']")).sendKeys("1112");
+   		sleep(2000);
+   		driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
+			fillName("invoice[street]","Repülőtéri");
+			Select streetType = new Select(driver.findElement(By.name("invoice[street_type]")));
+	 		streetType.selectByVisibleText("út");
+	 		fillName("invoice[street_num]","6");
+   		fillName("invoice[building]","A");
+   		fillName("invoice[floor]","1");
+   		fillName("invoice[door]","1");
+
+   		
+		}else 
+		
+		
+		{
+		   	
+			cusType.selectByVisibleText("céges");
+		   	driver.findElement(By.cssSelector("input[name='invoice[loc_zip_id_ac]']")).sendKeys("1112");
+   		sleep(2000);
+   		driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
+   		fillName("company_name","TesztCég");
+   		fillName("reg_no","0110011001");
+   		fillName("tax_no","01100110011");
+   		fillName("invoice[street]","Repülőtéri ");
+   		Select streetType = new Select(driver.findElement(By.name("invoice[street_type]")));
+   		streetType.selectByVisibleText("út");
+   		fillName("invoice[street_num]","6");
+   		fillName("invoice[building]","A");
+   		fillName("invoice[floor]","1");
+   		fillName("invoice[door]","1");
+
+   	
+		}
+		 
+		Actions actions = new Actions(driver);
+		
+		WebElement myElement = driver.findElement(By.xpath("//label[@for=\"accept-rules2\"]"));
+		WebElement parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept privacy terms");
+		
+		myElement = driver.findElement(By.xpath("//label[@for=\"accept-rules\"]"));
+		parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept rules");
+		
+		submit();
+		sleep(2000);
+		Log.log("Tovább a fizetéshez");
+
+		driver.findElement(By.cssSelector(".bg-blue.btnClass.uppercase.paymentButton")).click();
+		sleep(2000);
+		Log.log("Fizetés");
+		
+		driver.findElement(By.cssSelector(".btn.btn-lg.btn-primary.btn-block.btn-success")).click();
+		sleep(2000);
+		Log.log("Siker");
+    
+    }
 
 	public static void registerCompany(String string, String email) throws IOException, AWTException, InterruptedException {
 		WebElement element = driver.findElement(By.xpath("//a[contains(text(), \"Kattints ide\")]"));
