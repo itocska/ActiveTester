@@ -1734,45 +1734,33 @@ public class TestBase {
 		String noteText = "Test note " + randNumber;
 		fillName("note", noteText);
 		submit();
-		
+		Log.log("Sikeresen mentve");
 		clickLinkWithText("Egyéb szerviz");
 		onScreen(partName);
 		onScreen(noteText);
 		checkPrice(randPrice, " ");
 		clickLinkWithText("Szerkesztés");
-		sleep(2000);
-		onScreen(partName);
+		Log.log("Módosítás");
+		sleep(2000);	
+		String oldalonAlkatresz = driver.findElement(By.id("car-mycar-service-log-items-0-text")).getAttribute("value");
+		if(oldalonAlkatresz.equals(partName)) {
+		driver.findElement(By.xpath("//*[contains(text(), \"" + partName + "\")]"));
+        System.out.println(partName);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(partName));
+		Log.log("Képernyőn: " + partName);
+		}else {
+			Log.log("Alkatrész hiba");
+		}
 		onScreen(noteText);
 		checkField("car_mycar_service_log_items[0][price]", randPrice + "");
-
-		click(".removeOfferItem");
-
-		/*list = driver.findElements(By.className("changeMainPart"));
-		size = list.size();
-		randNumber = new Random().nextInt(size - 1) + 1;
-		partName = list.get(randNumber).getText();
-		list.get(randNumber).click();
-		Log.log(partName + " alkatrész kiválasztva.");
-		randPrice = new Random().nextInt(123456);
-		sleep(5000);
-		fillName("car_mycar_service_log_items[1][price]", "" + randPrice);
-		fillName("car_mycar_service_log_items[1][item_description]", "part " + randNumber);
-		int randPrice2 = new Random().nextInt(123456);
-		fillName("price_work", "" + randPrice2);
 		submit();
+		Log.log("Sikeres módosítás");
 		
-		clickLinkWithText("Időszakos szerviz");
-		onScreen(partName);
-		onScreen(noteText);
-		checkPrice(randPrice, " ");
-		checkPrice(randPrice2, " ");
-
-		click("i.fa-trash");
-		clickLinkWithText("Esemény törlése");
-		
+		click(".fas.fa-trash.circle");
+		click(".btn.btn-sm.h-100.d-flex.align-items-center.btn-secondary");
 		sleep(1000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
-		Log.log("Esemény: egyéb sikeresen törölve.");*/
+		Log.log("Esemény: egyéb sikeresen törölve.");
 
 	}
 
