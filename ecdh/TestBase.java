@@ -1116,16 +1116,17 @@ public class TestBase {
 		Thread.sleep(5000);
 	}
 
-	public static void adminActivatecompany(String companyEmail) throws IOException {
+	public static void adminActivatecompany(String companyName) throws IOException {
 		goToPage(url+"/hu/admin/car/car-companies");
 		Log.log("Admin cégek");
-		driver.findElement(By.cssSelector("tr:nth-child(1) a:nth-child(2)")).click();
-		goToPage(url+"/hu/admin/car/car-users");
-		Log.log("Admin felhasználók");
-		driver.findElement(By.cssSelector("tr:nth-child(1) a:nth-child(2)")).click();
+		clickLinkWithText(companyName);
+		
+		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/a")).click();
+		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/ul/li[1]/a")).click();
+		driver.findElement(By.xpath("/html/body/section/section/div/form/div[3]/div[2]/div[1]/div[2]/a[2]/i")).click();
+		Log.log("Cég jóváhagyva");
 		goToPage(url+"/hu/kijelentkezes");
 		Log.log("Admin kijelentkezés");
-		Log.log("Cég jóváhagyva");
 	}
 
 	public static void deleteCompany(String companyName) throws IOException {
