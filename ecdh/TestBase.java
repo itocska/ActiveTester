@@ -387,9 +387,27 @@ public class TestBase {
 		   	driver.findElement(By.cssSelector("input[name='invoice[loc_zip_id_ac]']")).sendKeys("1112");
    		sleep(2000);
    		driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
-   		fillName("company_name","TesztCég");
-   		fillName("reg_no","0110011001");
-   		fillName("tax_no","01100110011");
+   		Integer cegRnd = rand.nextInt(500)+1; 
+   		fillName("company_name","TesztCég"+cegRnd);
+
+   		Random rand2 = new Random();
+		String randNumTax = "";
+		String randNumReg = "";
+		for(int i = 0; i < 11; i++) {
+			Integer randomNumTax = rand2.nextInt((9) + 1);
+			randNumTax = randNumTax + String.valueOf(randomNumTax);
+			}
+		fillName("tax_no",randNumTax);
+		Log.log("Adószám kitöltés");
+		
+	
+		for(int i = 0; i < 10; i++) {
+			Integer randomNumReg = rand2.nextInt((9) + 1);
+			randNumReg = randNumReg + String.valueOf(randomNumReg);
+			}
+		fillName("reg_no",randNumReg);
+		Log.log("Cégjegyzékszám kitöltés");
+   		
    		fillName("invoice[street]","Repülőtéri ");
    		Select streetType = new Select(driver.findElement(By.name("invoice[street_type]")));
    		streetType.selectByVisibleText("út");
@@ -2455,5 +2473,191 @@ public class TestBase {
         Log.log("Email kiment jogosítvány lejártáról +" + day + " nap");
         driver.get("https://accounts.google.com/Logout");
     }
+	
+	public static void addNewCarEventOdometerReading() throws IOException, InterruptedException {
+
+		  clickLinkWithText("esemény hozzáadása");
+		  
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_other_event")));
+		  
+		  click(".sprite-mycar_other_event");
+		  
+		  click(".ts-date-picker");
+		  
+		  driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+
+	      submit();
+	      
+	      Log.log("Esemény: Km óra állás sikeresen rögzítve"); 
+	      /* Törléshez:
+	       * 
+	      clickLinkWithText("Km óra állás");
+	      
+	      clickLinkWithText("Szerkesztés");
+	      
+		  click(".ts-date-picker");
+		  driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+		  
+		  submit();
+
+	      driver.findElement(By.cssSelector(".fas.fa-trash circle")).click();
+	      driver.findElement(By.className("btn-secondary")).click();
+
+		  Log.log("Esemény: Km óra állás sikeresen törölve."); 
+	      */
+		}
+	
+	public static void addNewCarEventVehicleTax() throws IOException, InterruptedException {
+
+		clickLinkWithText("esemény hozzáadása");
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_hp_tax")));
+
+		click(".sprite-mycar_hp_tax");
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("installment_type")));
+		Select taxType = new Select(driver.findElement(By.className("installment_type")));
+		taxType.selectByVisibleText("Első részlet");
+
+		click(".ts-date-picker");
+		driver.findElement(By.xpath(
+				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/thead/tr[1]/th[2]"))
+				.click();
+		driver.findElement(By.xpath(
+				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[2]/table/tbody/tr/td/span[3]"))
+				.click();
+		driver.findElement(By.xpath(
+				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/tbody/tr[2]/td[3]"))
+				.click();
+		// driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+
+		int randPrice = new Random().nextInt(123456);
+		int randNumber = new Random().nextInt(500) + 1;
+
+		sleep(1000);
+
+		String taxPrice = "" + randPrice;
+		fillName("price", taxPrice);
+		String noteText = "Test note " + randNumber;
+		fillName("note", noteText);
+		submit();
+
+		Log.log("Sikeresen mentve");
+
+		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetesek/" + getCarId());
+
+		clickLinkWithText("Első részlet");
+		onScreen("Első részlet");
+		onScreen(taxPrice);
+		onScreen("2019");
+		clickLinkWithText("Szerkesztés");
+		Log.log("Módosítás");
+		sleep(2000);
+
+		onScreen("Első részlet");
+		onScreen(taxPrice);
+		onScreen(noteText);
+		submit();
+
+		clickLinkWithText(" Új esemény hozzáadása");
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_hp_tax")));
+
+		click(".sprite-mycar_hp_tax");
+
+		taxType.selectByVisibleText("Második részlet");
+
+		click(".ts-date-picker");
+		driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+
+		randNumber = new Random().nextInt(500) + 1;
+
+		sleep(1000);
+
+		String noteText2 = "Test note " + randNumber;
+		fillName("note", noteText2);
+		submit();
+
+		Log.log("Sikeresen mentve");
+
+		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetesek/" + getCarId());
+
+		clickLinkWithText("Második részlet");
+		onScreen("Második részlet");
+		onScreen(taxPrice);
+		onScreen("2019");
+		clickLinkWithText("Szerkesztés");
+		Log.log("Módosítás");
+		sleep(2000);
+
+		onScreen("Második részlet");
+		onScreen(taxPrice);
+		onScreen(noteText2);
+		submit();
+
+		driver.findElement(By.cssSelector(".fas.fa-trash circle")).click();
+		driver.findElement(By.className("btn-secondary")).click();
+
+		Log.log("Esemény: Teljesítményadó második részlet sikeresen törölve.");
+		sleep(2000);
+		driver.findElement(By.cssSelector(".fas.fa-trash circle")).click();
+		driver.findElement(By.className("btn-secondary")).click();
+
+		Log.log("Esemény: Teljesítményadó első részlet sikeresen törölve.");
+		sleep(2000);
+
+		clickLinkWithText(" Új esemény hozzáadása");
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_hp_tax")));
+
+		click(".sprite-mycar_hp_tax");
+
+		taxType.selectByVisibleText("Egy összegben");
+
+		click(".ts-date-picker");
+		driver.findElement(By.xpath(
+				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/thead/tr[1]/th[2]"))
+				.click();
+		driver.findElement(By.xpath(
+				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[2]/table/tbody/tr/td/span[3]"))
+				.click();
+		driver.findElement(By.xpath(
+				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/tbody/tr[2]/td[3]"))
+				.click();
+
+		randNumber = new Random().nextInt(500) + 1;
+		int randPrice2 = new Random().nextInt(123456);
+		String taxPrice2 = "" + randPrice2;
+		fillName("price", taxPrice2);
+
+		sleep(1000);
+
+		String noteText3 = "Test note " + randNumber;
+		fillName("note", noteText3);
+		submit();
+
+		Log.log("Sikeresen mentve");
+
+		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetesek/" + getCarId());
+
+		clickLinkWithText("Egy összegben");
+		onScreen("Egy összegben");
+		onScreen(taxPrice2);
+		onScreen("2019");
+		clickLinkWithText("Szerkesztés");
+		Log.log("Módosítás");
+		sleep(2000);
+
+		onScreen("Egy összegben");
+		onScreen(taxPrice2);
+		onScreen(noteText3);
+		submit();
+
+		driver.findElement(By.cssSelector(".fas.fa-trash circle")).click();
+		driver.findElement(By.className("btn-secondary")).click();
+
+		Log.log("Esemény: Teljesítményadó második részlet sikeresen törölve.");
+			
+		}
 	
 }

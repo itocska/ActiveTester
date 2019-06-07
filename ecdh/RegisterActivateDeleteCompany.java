@@ -21,7 +21,7 @@ public class RegisterActivateDeleteCompany extends TestBase {
 		  TestBase.registerCompany(companyName, companyEmail);
 		  TestBase.activateCompany(true, companyEmail);
 		  TestBase.adminLogin();
-		  TestBase.adminActivatecompany(companyEmail);
+		  TestBase.adminActivatecompany(companyName);
 		} 
 		catch (AssertionError|WebDriverException e) {
 			Log.error = true;
