@@ -23,6 +23,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -347,6 +348,84 @@ public class TestBase {
 		Log.log("Index " + i + " selected from " + string);
 		
 	}
+	
+	public static void CarLimit() throws IOException, InterruptedException, AWTException  {
+   	 
+    	
+    	
+   	 clickLinkWithText("Előfizetek");
+   	 fillName("name", "Teszt Ember");
+   	 fillName("email", personalUser);
+   	 Select orszag = new Select(driver.findElement(By.name("phone_country")));
+		 orszag.selectByVisibleText("Magyarország");
+   	 fillName("phone","709874512");
+
+   	Select cusType = new Select(driver.findElement(By.name("customer_type")));
+		Random rand = new Random();
+		Integer randomNumif = rand.nextInt(2);
+		
+		if(randomNumif==1) {
+			cusType.selectByVisibleText("magánszemély");
+			driver.findElement(By.cssSelector("input[name='invoice[loc_zip_id_ac]']")).sendKeys("1112");
+   		sleep(2000);
+   		driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
+			fillName("invoice[street]","Repülőtéri");
+			Select streetType = new Select(driver.findElement(By.name("invoice[street_type]")));
+	 		streetType.selectByVisibleText("út");
+	 		fillName("invoice[street_num]","6");
+   		fillName("invoice[building]","A");
+   		fillName("invoice[floor]","1");
+   		fillName("invoice[door]","1");
+
+   		
+		}else 
+		
+		
+		{
+		   	
+			cusType.selectByVisibleText("céges");
+		   	driver.findElement(By.cssSelector("input[name='invoice[loc_zip_id_ac]']")).sendKeys("1112");
+   		sleep(2000);
+   		driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
+   		fillName("company_name","TesztCég");
+   		fillName("reg_no","0110011001");
+   		fillName("tax_no","01100110011");
+   		fillName("invoice[street]","Repülőtéri ");
+   		Select streetType = new Select(driver.findElement(By.name("invoice[street_type]")));
+   		streetType.selectByVisibleText("út");
+   		fillName("invoice[street_num]","6");
+   		fillName("invoice[building]","A");
+   		fillName("invoice[floor]","1");
+   		fillName("invoice[door]","1");
+
+   	
+		}
+		 
+		Actions actions = new Actions(driver);
+		
+		WebElement myElement = driver.findElement(By.xpath("//label[@for=\"accept-rules2\"]"));
+		WebElement parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept privacy terms");
+		
+		myElement = driver.findElement(By.xpath("//label[@for=\"accept-rules\"]"));
+		parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept rules");
+		
+		submit();
+		sleep(2000);
+		Log.log("Tovább a fizetéshez");
+
+		driver.findElement(By.cssSelector(".bg-blue.btnClass.uppercase.paymentButton")).click();
+		sleep(2000);
+		Log.log("Fizetés");
+		
+		driver.findElement(By.cssSelector(".btn.btn-lg.btn-primary.btn-block.btn-success")).click();
+		sleep(2000);
+		Log.log("Siker");
+    
+    }
 
 	public static void registerCompany(String string, String email) throws IOException, AWTException, InterruptedException {
 		WebElement element = driver.findElement(By.xpath("//a[contains(text(), \"Kattints ide\")]"));
@@ -362,7 +441,7 @@ public class TestBase {
 		
 		driver.findElement(By.cssSelector("input[name='user[username]']")).sendKeys(email);
 		driver.findElement(By.cssSelector("input[name='main_company[name]']")).sendKeys(string);
-
+		Log.log("cégnév, cég email kitöltés");
 		driver.findElement(By.className("multiselect")).click();
 		
 		/*org.openqa.selenium.Point coordinates = driver.findElement(By.className("multiselect")).getLocation();
@@ -378,9 +457,10 @@ public class TestBase {
 		sleep(3000);
 		
 		driver.findElement(By.cssSelector(".multiselect")).click();
-
+		Log.log("Tevékenységi kör kitöltés");
 		driver.findElement(By.id("user-password")).sendKeys(companyPassword);
 		driver.findElement(By.id("user-confirm-password")).sendKeys(companyPassword);
+		Log.log("Jelszó kitöltés");
 		
 		WebElement myElement = driver.findElement(By.xpath("//label[@for=\"user-accept-rules2\"]"));
 		WebElement parent = myElement.findElement(By.xpath(".."));
@@ -400,86 +480,85 @@ public class TestBase {
 			randNumTax = randNumTax + String.valueOf(randomNumTax);
 			}
 		driver.findElement(By.cssSelector("input[name='main_company[tax_no]']")).sendKeys(randNumTax);
+		Log.log("Adószám kitöltés");
 		
 		for(int i = 0; i < 10; i++) {
 			Integer randomNumReg = rand.nextInt((9) + 1);
 			randNumReg = randNumReg + String.valueOf(randomNumReg);
 			}
 		driver.findElement(By.cssSelector("input[name='main_company[reg_no]']")).sendKeys(randNumReg);
-		
+		Log.log("Cégjegyzékszám kitöltés");
 		driver.findElement(By.cssSelector("input[name='main_company[email]']")).sendKeys(email);
-		
+		Log.log("céges email kitöltés");
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][loc_zip_id_ac]']")).sendKeys("1051");
-		sleep(1000);
+		sleep(2000);
 		driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
-		
+		Log.log("irsz kitöltés");
 		//driver.findElement(By.cssSelector("main_company[car_address][street]']")).sendKeys("TestArea");
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][street]']")).sendKeys("Sas");
-		
+		Log.log("utca kitöltés");
 		Select areaType = new Select(driver.findElement(By.id("main-company-car-address-street-type")));
 		//Integer randomArea = rand.nextInt((187) + 1);
 		//areaType.selectByValue("randomArea");
 		areaType.selectByValue("1");
-
+		Log.log("utca típus kitöltés");
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][street_num]']")).sendKeys("25");
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][building]']")).sendKeys("A");
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][floor]']")).sendKeys("2");
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][door]']")).sendKeys("204");
-		
+		Log.log("hsz, épület, emelet, ajtó kitöltés");
 		driver.findElement(By.cssSelector("input[name='user[last_name]']")).sendKeys("Mr");
 		driver.findElement(By.cssSelector("input[name='user[first_name]']")).sendKeys("Tester");
-		
+		Log.log("cégvezető neve kitöltés");
 		driver.findElement(By.className("register")).click();
+		Log.log("Regisztráció mentése");
 		
 	}
 
 	public static void activateCompany(Boolean realActivation, String companyEmail) throws Exception {
-		if (realActivation) {
-		  driver.get(Gmail.getMails(companyUser, companyPassword, "ECDH", "href=\"(.*?)\">Addig is tekintsd meg"));
-		}
-		
-		Log.log("Email aktiválás sikeres.");
-		
-		TestBase.goToPage(url+"/hu/ceg-adat-modositas");
-		driver.findElement(By.cssSelector("textarea[name='description']")).sendKeys("Rövid leírás teszt");
-		
-		Random rand = new Random();
-		Integer randomNum = 1000000000 + rand.nextInt((999999999 - 1) + 1);
-		String amount = String.valueOf(randomNum);
-		
-		driver.findElement(By.cssSelector("input[name='reg_no']")).sendKeys(amount);
-		driver.findElement(By.cssSelector("input[name='tax_no']")).sendKeys(amount + "9");
-		driver.findElement(By.cssSelector("input[name='acc_number_eu']")).sendKeys(amount + "9");
-		driver.findElement(By.cssSelector("input[name='acc_number_hu']")).sendKeys(amount + "9");
-		
-		TestBase.select("lang", "Magyar");
-		
-		driver.findElement(By.cssSelector("input[name='car_address[loc_zip_id_ac]']")).clear();
-		driver.findElement(By.cssSelector("input[name='car_address[loc_zip_id_ac]']")).sendKeys("1016");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), \"1016\")]")));
-		
-		driver.findElement(By.xpath("//a[contains(text(), \"1016\")]")).click();
-		driver.findElement(By.cssSelector("input[name='car_address[street]']")).sendKeys("Mészáros");
-		TestBase.select("car_address[street_type]", "utca");
-		driver.findElement(By.cssSelector("input[name='car_address[street_num]']")).sendKeys("25");
-		driver.findElement(By.cssSelector("input[name='webpage']")).sendKeys("http://test.com");
-		driver.findElement(By.cssSelector("input[name='company_owner[car_user][user][last_name]']")).sendKeys("Teszt");
-		driver.findElement(By.cssSelector("input[name='company_owner[car_user][user][first_name]']")).sendKeys("Eszter");
-		
-		rand = new Random();
-		randomNum = 1000 + rand.nextInt((999 - 1) + 1);
-		amount = String.valueOf(randomNum);
-		driver.findElement(By.cssSelector("input[name='email']")).sendKeys("xyz" + amount + "@gmail.com");
-		
-		TestBase.select("phone_country", "Válasszon");
-		
-		driver.findElement(By.className("btn-primary")).click();
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), \"Sikeres\")]")));
+		sleep(2000);
+		driver.get("https://gmail.com");
+		sleep(2000);
+		Log.log("Gmail nyiáts");
+        driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys(testerMail);
+        driver.findElement(By.xpath("//*[text()='Következő']")).click();
+        Log.log("felhasználónév kitöltés");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
+        Log.log("Jelszó kitöltés");
+        driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
+        driver.findElement(By.xpath("//*[text()='Következő']")).click();
+        Log.log("Login Gmail");
+       
+        sleep(6000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH)'])[2]")));
+        driver.findElement(By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH)'])[2]")).click();
+       
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Céges fiók létrehozása')]")));
+        
+        boolean staleElement = true; 
+        while(staleElement){
+          try{
+        	  driver.findElement(By.xpath("//a[contains(text(), 'Céges fiók létrehozása')]")).click();
+             staleElement = false;
 
-		Log.log("Narancs mezők kitöltve.");
-		goToPage(url+"/hu/kijelentkezes");		
-		
+          } catch(StaleElementReferenceException e){
+            staleElement = true;
+          }
+        }
+
+        Log.log("New user account activation");
+       
+        System.out.println(driver.getTitle());
+       
+        for (String winHandle : driver.getWindowHandles()) {
+            System.out.println(winHandle);
+            driver.switchTo().window(winHandle);      
+        }
+       
+        System.out.println(driver.getTitle());
+        passShepherd();
+        Log.log("Activation succeed");
+        
 	}
 	
 	public static void forgottenPassword(String email, String emailpassword, String password) throws Exception {
@@ -1033,15 +1112,21 @@ public class TestBase {
 		fillName("username", adminUser);
 		fillName("password", adminPassword);
 		driver.findElement(By.className("btn-secondary")).click();
+		Log.log("Admin bejelentkezve");
 		Thread.sleep(5000);
 	}
 
-	public static void adminActivatecompany(String companyEmail) throws IOException {
+	public static void adminActivatecompany(String companyName) throws IOException {
 		goToPage(url+"/hu/admin/car/car-companies");
-		driver.findElement(By.cssSelector("tr:nth-child(1) a:nth-child(2)")).click();
-		goToPage(url+"/hu/admin/car/car-users");
-		driver.findElement(By.cssSelector("tr:nth-child(1) a:nth-child(2)")).click();
+		Log.log("Admin cégek");
+		clickLinkWithText(companyName);
+		
+		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/a")).click();
+		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/ul/li[1]/a")).click();
+		driver.findElement(By.xpath("/html/body/section/section/div/form/div[3]/div[2]/div[1]/div[2]/a[2]/i")).click();
+		Log.log("Cég jóváhagyva");
 		goToPage(url+"/hu/kijelentkezes");
+		Log.log("Admin kijelentkezés");
 	}
 
 	public static void deleteCompany(String companyName) throws IOException {
@@ -1734,45 +1819,33 @@ public class TestBase {
 		String noteText = "Test note " + randNumber;
 		fillName("note", noteText);
 		submit();
-		
+		Log.log("Sikeresen mentve");
 		clickLinkWithText("Egyéb szerviz");
 		onScreen(partName);
 		onScreen(noteText);
 		checkPrice(randPrice, " ");
 		clickLinkWithText("Szerkesztés");
-		sleep(2000);
-		onScreen(partName);
+		Log.log("Módosítás");
+		sleep(2000);	
+		String oldalonAlkatresz = driver.findElement(By.id("car-mycar-service-log-items-0-text")).getAttribute("value");
+		if(oldalonAlkatresz.equals(partName)) {
+		driver.findElement(By.xpath("//*[contains(text(), \"" + partName + "\")]"));
+        System.out.println(partName);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(partName));
+		Log.log("Képernyőn: " + partName);
+		}else {
+			Log.log("Alkatrész hiba");
+		}
 		onScreen(noteText);
 		checkField("car_mycar_service_log_items[0][price]", randPrice + "");
-
-		click(".removeOfferItem");
-
-		/*list = driver.findElements(By.className("changeMainPart"));
-		size = list.size();
-		randNumber = new Random().nextInt(size - 1) + 1;
-		partName = list.get(randNumber).getText();
-		list.get(randNumber).click();
-		Log.log(partName + " alkatrész kiválasztva.");
-		randPrice = new Random().nextInt(123456);
-		sleep(5000);
-		fillName("car_mycar_service_log_items[1][price]", "" + randPrice);
-		fillName("car_mycar_service_log_items[1][item_description]", "part " + randNumber);
-		int randPrice2 = new Random().nextInt(123456);
-		fillName("price_work", "" + randPrice2);
 		submit();
+		Log.log("Sikeres módosítás");
 		
-		clickLinkWithText("Időszakos szerviz");
-		onScreen(partName);
-		onScreen(noteText);
-		checkPrice(randPrice, " ");
-		checkPrice(randPrice2, " ");
-
-		click("i.fa-trash");
-		clickLinkWithText("Esemény törlése");
-		
+		click(".fas.fa-trash.circle");
+		click(".btn.btn-sm.h-100.d-flex.align-items-center.btn-secondary");
 		sleep(1000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
-		Log.log("Esemény: egyéb sikeresen törölve.");*/
+		Log.log("Esemény: egyéb sikeresen törölve.");
 
 	}
 
