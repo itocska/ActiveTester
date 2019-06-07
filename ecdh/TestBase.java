@@ -1162,7 +1162,7 @@ public class TestBase {
 	}
 
 	public static void oneStepInner() throws IOException {
-		List<WebElement> elements = driver.findElements(By.cssSelector(".card .profile-car-item"));
+		List<WebElement> elements = driver.findElements(By.cssSelector("#mycar-block.card .profile-car-item"));
 		for (WebElement element : elements) {
 		  Log.log(element.findElement(By.className("numberplate")).getText());
 		}
