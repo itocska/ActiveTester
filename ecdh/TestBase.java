@@ -388,8 +388,25 @@ public class TestBase {
    		sleep(2000);
    		driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
    		fillName("company_name","TesztCég");
-   		fillName("reg_no","0110011001");
-   		fillName("tax_no","01100110011");
+
+   		Random rand2 = new Random();
+		String randNumTax = "";
+		String randNumReg = "";
+		for(int i = 0; i < 11; i++) {
+			Integer randomNumTax = rand2.nextInt((9) + 1);
+			randNumTax = randNumTax + String.valueOf(randomNumTax);
+			}
+		fillName("tax_no",randNumTax);
+		Log.log("Adószám kitöltés");
+		
+	
+		for(int i = 0; i < 10; i++) {
+			Integer randomNumReg = rand2.nextInt((9) + 1);
+			randNumReg = randNumReg + String.valueOf(randomNumReg);
+			}
+		fillName("reg_no",randNumReg);
+		Log.log("Cégjegyzékszám kitöltés");
+   		
    		fillName("invoice[street]","Repülőtéri ");
    		Select streetType = new Select(driver.findElement(By.name("invoice[street_type]")));
    		streetType.selectByVisibleText("út");
