@@ -2454,5 +2454,37 @@ public class TestBase {
         assertTrue("Email kiment a jogosítvány lejártáról", found1 > 0 & found2 > 0);
         Log.log("Email kiment jogosítvány lejártáról +" + day + " nap");
     }
+	public static void addNewCarEventOdometerReading() throws IOException, InterruptedException {
+
+		  clickLinkWithText("esemény hozzáadása");
+		  
+		  wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_other_event")));
+		  
+		  click(".sprite-mycar_other_event");
+		  
+		  click(".ts-date-picker");
+		  
+		  driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+
+	      submit();
+	      
+	      Log.log("Esemény: Km óra állás sikeresen rögzítve"); 
+	      /* Törléshez:
+	       * 
+	      clickLinkWithText("Km óra állás");
+	      
+	      clickLinkWithText("Szerkesztés");
+	      
+		  click(".ts-date-picker");
+		  driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+		  
+		  submit();
+
+	      driver.findElement(By.cssSelector(.fas.fa-trash circle")).click();
+	      driver.findElement(By.className("btn-secondary")).click();
+
+		  Log.log("Esemény: Km óra állás sikeresen törölve."); 
+	      */
+		}
 	
 }
