@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -2301,40 +2302,87 @@ public class TestBase {
 		  clickLinkWithText("kattintson ide cégoldala létrehozásához");
 		}
 		
-		
 		clickLinkWithText("Fejléc szerkesztése");
-
+		Log.log("Fejléc szerkesztése"); 	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"logo_text\"]")));
 		fillName("logo_text", getRandomText(5));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"logo_slogan\"]")));
 		fillName("logo_slogan", getRandomText(5));
-		
-		submit();
+		sleep(2000);  
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		Log.log("Fejléc mentése"); 
 		sleep(2000);
+		
+		
 		clickLinkWithText("Menü szerkesztése");
-		
-		click("#car-company-page-menus-add");
-		sleep(1000);
-		click("#car-company-page-menus-add");
-		sleep(1000);
-		click("#car-company-page-menus-add");
-		sleep(1000);
-		
-		Random rand = new Random();
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"car_company_page_menus[2][title]\"]")));
-		fillName("car_company_page_menus[0][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[0][menu_modul]");
-		
-		fillName("car_company_page_menus[1][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[1][menu_modul]");
-		
-		fillName("car_company_page_menus[2][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[2][menu_modul]");
-		
-		submit();
-		
+		Log.log("Menü szerkesztése");
+		sleep(5000);
+		int menupontok = driver.findElements(By.xpath("//*[contains(text(), \"Menüpont neve\")]")).size();
+		System.out.println(menupontok);
+		if (menupontok==0) {
+			click("#car-company-page-menus-add");
+			sleep(1000);
+			click("#car-company-page-menus-add");  
+			sleep(1000);
+			click("#car-company-page-menus-add");
+			sleep(1000);
+			Log.log("3 elem hozzáadása"); 
+			
+			Random rand = new Random();
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"car_company_page_menus[2][title]\"]")));
+			fillName("car_company_page_menus[0][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[0][menu_modul]");
+			
+			fillName("car_company_page_menus[1][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[1][menu_modul]");
+			
+			fillName("car_company_page_menus[2][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[2][menu_modul]");
+			Log.log("3 elem részletezés"); 
+			
+			driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+			Log.log("Menü mentése"); 
+			
+			}else {
+				
+				Log.log("Már ki van töltve"); 
+				
+			}
 
+		sleep(1000);  
+		driver.findElement(By.xpath("/html/body/main/div/div/div[3]/h4/a")).click();
+		Log.log("Bemutatkozás szerkesztése"); 
+		sleep(2000);
+		fillName("about_us_title",getRandomText(5));
+		fillName("about_us",getRandomText(20));
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		Log.log("Bemutatkozás mentve");
+		sleep(2000);
+		
+		clickLinkWithText("új oldal hozzáadása");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/div/div/form//div/div/div/div/div/input"))).sendKeys("Teszt cím");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content_ifr"))).sendKeys(getRandomText(60));
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();	
+		sleep(3000);
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		sleep(3000);
+		Log.log("Tartalom mentve");
+		
+		clickLinkWithText("Munkatársak kezelése");
+		sleep(1000);
+		clickLinkWithText("Új munkatárs");
+		sleep(2000);
+		fillName("name", "Józsi");
+		fillName("titulus", "R1");
+		Select orszag = new Select(driver.findElement(By.name("phone_country")));
+		orszag.selectByVisibleText("Magyarország");
+		fillName("phone","701234567");
+		fillName("email", "kovacs@jozsef.hu");
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		sleep(3000);
+		Log.log("munkatárs mentve");
+		
 		companyPageNewArticle();
 		companyPageNewArticle();
 		companyPageNewArticle();
@@ -2508,15 +2556,14 @@ public class TestBase {
 		}
 	
 	public static void addNewCarEventVehicleTax() throws IOException, InterruptedException {
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		String yearS = "" + year;
+		
+		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetes/" + getCarId());
+		sleep(5000);
 
-		clickLinkWithText("esemény hozzáadása");
-
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_hp_tax")));
-
-		click(".sprite-mycar_hp_tax");
-
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("installment_type")));
-		Select taxType = new Select(driver.findElement(By.className("installment_type")));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("installment-type")));
+		Select taxType = new Select(driver.findElement(By.id("installment-type")));
 		taxType.selectByVisibleText("Első részlet");
 
 		click(".ts-date-picker");
@@ -2531,7 +2578,7 @@ public class TestBase {
 				.click();
 		// driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
 
-		int randPrice = new Random().nextInt(123456);
+		int randPrice = new Random().nextInt(123456)+1100;
 		int randNumber = new Random().nextInt(500) + 1;
 
 		sleep(1000);
@@ -2543,29 +2590,30 @@ public class TestBase {
 		submit();
 
 		Log.log("Sikeresen mentve");
-
+		sleep(2000);
 		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetesek/" + getCarId());
-
+		sleep(2000);
 		clickLinkWithText("Első részlet");
 		onScreen("Első részlet");
-		onScreen(taxPrice);
-		onScreen("2019");
+		checkPrice(randPrice, " ");
+		
+		if(yearS.equals(driver.findElement(By.xpath("/html/body/main/section[2]/div/div/div[2]/div/div[2]/dl[4]/dd")).getText())) {
+			System.out.println("Helyes befizetett év");
+		}else {
+			assertTrue("Befizetett év hiba", driver.getPageSource().contains("2019"));
+		}
+		
 		clickLinkWithText("Szerkesztés");
 		Log.log("Módosítás");
 		sleep(2000);
 
 		onScreen("Első részlet");
-		onScreen(taxPrice);
 		onScreen(noteText);
 		submit();
 
-		clickLinkWithText(" Új esemény hozzáadása");
-
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_hp_tax")));
-
-		click(".sprite-mycar_hp_tax");
-
-		taxType.selectByVisibleText("Második részlet");
+		sleep(2000);
+		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetes/" + getCarId());
+		sleep(5000);
 
 		click(".ts-date-picker");
 		driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
@@ -2579,40 +2627,55 @@ public class TestBase {
 		submit();
 
 		Log.log("Sikeresen mentve");
-
+		sleep(2000);
+	
 		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetesek/" + getCarId());
-
+		sleep(3000);
 		clickLinkWithText("Második részlet");
 		onScreen("Második részlet");
-		onScreen(taxPrice);
-		onScreen("2019");
+		checkPrice(randPrice, " ");
+		
+		if(yearS.equals(driver.findElement(By.xpath("/html/body/main/section[2]/div/div/div[2]/div/div[2]/dl[4]/dd")).getText())) {
+			System.out.println("Helyes befizetett év");
+		}else {
+			assertTrue("Befizetett év hiba", driver.getPageSource().contains("2019"));
+		}
+		
 		clickLinkWithText("Szerkesztés");
 		Log.log("Módosítás");
 		sleep(2000);
 
 		onScreen("Második részlet");
-		onScreen(taxPrice);
 		onScreen(noteText2);
 		submit();
 
-		driver.findElement(By.cssSelector(".fas.fa-trash circle")).click();
+		//driver.findElement(By.xpath("/html/body/main/section[2]/div/div[2]/div[2]/div[3]/a[3]/i")).click();
+		//driver.findElement(By.cssSelector("i.fas.fa-trash.circle")).click();
+		click("i.fa-trash");
+		sleep(2000);
 		driver.findElement(By.className("btn-secondary")).click();
 
 		Log.log("Esemény: Teljesítményadó második részlet sikeresen törölve.");
 		sleep(2000);
-		driver.findElement(By.cssSelector(".fas.fa-trash circle")).click();
+		//driver.findElement(By.xpath("/html/body/main/section[2]/div/div[2]/div[2]/div[3]/a[3]/i")).click();
+		click("i.fa-trash");
+		sleep(2000);
 		driver.findElement(By.className("btn-secondary")).click();
 
 		Log.log("Esemény: Teljesítményadó első részlet sikeresen törölve.");
 		sleep(2000);
 
-		clickLinkWithText(" Új esemény hozzáadása");
-
+		/*clickLinkWithText("Új esemény hozzáadása");
+		sleep(2000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_hp_tax")));
+		sleep(2000);
+		click(".sprite-mycar_hp_tax");*/
 
-		click(".sprite-mycar_hp_tax");
+		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetes/" + getCarId());
+		sleep(5000);
 
-		taxType.selectByVisibleText("Egy összegben");
+		Select taxType2 = new Select(driver.findElement(By.id("installment-type")));
+		taxType2.selectByVisibleText("Egy összegben");
 
 		click(".ts-date-picker");
 		driver.findElement(By.xpath(
@@ -2637,26 +2700,32 @@ public class TestBase {
 		submit();
 
 		Log.log("Sikeresen mentve");
-
+		sleep(2000);
 		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetesek/" + getCarId());
-
+		sleep(2000);
 		clickLinkWithText("Egy összegben");
 		onScreen("Egy összegben");
-		onScreen(taxPrice2);
-		onScreen("2019");
+		checkPrice(randPrice2, " ");
+		
+		if(yearS.equals(driver.findElement(By.xpath("/html/body/main/section[2]/div/div/div[2]/div/div[2]/dl[4]/dd")).getText())) {
+			System.out.println("Helyes befizetett év");
+		}else {
+			assertTrue("Befizetett év hiba", driver.getPageSource().contains("2019"));
+		}
+		
 		clickLinkWithText("Szerkesztés");
 		Log.log("Módosítás");
 		sleep(2000);
 
 		onScreen("Egy összegben");
-		onScreen(taxPrice2);
 		onScreen(noteText3);
 		submit();
-
-		driver.findElement(By.cssSelector(".fas.fa-trash circle")).click();
+		
+		//driver.findElement(By.xpath("/html/body/main/section[2]/div/div[2]/div[2]/div[3]/a[3]/i")).click();
+		click("i.fa-trash");
 		driver.findElement(By.className("btn-secondary")).click();
 
-		Log.log("Esemény: Teljesítményadó második részlet sikeresen törölve.");
+		Log.log("Esemény: Egész éves teljesítményadó sikeresen törölve.");
 			
 		}
 	
