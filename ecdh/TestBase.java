@@ -2302,40 +2302,87 @@ public class TestBase {
 		  clickLinkWithText("kattintson ide cégoldala létrehozásához");
 		}
 		
-		
 		clickLinkWithText("Fejléc szerkesztése");
-
+		Log.log("Fejléc szerkesztése"); 	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"logo_text\"]")));
 		fillName("logo_text", getRandomText(5));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"logo_slogan\"]")));
 		fillName("logo_slogan", getRandomText(5));
-		
-		submit();
+		sleep(2000);  
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		Log.log("Fejléc mentése"); 
 		sleep(2000);
+		
+		
 		clickLinkWithText("Menü szerkesztése");
-		
-		click("#car-company-page-menus-add");
-		sleep(1000);
-		click("#car-company-page-menus-add");
-		sleep(1000);
-		click("#car-company-page-menus-add");
-		sleep(1000);
-		
-		Random rand = new Random();
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"car_company_page_menus[2][title]\"]")));
-		fillName("car_company_page_menus[0][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[0][menu_modul]");
-		
-		fillName("car_company_page_menus[1][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[1][menu_modul]");
-		
-		fillName("car_company_page_menus[2][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[2][menu_modul]");
-		
-		submit();
-		
+		Log.log("Menü szerkesztése");
+		sleep(5000);
+		int menupontok = driver.findElements(By.xpath("//*[contains(text(), \"Menüpont neve\")]")).size();
+		System.out.println(menupontok);
+		if (menupontok==0) {
+			click("#car-company-page-menus-add");
+			sleep(1000);
+			click("#car-company-page-menus-add");  
+			sleep(1000);
+			click("#car-company-page-menus-add");
+			sleep(1000);
+			Log.log("3 elem hozzáadása"); 
+			
+			Random rand = new Random();
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"car_company_page_menus[2][title]\"]")));
+			fillName("car_company_page_menus[0][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[0][menu_modul]");
+			
+			fillName("car_company_page_menus[1][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[1][menu_modul]");
+			
+			fillName("car_company_page_menus[2][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[2][menu_modul]");
+			Log.log("3 elem részletezés"); 
+			
+			driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+			Log.log("Menü mentése"); 
+			
+			}else {
+				
+				Log.log("Már ki van töltve"); 
+				
+			}
 
+		sleep(1000);  
+		driver.findElement(By.xpath("/html/body/main/div/div/div[3]/h4/a")).click();
+		Log.log("Bemutatkozás szerkesztése"); 
+		sleep(2000);
+		fillName("about_us_title",getRandomText(5));
+		fillName("about_us",getRandomText(20));
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		Log.log("Bemutatkozás mentve");
+		sleep(2000);
+		
+		clickLinkWithText("új oldal hozzáadása");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/div/div/form//div/div/div/div/div/input"))).sendKeys("Teszt cím");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content_ifr"))).sendKeys(getRandomText(60));
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();	
+		sleep(3000);
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		sleep(3000);
+		Log.log("Tartalom mentve");
+		
+		clickLinkWithText("Munkatársak kezelése");
+		sleep(1000);
+		clickLinkWithText("Új munkatárs");
+		sleep(2000);
+		fillName("name", "Józsi");
+		fillName("titulus", "R1");
+		Select orszag = new Select(driver.findElement(By.name("phone_country")));
+		orszag.selectByVisibleText("Magyarország");
+		fillName("phone","701234567");
+		fillName("email", "kovacs@jozsef.hu");
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		sleep(3000);
+		Log.log("munkatárs mentve");
+		
 		companyPageNewArticle();
 		companyPageNewArticle();
 		companyPageNewArticle();
