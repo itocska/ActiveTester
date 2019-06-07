@@ -2378,8 +2378,9 @@ public class TestBase {
         int found1 = driver.findElements(By.xpath("//*[contains(text(), \"jogosítványod lejárata\")]")).size();
         String string = day + " nap múlva esedékes lesz";
         int found2 = driver.findElements(By.xpath("//*[contains(text(), \"" + string + "\")]")).size();
-        assertTrue("Email kiment a jogosítvány lejártáról", found1 > 0 & found2 > 0);
+        assertTrue("Email kiment a jogosítvány lejártáról " + day + " nap", found1 > 0 & found2 > 0);
         Log.log("Email kiment jogosítvány lejártáról +" + day + " nap");
+        driver.get("https://accounts.google.com/Logout");
     }
 	
 }
