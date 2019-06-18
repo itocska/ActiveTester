@@ -2970,5 +2970,94 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		}
 
 	}
+	
+	public static void addNewTire() throws IOException, InterruptedException {
+		
+		sleep(4000);
+		clickLinkWithText("Új gumi hozzáadása");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("summer_tire_change_month")));
+		int randIndex = new Random().nextInt(3)+1;
+		Select type = new Select(driver.findElement(By.id("type")));
+		type.selectByIndex(randIndex);
+		Log.log("Típus választás");
+		
+		fillName("price","200000");
+		Log.log("Gumi ára");
+		
+		randIndex = new Random().nextInt(28)+1;
+		Select mufacturer = new Select(driver.findElement(By.id("mufacturer")));
+		mufacturer.selectByIndex(randIndex);
+		Log.log("Márka választás");
+		
+		fillName("item_description","test model");
+		Log.log("Gumi modell");
+		
+		randIndex = new Random().nextInt(2)+1;
+		Select number = new Select(driver.findElement(By.id("number")));
+		number.selectByIndex(randIndex);
+		Log.log("darabszám választás");
+		int kerekszam = 0;
+		if(randIndex == 1) {
+			kerekszam = 2;
+		}else {
+			kerekszam = 4;
+		}
+		
+		randIndex = new Random().nextInt(2)+1;
+		Select worn = new Select(driver.findElement(By.id("worn")));
+		worn.selectByIndex(randIndex);
+		Log.log("állapot választás");
+		
+		randIndex = new Random().nextInt(52)+1;
+		Select dot_week = new Select(driver.findElement(By.id("dot_week")));
+		dot_week.selectByIndex(randIndex);
+		Log.log("DOT hét");
+		
+		randIndex = new Random().nextInt(30)+1;
+		Select dot_year = new Select(driver.findElement(By.id("dot_year")));
+		dot_year.selectByIndex(randIndex);
+		Log.log("Dot év");
+		
+		if(kerekszam == 4) {
+			randIndex = new Random().nextInt(10)+1;
+			Select thread_depth_1 = new Select(driver.findElement(By.id("thread-depth-1")));
+			thread_depth_1.selectByIndex(randIndex);
+			Log.log("Bal első");
+			
+			randIndex = new Random().nextInt(10)+1;
+			Select thread_depth_2 = new Select(driver.findElement(By.id("thread-depth-2")));
+			thread_depth_2.selectByIndex(randIndex);
+			Log.log("Bal hátsó");
+			
+			randIndex = new Random().nextInt(10)+1;
+			Select thread_depth_3 = new Select(driver.findElement(By.id("thread-depth-3")));
+			thread_depth_3.selectByIndex(randIndex);
+			Log.log("Jobb első");
+			
+			randIndex = new Random().nextInt(10)+1;
+			Select thread_depth_4 = new Select(driver.findElement(By.id("thread-depth-4")));
+			thread_depth_4.selectByIndex(randIndex);
+			Log.log("Jobb hátsó");
+			
+		}else {
+			
+			randIndex = new Random().nextInt(10)+1;
+			Select thread_depth_1 = new Select(driver.findElement(By.id("thread-depth-1")));
+			thread_depth_1.selectByIndex(randIndex);
+			Log.log("Bal első");
+			
+			randIndex = new Random().nextInt(10)+1;
+			Select thread_depth_2 = new Select(driver.findElement(By.id("thread-depth-2")));
+			thread_depth_2.selectByIndex(randIndex);
+			Log.log("Bal hátsó");
+		}
+		
+		randIndex = new Random().nextInt(500)+100;
+		fillName("tire_storage","test text"+randIndex);
+		Log.log("Tárolás megjegyzés");
+		
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		Log.log("Gumi sikeresen hozzáadva");
+	}
 
 }
