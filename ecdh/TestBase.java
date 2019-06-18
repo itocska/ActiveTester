@@ -2283,48 +2283,94 @@ public class TestBase {
 	}
 
 	public static void buildCompanyPage() throws IOException, InterruptedException {
-		goToPage(url + "/hu/ceg-oldal-szerkesztes");
-
-		if (driver
-				.findElements(By.xpath(
-						"//a/descendant-or-self::*[contains(text(),\"kattintson ide cégoldala létrehozásához\")]"))
-				.size() != 0) {
-			clickLinkWithText("kattintson ide cégoldala létrehozásához");
+goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		
+		
+		if (driver.findElements(By.xpath("//a/descendant-or-self::*[contains(text(),\"kattintson ide cégoldala létrehozásához\")]")).size() != 0) {
+		  clickLinkWithText("kattintson ide cégoldala létrehozásához");
 		}
-
+		
 		clickLinkWithText("Fejléc szerkesztése");
-
+		Log.log("Fejléc szerkesztése"); 	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"logo_text\"]")));
 		fillName("logo_text", getRandomText(5));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"logo_slogan\"]")));
 		fillName("logo_slogan", getRandomText(5));
-
-		submit();
+		sleep(2000);  
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		Log.log("Fejléc mentése"); 
 		sleep(2000);
+		
+		
 		clickLinkWithText("Menü szerkesztése");
+		Log.log("Menü szerkesztése");
+		sleep(5000);
+		int menupontok = driver.findElements(By.xpath("//*[contains(text(), \"Menüpont neve\")]")).size();
+		System.out.println(menupontok);
+		if (menupontok==0) {
+			click("#car-company-page-menus-add");
+			sleep(1000);
+			click("#car-company-page-menus-add");  
+			sleep(1000);
+			click("#car-company-page-menus-add");
+			sleep(1000);
+			Log.log("3 elem hozzáadása"); 
+			
+			Random rand = new Random();
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"car_company_page_menus[2][title]\"]")));
+			fillName("car_company_page_menus[0][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[0][menu_modul]");
+			
+			fillName("car_company_page_menus[1][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[1][menu_modul]");
+			
+			fillName("car_company_page_menus[2][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			randomSelect("car_company_page_menus[2][menu_modul]");
+			Log.log("3 elem részletezés"); 
+			
+			driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+			Log.log("Menü mentése");  
+			 
+			}else {
+				
+				Log.log("Már ki van töltve"); 
+				
+			}
 
-		click("#car-company-page-menus-add");
+		sleep(1000);  
+		driver.findElement(By.xpath("/html/body/main/div/div/div[3]/h4/a")).click();
+		Log.log("Bemutatkozás szerkesztése"); 
+		sleep(2000);
+		fillName("about_us_title",getRandomText(5));
+		fillName("about_us",getRandomText(20));
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		Log.log("Bemutatkozás mentve");
+		sleep(2000);
+		
+		clickLinkWithText("új oldal hozzáadása");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/div/div/form//div/div/div/div/div/input"))).sendKeys("Teszt cím");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content_ifr"))).sendKeys(getRandomText(60));
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();	
+		sleep(3000);
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		sleep(3000);
+		Log.log("Tartalom mentve");
+		
+		clickLinkWithText("Munkatársak kezelése");
 		sleep(1000);
-		click("#car-company-page-menus-add");
-		sleep(1000);
-		click("#car-company-page-menus-add");
-		sleep(1000);
-
-		Random rand = new Random();
-
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.cssSelector("input[name=\"car_company_page_menus[2][title]\"]")));
-		fillName("car_company_page_menus[0][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[0][menu_modul]");
-
-		fillName("car_company_page_menus[1][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[1][menu_modul]");
-
-		fillName("car_company_page_menus[2][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
-		randomSelect("car_company_page_menus[2][menu_modul]");
-
-		submit();
-
+		clickLinkWithText("Új munkatárs");
+		sleep(2000);
+		fillName("name", "Józsi");
+		fillName("titulus", "R1");
+		Select orszag = new Select(driver.findElement(By.name("phone_country")));
+		orszag.selectByVisibleText("Magyarország");
+		fillName("phone","701234567");
+		fillName("email", "kovacs@jozsef.hu");
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		sleep(3000);
+		Log.log("munkatárs mentve");
+		
 		companyPageNewArticle();
 		companyPageNewArticle();
 		companyPageNewArticle();
@@ -2346,7 +2392,7 @@ public class TestBase {
 		submit();
 		sleep(4000);
 		Log.log("Céges oldal hír beküldve: " + title);
-		return title;
+		return title;  
 
 	}
 
@@ -2362,6 +2408,149 @@ public class TestBase {
 		select("car_company_page_menus[1][menu_modul]", "Hírek");
 		submit();
 	}
+	
+	public static void CarReviews() throws IOException, InterruptedException {
+		
+		
+		Random rand = new Random();
+		Integer randomNum = rand.nextInt(10) + 2;
+
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+		Select year = new Select(driver.findElement(By.id("MainContent_control_RegistrationYear")));
+		year.selectByIndex(randomNum);
+		Log.log("Év megadása");
+		sleep(500);
+
+		Select month = new Select(driver.findElement(By.id("MainContent_control_RegistrationMonth")));
+		sleep(500);
+		month.selectByIndex(randomNum);
+		Log.log("Hónap megadása");
+
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+		// Select category = new
+		// Select(driver.findElement(By.id("MainContent_control_VehicleCategoryList")));
+
+		sleep(500);
+		randomNum = rand.nextInt(1) + 2;
+
+		try {
+			Select category = new Select(driver.findElement(By.id("MainContent_control_VehicleCategoryList")));
+			category.selectByIndex(randomNum);
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			Select category = new Select(driver.findElement(By.id("MainContent_control_VehicleCategoryList")));
+			category.selectByIndex(randomNum);
+		} 
+
+		// category.selectByIndex(randomNum);
+		Log.log("Kategória megadása");
+
+		try {
+			Select brand = new Select(driver.findElement(By.id("MainContent_control_BrandList")));
+			sleep(500);
+			randomNum = rand.nextInt(25) + 1;
+			brand.selectByIndex(randomNum);
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			Select brand = new Select(driver.findElement(By.id("MainContent_control_BrandList")));
+			brand.selectByIndex(randomNum);
+		}
+		Log.log("Márka megadása");
+
+		try {
+			Select brand = new Select(driver.findElement(By.id("MainContent_control_BrandList")));
+			sleep(500);
+			randomNum = rand.nextInt(1) + 1;
+			brand.selectByIndex(randomNum);
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			Select brand = new Select(driver.findElement(By.id("MainContent_control_EngineType")));
+			brand.selectByIndex(randomNum);
+		}
+		Log.log("Motor típus megadása");
+
+		try {
+			Select brand = new Select(driver.findElement(By.id("MainContent_control_ModelRange1List")));
+			sleep(500);
+			randomNum = rand.nextInt(1) + 1;
+			brand.selectByIndex(randomNum);
+			
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			Select brand = new Select(driver.findElement(By.id("MainContent_control_ModelRange1List")));
+			randomNum = rand.nextInt(1) + 1;
+			brand.selectByIndex(randomNum);
+		}
+		Log.log("Modell Sorozat megadása");
+		
+		try {
+			Select brand = new Select(driver.findElement(By.id("MainContent_control_ModelRange2List")));
+			sleep(500);
+			randomNum = rand.nextInt(1) + 1;
+			brand.selectByIndex(randomNum);
+			
+		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
+			Select brand = new Select(driver.findElement(By.id("MainContent_control_ModelRange2List")));
+			randomNum = rand.nextInt(1) + 1;
+			brand.selectByIndex(randomNum);
+		}
+		Log.log("Modell megadása");
+
+		sleep(500);
+		
+		fillName("ctl00$MainContent$control_mileage","12030");
+		
+		driver.findElement(By.name("ctl00$MainContent$controlButtonProceedToModelSelection")).click();
+		Log.log("tovább");
+		
+		sleep(1000);
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+		sleep(1000);
+	   
+	   driver.findElement(By.id("MainContent_myModelControl_controlModelList_controlModelSelectorButton_0")).click();
+	   sleep(1000);
+	   
+		
+		   driver.findElement(By.id("MainContent_ControlCondition_controlLabelCategory3HeaderText")).click();
+		   sleep(1000);
+		   
+		   driver.findElement(By.id("MainContent_ControlCondition_ForwardToEquipmentFromCondition3")).click();
+		   sleep(1000);
+		   
+		   driver.findElement(By.name("ctl00$MainContent$myEquipmentControl$PaneOptional_content$controlOptionalEquipmentList$0")).click();
+		   Log.log("Kategória Választása");
+		   
+		   driver.findElement(By.name("ctl00$MainContent$controlForwardToValuation")).click();
+		   Log.log("Kategória Választása");
+		   
+		   driver.findElement(By.id("MainContent_controlForwardToValuation")).click();
+		   Log.log("Tovább a Értékelés Típusának kiválasztásához / Fizetéséhez.");
+		   sleep(1000);
+		   fillName("ctl00$MainContent$PaneValuation_content$controlEmailAddress","tesz@teszt.hu");
+		   
+		   Log.log("Email cím megadása");
+		   driver.findElement(By.name("ctl00$MainContent$PaneValuation_content$chkUserConsent")).click();
+		   
+		   Log.log("A felhasználói feltételeket és az adatvédelmi nyilatkozatot elolvastam megértettem és elfogadom");
+		   driver.findElement(By.id("MainContent_ControlButtonCCbasic")).click();
+		   sleep(1000);
+		   driver.findElement(By.id("MainContent_controlCheckBoxInvoiceRequired")).click();
+		   
+		   driver.switchTo().defaultContent();
+		   driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+		 
+		   fillName("ctl00$MainContent$controlTextBoxCegnev","Teszt Ember");
+		   fillName("ctl00$MainContent$controlTextBoxAdoszam","1035678942");
+		   fillName("ctl00$MainContent$controlTextBoxCimTelepules","Soroksár");
+		   fillName("ctl00$MainContent$controlTextBoxCimIranyitoszam","1238");
+		   fillName("ctl00$MainContent$controlTextBoxCimKozteruletNeve","Táncsics Mihály Utca 76");
+		   driver.findElement(By.name("ctl00$MainContent$ControlForwardToCCPayment")).click();
+		   Log.log("Fizetés elindítása");
+		   sleep(2000);
+		   goToPage(url+"/hu/garazs");
+		   Log.log("Fizetés Megszakítva Vissza a kezdőlapra!");
+		}
+	
+
 
 	public static void addGPS() throws IOException, InterruptedException {
 		TestBase.login(TestBase.personalUser, TestBase.personalPassword);
