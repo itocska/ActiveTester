@@ -2606,7 +2606,7 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-LL-dd");
 		String strDueDate = dueDate.format(dateFormat);
-<<<<<<< HEAD
+
 	    fillName("driving_licence_expiration", strDueDate);
 	    submit();
 	    
@@ -2618,21 +2618,7 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 	    WebElement lastNotification = driver.findElement(By.cssSelector(".nav-notifications .dropdown-menu a:nth-child(1) .notification-title"));
 	    String lastNotificationText = lastNotification.getText();
 	    assertEquals("Jogosítványod lejár", lastNotificationText);
-=======
-		fillName("driving_licence_expiration", strDueDate);
-		submit();
-
-		sleep(2000);
-		goToPage(url + "/hu/admin/car/pages/run-cron/event");
-		clickLinkWithText("Események cron futtatása");
-
-		goToPage(url);
-		click(".nav-notifications");
-		WebElement lastNotification = driver
-				.findElement(By.cssSelector(".nav-notifications .dropdown-menu a:nth-child(1) .notification-title"));
-		String lastNotificationText = lastNotification.getText();
-		assertEquals("Jogosítványod lejár", lastNotificationText);
->>>>>>> f7b81acef3c856dace5198a8612518eb631075b8
+	    
 		Log.log("Jogosítvány lejártáról értesítés +" + days + " nap");
 		lastNotification.click();
 		String URL = driver.getCurrentUrl();
@@ -2642,8 +2628,7 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		notificationEmail(days);
 
 	}
-<<<<<<< HEAD
-	
+
 	public static void highwayFeeNotifications(int days) throws IOException, InterruptedException {
 		goToPage(url+"/hu/autopalya-matrica-hozzadasa/" + getCarId());
 		
@@ -2672,9 +2657,6 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 	    cronRun();
 	}
 	
-=======
-
->>>>>>> f7b81acef3c856dace5198a8612518eb631075b8
 	protected static void notificationEmail(int day) throws Exception {
 		driver.get("https://gmail.com");
 		try {
