@@ -6,14 +6,33 @@ import ecdh.TestBase;
 public class Notifications extends TestBase {
 	public static void main(String[] args) throws Throwable {
 		
-		
-		TestBase.main("Notifications", 0);
 		try {
+			/*
+		  TestBase.main("Notifications driver licence 1 day", 0);
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.driverLicenceNotifications(1);
-		  TestBase.driverLicenceNotifications(7);
-		  TestBase.driverLicenceNotifications(30);
+		  TestBase.close();
 		  
+		  TestBase.main("Notifications driver licence 7 day", 0);
+		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+		  TestBase.driverLicenceNotifications(7);
+		  TestBase.close();
+		  
+		  */
+		  
+		  TestBase.main("Notifications driver licence 30 day", 0);
+		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+		  TestBase.driverLicenceNotifications(30);
+		  TestBase.close();
+		  
+		  
+			/*
+		  TestBase.main("Notifications highway fee 1 day", 0);
+		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+		  oneStepInner();
+		  highwayFeeNotifications(1);
+		  TestBase.close();
+		  */
 		} 
 		catch (AssertionError|WebDriverException e) {
 			Log.error = true;
@@ -24,6 +43,8 @@ public class Notifications extends TestBase {
 		}
 		
 		TestBase.close();
+		
+		
 	}
 	
 }

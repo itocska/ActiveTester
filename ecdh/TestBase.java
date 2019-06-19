@@ -1168,10 +1168,9 @@ public class TestBase {
 		  Log.log(element.findElement(By.className("numberplate")).getText());
 		}
 		
-		Random rand = new Random();
-		Log.log(elements.get(rand.nextInt(elements.size())).findElement(By.className("numberplate")).getText() + " selected.");
-		elements.get(rand.nextInt(elements.size())).click();
-		
+		element = elements.get(new Random().nextInt(elements.size()));
+		Log.log(element.findElement(By.className("numberplate")).getText() + " selected.");
+		element.click();
 	}
 
 	public static String SendRequestTire() throws IOException, InterruptedException {
@@ -2464,6 +2463,11 @@ public class TestBase {
 		}
 	}
 
+	public static void cronRun() throws IOException {
+		goToPage(url + "/hu/admin/car/pages/run-cron/event");
+		clickLinkWithText("Események cron futtatása");
+	}
+	
 	public static void driverLicenceNotifications(int days) throws Exception {
 		goToPage(url);
 		click("a.user-img");
@@ -2476,8 +2480,7 @@ public class TestBase {
 	    submit();
 	    
 	    sleep(2000);
-	    goToPage(url + "/hu/admin/car/pages/run-cron/event");
-	    clickLinkWithText("Események cron futtatása");
+	    cronRun();
 	    
 	    goToPage(url);
 	    click(".nav-notifications");
@@ -2493,6 +2496,34 @@ public class TestBase {
 		notificationEmail(days);
 		
 		
+	}
+	
+	public static void highwayFeeNotifications(int days) throws IOException, InterruptedException {
+		goToPage(url+"/hu/autopalya-matrica-hozzadasa/" + getCarId());
+		
+		LocalDate dueDate = LocalDate.now().plusDays(days);
+	      
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-LL-dd");
+		String strDueDate = dueDate.format(dateFormat);
+	    fillName("start_date", strDueDate);
+	    
+		List<WebElement> list = driver.findElements(By.cssSelector("input[type=\"radio\"]"));
+		int size = list.size();
+		int randNumber = new Random().nextInt(size - 1) + 1;
+		String id = list.get(randNumber).getAttribute("id");
+		//list.get(randNumber).click();
+		driver.findElement(By.xpath("//label[@for='" + id + "']")).click();
+		String name = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-name i")).getText();
+		String expiration = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-expiration")).getText();
+		String price = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-price")).getText();
+		
+		Log.log(name + " autópálya matrica kiválasztva.");
+		Log.log(expiration + " lejárattal.");
+		Log.log(price + " áron.");
+		submit();
+		
+		sleep(2000);
+	    cronRun();
 	}
 	
 	protected static void notificationEmail(int day) throws Exception {
