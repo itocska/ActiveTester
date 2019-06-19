@@ -3059,5 +3059,27 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
 		Log.log("Gumi sikeresen hozzáadva");
 	}
-
+	
+	public static void documentStorage() throws IOException, InterruptedException {
+		
+		sleep(4000);
+		clickLinkWithText("Dokumentumtár");
+		sleep(1000);
+		driver.findElement(By.cssSelector(".btn.btn-secondary.popup")).click();
+		sleep(1000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("document-type")));
+		Log.log("Típus választó stimmel");
+		sleep(1000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("browse-file")));
+		Log.log("Fájl feltöltés stimmel");
+		sleep(1000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note")));
+		Log.log("Megjegyzés stimmel");
+		sleep(1000);
+		driver.findElement(By.xpath("/html/body/div[3]/div/div/div/form/section/div/div[1]/button")).click();
+		sleep(1000);
+		driver.findElement(By.xpath("/html/body/header/div/div/div[1]/a")).click();
+		
+	}
+	
 }
