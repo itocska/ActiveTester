@@ -3082,4 +3082,30 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		
 	}
 	
+public static void addNewCalendarEvent() throws IOException, InterruptedException {
+		
+		sleep(1000);
+		driver.findElement(By.xpath("/html/body/main/section[2]/div/div[1]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td/div/div/div[3]/div[2]/table/thead/tr/td[7]")).click();
+		sleep(1000);
+		Log.log("Nap kiválasztása");
+		clickLinkWithText("Esemény hozzáadása");
+		sleep(1000);
+		int rand = new Random().nextInt(500)+500;
+		fillName("title","Test esemény "+ rand);
+		rand = new Random().nextInt(500)+500;
+		fillName("description","Test megjegyzés "+ rand);
+		rand = new Random().nextInt(89)+10;
+		fillName("cal_location",""+ rand);
+		sleep(1000);
+		
+		driver.findElement(By.id("cal_location")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("cal_location")).sendKeys(Keys.ENTER);
+		Log.log("Autocomplete mező kitöltése");
+		
+		driver.findElement(By.cssSelector(".btn.btn-primary.w-100")).click();
+		
+		Log.log("Naptári esemény sikeresen felvive");
+
+	}
+	
 }
