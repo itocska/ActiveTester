@@ -881,36 +881,50 @@ public class TestBase {
 	}
 
 	public static void setCarForSale() throws IOException, InterruptedException {
-		// driver.findElement(By.xpath("//a[contains(text(), \"Eladásra
-		// kínálom\")]")).click();
+		
+		String carURL = driver.getCurrentUrl();
+		
+		Random rand = new Random();
+		int randomprice = rand.nextInt(5000000) + 1000000;
 		clickLinkWithText("Eladásra kínálom");
-		// driver.findElement(By.className("switch")).click();
 		click(".switch");
-
-		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"sell_price\"]")));
-		// driver.findElement(By.cssSelector("input[name=\"sell_price\"]")).sendKeys("2194562");
-		fillName("sell_price", "2194562");
-
+		sleep(1000);
+		fillName("sell_price", ""+randomprice);
+		randomprice = randomprice + 10000000;
+		sleep(1000);
 		fillName("sell_description", getRandomText(40));
-
-		// driver.findElement(By.cssSelector("input[name=\"loc_zip_id_ac\"]")).sendKeys("10");
-		fillName("loc_zip_id_ac", "10");
-		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ui-id-6")));
-		// driver.findElement(By.id("ui-id-6")).click();
-		click("#ui-id-6");
-
+		sleep(1000);
+		Random rand2 = new Random();
+		int randomzip = rand.nextInt(89) + 10;
+		fillName("loc_zip_id_ac", ""+randomzip);
+		sleep(1000);
+		click("#ui-id-1");
+		sleep(1000);
 		TestBase.select("car_user[mobile_country]", "Magyarország");
-		// driver.findElement(By.cssSelector("input[name=\"car_user[mobile]\"]")).sendKeys("1234567");
-		fillName("car_user[mobile]", "1234567");
-
+		sleep(1000);
+		fillName("car_user[mobile]", "301234567");
+		sleep(1000);
 		driver.findElement(By.id("save-and-back")).click();
-		// Thread.sleep(5000);
-		// driver.findElement(By.id("save-and-back")).click();
-
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '2.194.562 Ft')]")));
-
-		assertTrue("Autó meghirdetve", driver.getPageSource().contains("2.194.562 Ft"));
+		checkPrice(randomprice, " ");
 		Log.log("Autó sikeresen meghirdetve");
+		clickLinkWithText("Használt autó hirdetések");
+		Log.log("Használt Autó kereső");
+		clickLinkWithText("Részletes kereső");
+		Log.log("Részletes Kereső Kiválasztva");
+		fillName("pricefrom",""+randomprice);
+		fillName("priceto",""+randomprice);
+		Log.log("Ár megadva");
+		driver.findElement(By.id("form-button")).click();
+		Log.log("Találatok Megjelenítése");
+		driver.findElement(By.className("price")).click();
+		Log.log("Az autó szerepel a Használt Autó hírdetések között!");
+		goToPage(carURL);
+		sleep(3000);
+		driver.findElement(By.cssSelector(".fas.fa-pencil-alt")).click();
+		click(".switch");
+		driver.findElement(By.id("save-and-back")).click();
+		Log.log("Hirdetés levéve");
+
 
 	}
 
@@ -2217,40 +2231,153 @@ public class TestBase {
 	}
 
 	public static void setCarForRent() throws IOException, InterruptedException {
-		clickLinkWithText("Bérlésre kínálom");
-		click(".switch");
+		String carURL = driver.getCurrentUrl();
+		
+		driver.findElement(By.xpath("//*[contains(text(), 'Bérlésre kínálom')]")).click();
 
-		fillName("rent_price_1", "7432");
-
+		click(".switch"); 
 		Random rand = new Random();
-		Integer randomNum = 2000 + rand.nextInt((10000 - 1) + 1);
+		Integer randomNum = rand.nextInt(40000) + 50000;
 		String amount = String.valueOf(randomNum);
+		fillName("rent_price_1", amount);
+		randomNum = rand.nextInt(30000) + 40000;
+		amount = String.valueOf(randomNum);
 		fillName("rent_price_2", amount);
-
-		randomNum = 20000 + rand.nextInt((100000 - 1) + 1);
+		randomNum =rand.nextInt(20000)+ 30000;
 		amount = String.valueOf(randomNum);
 		fillName("rent_price_3", amount);
-
-		randomNum = 30000 + rand.nextInt((100000 - 1) + 1);
+		randomNum = rand.nextInt(10000) + 20000;
 		amount = String.valueOf(randomNum);
 		fillName("rent_price_4", amount);
-
-		randomNum = 30000 + rand.nextInt((100000 - 1) + 1);
+		randomNum =rand.nextInt(10000) + 10000;
 		amount = String.valueOf(randomNum);
 		fillName("rent_bail", amount);
-
-		fillName("loc_zip_id_ac", "10");
-		click("#ui-id-6");
-
-		fillName("rent_description", "Lorem ipsum dolor sit amet!");
-
+		sleep(1000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/main/section[3]/div/div[2]/form/div[3]/div[2]/div[2]/div/label"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rent-penalty-days"))).click();
+		int randomday = rand.nextInt(28);
+		fillName("rent_penalty_days", ""+randomday);
+		int randompenalty = rand.nextInt(9)+1;
+		fillName("rent_penalty_percentage", ""+randompenalty);
+		fillName("fuel_combined","8.5");
+		int randomzip = rand.nextInt(89) + 10;
+		
+		while(13<= randomzip && randomzip <=19) {randomzip = rand.nextInt(89) + 10;}
+		
+		fillName("loc_zip_id_ac",""+randomzip);
+		
+		try {
+			
+			driver.findElement(By.cssSelector(".ui-menu-item")).click();
+		
+		}catch(NoSuchElementException e){
+			
+			randomzip=rand.nextInt(89)+10;
+			while(13<= randomzip && randomzip <=19) {randomzip = rand.nextInt(89) + 10;}
+			fillName("loc_zip_id_ac",""+randomzip);
+			click(".ui-menu-item");
+			
+		}
+		
+		driver.findElement(By.id("rent-description")).clear();
+		driver.findElement(By.id("rent-description")).sendKeys(getRandomText(50));
 		submit();
 		sleep(5000);
-
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '7.432 Ft')]")));
-
-		assertTrue("Autó meghirdetve", driver.getPageSource().contains("7.432 Ft"));
 		Log.log("Autó bérlésre sikeresen meghirdetve");
+		clickLinkWithText("Bérautó hirdetések");
+		Log.log("Bérelhető Autók megjelenítése");
+		fillName("loc_zip_id_ac",""+randomzip);
+		click(".ui-menu-item");
+		sleep(2000);
+		Log.log("Irsz megadása");
+		driver.findElement(By.id("form-button")).click();
+		Log.log("Keresés Indítása");
+		driver.findElement(By.cssSelector(".col.btn.btn-secondary")).click();
+	
+		DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+		Date systemDate = new Date();
+		
+		Calendar c  = Calendar.getInstance();
+		c.setTime(systemDate);
+		c.add(Calendar.DATE, 1);
+		Date currendDatePlusOne = c.getTime();
+		
+		Calendar c2  = Calendar.getInstance();
+		c2.setTime(systemDate);
+		c2.add(Calendar.DATE, 8);
+		Date currentDatePlusEight = c2.getTime();
+		
+		String startDate = formatDate.format(currendDatePlusOne);
+		String endDate = formatDate.format(currentDatePlusEight);
+		
+		sleep(3000);
+		//driver.findElement(By.id("start-date")).sendKeys(startDate);
+		fillName("start_date",startDate);
+		sleep(1000);
+		//driver.findElement(By.id("end-date")).sendKeys(endDate);
+		driver.findElement(By.name("end_date")).click();
+		driver.findElement(By.name("end_date")).clear();
+		fillName("end_date",endDate);
+		sleep(1000);
+		driver.findElement(By.id("form-button")).click();
+		Log.log("Bérlési időszak megadása!");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pickup-location"))).click();
+		randomNum = rand.nextInt(1) + 1;
+		Select pick = new Select(driver.findElement(By.id("pickup-location")));
+		pick.selectByIndex(randomNum);
+		Log.log("SIKERÜLT?");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dropdown-location"))).click();
+		Select drop = new Select(driver.findElement(By.name("dropdown_location")));
+		sleep(500);
+		randomNum = rand.nextInt(1) + 1;
+		drop.selectByIndex(randomNum);
+
+		
+		driver.findElement(By.id("notes")).sendKeys(getRandomText(50));
+        
+		try {
+			
+			fillName("car_address[loc_zip_id_ac]",""+randomzip);
+			click(".ui-menu-item");
+		
+		}catch(NoSuchElementException e){
+			
+			randomzip=rand.nextInt(89)+10;
+			fillName("car_address[loc_zip_id_ac]",""+randomzip);
+			click(".ui-menu-item");
+			
+		}
+         driver.findElement(By.name("car_address[street]")).sendKeys("Teszt");
+         driver.findElement(By.name("car_address[street_type]")).click();
+         wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("car_address[street_type]"))).click();
+ 		 Select st = new Select(driver.findElement(By.name("car_address[street_type]")));
+ 		 sleep(1000);
+ 		 randomNum = rand.nextInt(1) + 1;
+ 		 st.selectByIndex(randomNum);
+         fillName("car_address[street_num]","11");
+         fillName("car_address[building]","A");
+         fillName("car_address[floor]","1");
+         fillName("car_address[door]","1");
+         driver.findElement(By.cssSelector(".mb-3.col.btn.btn-primary")).click(); 
+         Log.log("Bérlés kérelem kitöltve");
+         driver.findElement(By.id("profileMiniImg")).click();
+         clickLinkWithText("Garázs");
+         Log.log("Visszalépés a Garázsba");
+         goToPage(TestBase.url+"/hu/foglalasaim");
+         click("i.fa-trash");
+         click("a[data-apply=\"confirmation\"]");
+         Log.log("Foglalás Sikeresen Törölve");
+         Log.log("Ugrás az autóbérlés modosításhoz");
+         goToPage(carURL);
+         sleep(3000);
+         driver.findElement(By.cssSelector(".fas.fa-pencil-alt")).click();
+         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/main/section[3]/div/div[2]/form/div[3]/div[2]/div[2]/div/label"))).click();
+         click(".switch");
+         driver.findElement(By.id("form-button")).click();
+         sleep(2000);
+         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Vissza az adatlapra')]"))).click();
+         Log.log("Hirdetés levéve");
+
 
 	}
 
