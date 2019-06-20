@@ -1983,7 +1983,7 @@ public class TestBase {
 	}
 
 	private static void submit() {
-		click(".submitBtn");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@type='submit']"))).click();
 	}
 
 	public static void addNewCarEventCompulsoryInsurance() throws IOException, InterruptedException {
@@ -3264,6 +3264,128 @@ public static void addNewCalendarEvent() throws IOException, InterruptedExceptio
 		
 		Log.log("Naptári esemény sikeresen felvive");
 
+	}
+
+public static void gasStation() throws IOException, InterruptedException {
+	
+		driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div[4]/a")).click();
+		sleep(1000);
+		driver.findElement(By.className("sprite-gas-stations")).click();
+		sleep(2000);
+		
+		try {
+			
+			driver.findElement(By.xpath("/html/body/main/section/div[3]/div[2]/div/div[2]/a[1]")).click();
+		
+		}catch(NoSuchElementException e){
+			
+			Log.log("Nem kattintható benzinkút!");
+			driver.close();
+			System.exit(0);
+			
+		}
+		Log.log("Van tölttőállomás az adatbázisban!");
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//button[contains(text(), 'Útvonaltervezés ide')]")).click();
+		Log.log("Útvonaltervezés");
+		sleep(1000);
+		fillName("to", "sas 25");
+		sleep(2000);
+		driver.findElement(By.id("to")).sendKeys(Keys.ARROW_DOWN);
+		sleep(2000);
+		driver.findElement(By.id("to")).sendKeys(Keys.ENTER);
+		sleep(2000);
+		Log.log("Cím választás");
+		driver.findElement(By.cssSelector(".btn.btn-primary.w-100")).click();
+		Log.log("Tervez");
+		sleep(2000);
+		
+		try {
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[3]/img)[1]")));
+			Log.log("'A' pont a térképen");
+			sleep(2000);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[4]/img)[1]")));
+			Log.log("'B' pont a térképen");
+			sleep(2000);
+		
+		}catch(NoSuchElementException e){
+			
+			Log.log("Útvonal tervezés hiba!");
+			driver.close();
+			System.exit(0);
+			
+		}
+		Log.log("Sikeres útvonaltervezés");
+
+		driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div[4]/a")).click();
+		sleep(1000);
+		driver.findElement(By.className("sprite-gas-stations")).click();
+		sleep(2000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("multiselect"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(), 'MOL')]"))).click();
+		sleep(500);
+		Log.log("MOL-ra szűrés");
+		submit();
+		sleep(3000);
+		
+		try {
+			
+			driver.findElement(By.xpath("//a[div[contains(text(), 'MOL')]][1]")).click();
+		
+		}catch(NoSuchElementException e){
+			
+			Log.log("Márka szűrő hiba!");
+			driver.close();
+			System.exit(0);
+			
+		}
+		Log.log("MOL találat");
+		
+		sleep(1000);
+		driver.findElement(By.xpath("//*[contains(text(), 'MOL')]"));
+		driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div[4]/a")).click();
+		sleep(1000);
+		driver.findElement(By.className("sprite-gas-stations")).click();
+		sleep(2000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("multiselect"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(), 'SHELL')]"))).click();
+		sleep(500);
+		Log.log("SHELL-re szűrés");
+		submit();
+		sleep(3000);
+
+		try {
+			
+			try {
+				
+				driver.findElement(By.xpath("//a[div[contains(text(), 'MOL')]][1]")).click();
+				Log.log("Márka szűrő hiba!");
+				driver.close();
+				System.exit(0);
+
+			}catch(NoSuchElementException e){
+				
+				Log.log("Márka szűrő Működik!");
+				
+			}
+			
+			driver.findElement(By.xpath("//a[div[contains(text(), 'SHELL')]][1]")).click();
+		
+		}catch(NoSuchElementException e){
+			
+			Log.log("Márka szűrő hiba!");
+			driver.close();
+			System.exit(0);
+			
+		}
+		Log.log("SHELL találat");
+		
+		sleep(1000);
+		driver.findElement(By.xpath("//*[contains(text(), 'SHELL')]"));
+		Log.log("Sikeres tölttőállomás teszt!");
+	
 	}
 	
 }
