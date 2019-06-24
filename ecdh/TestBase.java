@@ -1573,7 +1573,7 @@ public class TestBase {
 
 	private static void onScreen(String string) throws IOException {
 		wait.until(
-				ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), \"" + string + "\")]")));
+				ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + string + "')]")));
 		System.out.println(string);
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(string));
 		Log.log("Képernyőn: " + string);
@@ -3243,17 +3243,18 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 public static void addNewCalendarEvent() throws IOException, InterruptedException {
 		
 		sleep(1000);
-		driver.findElement(By.xpath("/html/body/main/section[2]/div/div[1]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td/div/div/div[3]/div[2]/table/thead/tr/td[7]")).click();
+		driver.findElement(By.xpath("//*[@id='calendar']//*[contains(text(),'20')]")).click();
 		sleep(1000);
 		Log.log("Nap kiválasztása");
 		clickLinkWithText("Esemény hozzáadása");
 		sleep(1000);
 		int rand = new Random().nextInt(500)+500;
 		fillName("title","Test esemény "+ rand);
-		rand = new Random().nextInt(500)+500;
+		String titleText = "Test esemény "+rand;
 		fillName("description","Test megjegyzés "+ rand);
-		rand = new Random().nextInt(89)+10;
-		fillName("cal_location",""+ rand);
+		String descText = "Test megjegyzés "+rand;
+
+		fillName("cal_location",""+ "repülőtéri út 6");
 		sleep(1000);
 		
 		driver.findElement(By.id("cal_location")).sendKeys(Keys.ARROW_DOWN);
@@ -3263,6 +3264,54 @@ public static void addNewCalendarEvent() throws IOException, InterruptedExceptio
 		driver.findElement(By.cssSelector(".btn.btn-primary.w-100")).click();
 		
 		Log.log("Naptári esemény sikeresen felvive");
+		
+		sleep(1000);
+		driver.findElement(By.xpath("//*[@id='calendar']//*[contains(text(),'20')]")).click();
+		sleep(1000);
+		driver.findElement(By.xpath("//*[contains(text(),'"+titleText+"')]")).click();
+		onScreen(titleText);
+		onScreen("20.");
+		onScreen(descText);
+		onScreen("Budapest, Repülőtéri út 6, Magyarország");
+		Log.log("Ismétlődik?");
+		onScreen("Nem");
+		driver.findElement(By.cssSelector(".text-uppercase.btn.btn-secondary.popup")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("title")));
+		
+		onScreen(titleText);
+		onScreen(descText);
+		onScreen("-20");
+		onScreen("Budapest, Repülőtéri út 6, Magyarország");
+		driver.findElement(By.xpath("//label[contains(text(),'Egész napos')]")).click();
+		rand = new Random().nextInt(500)+500;
+		fillName("title","Test esemény "+ rand);
+		titleText = "Test esemény "+rand;
+		fillName("description","Test megjegyzés "+ rand);
+		descText = "Test megjegyzés "+rand;
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recurring"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recurring-data-interval")));
+		fillName("recurring_data[interval]","30");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recurring-data-frequency"))).click();
+		driver.findElement(By.id("recurring-data-frequency")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("recurring-data-frequency")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("recurring-data-frequency")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("recurring-data-frequency")).sendKeys(Keys.ENTER);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recurring-data-end-condition"))).click();
+		driver.findElement(By.id("recurring-data-end-condition")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("recurring-data-end-condition")).sendKeys(Keys.ENTER);
+		fillName("recurring_data[count]","1");
+		driver.findElement(By.cssSelector(".btn.btn-primary.w-100")).click();
+		onScreen(titleText);
+		onScreen("20.");
+		onScreen(descText);
+		onScreen("Budapest, Repülőtéri út 6, Magyarország");
+		Log.log("Ismétlődik?");
+		onScreen("Igen");
+		
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn.grayBtn.deleteAttachedItem"))).click();
+		Log.log("Esemény törölve!");
+		
 
 	}
 
