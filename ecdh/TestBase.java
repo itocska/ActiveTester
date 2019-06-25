@@ -442,6 +442,117 @@ public class TestBase {
 		Log.log("Siker");
 
 	}
+	
+	public static void AddCarSync()throws IOException, InterruptedException {
+		
+		int rand = new Random().nextInt(500)+500;
+		String randUser = "Felhasználó "+rand;
+		rand = new Random().nextInt(50)+1;
+		int randLimit = rand;
+		
+		try {
+			
+				driver.findElement(By.xpath("(//a[contains(text(), 'Beállít')])[1]")).click();
+				
+				try {
+					
+					Log.log("Adatmezők kitöltése nélküli mentés ellenőrzés...");
+					sleep(2000);
+					driver.findElement(By.id("form-button")).click();
+					sleep(2000);
+					driver.findElement(By.className("error-message"));
+					
+				}catch(NoSuchElementException e) {
+				
+					Log.log("Nem jelenik meg a kötelező mező hibaüzenet!");
+					driver.close();
+					System.exit(0);
+				
+				}
+				
+				Log.log("Adatmezők kitöltése...");
+				sleep(2000);
+				driver.findElement(By.name("username")).sendKeys(randUser);
+				fillName("car_limit",""+randLimit);
+				driver.findElement(By.id("form-button")).click();
+				sleep(2000); 
+				Log.log("Adatmezők kitöltve, szinkron elindítva!");
+		
+			}catch(NoSuchElementException e) {
+
+				Log.log("A szinkron már folyamatban");
+				driver.findElement(By.xpath("(//a[contains(text(), 'Megtekint')])[1]")).click();
+				sleep(2000);
+				clickLinkWithText("Módosítás");
+		      	sleep(2000);
+		      	fillName("username", randUser);
+		    	fillName("car_limit",""+randLimit);
+				driver.findElement(By.id("form-button")).click();
+				sleep(2000);
+				Log.log("Átírva megfogható adatokra");
+
+			}
+		
+				driver.findElement(By.xpath("(//a[contains(text(), 'Megtekint')])[1]")).click();
+				sleep(2000);
+				Log.log("Megtekint ellenőrzése...");
+				
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section/div/div/div/div/div[contains(text(),'"+randLimit+"')]")));
+				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randLimit));
+				Log.log("Képernyőn: " + randLimit);
+					
+				clickLinkWithText("Módosítás");
+				sleep(2000);
+				Log.log("Módosítás ellenőrzése...");
+				
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section//input[@value='" + randUser + "']")));
+				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randUser));
+				Log.log("Képernyőn: " + randUser);
+				
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section//input[@value='" + randLimit + "']")));
+				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randLimit));
+				Log.log("Képernyőn: " + randLimit);
+				
+				rand = new Random().nextInt(500)+500;
+				randUser = "Felhasználó "+rand;
+				rand = new Random().nextInt(50)+1;
+				randLimit = rand;
+				
+				fillName("username", randUser);
+		    	fillName("car_limit",""+randLimit);
+				driver.findElement(By.id("form-button")).click();
+				sleep(2000);
+				Log.log("Adatok módosítva");
+				
+				
+				
+				driver.findElement(By.xpath("(//a[contains(text(), 'Megtekint')])[1]")).click();
+				sleep(2000);
+				Log.log("Szerkesztett megtekint ellenőrzése...");
+				
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section/div/div/div/div/div[contains(text(),'"+randLimit+"')]")));
+				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randLimit));
+				Log.log("Képernyőn: " + randLimit);
+				
+				clickLinkWithText("Módosítás");
+				sleep(2000);
+				Log.log("Szerkesztett módosítás ellenőrzése...");
+				
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section//input[@value='" + randUser + "']")));
+				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randUser));
+				Log.log("Képernyőn: " + randUser);
+				
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section//input[@value='" + randLimit + "']")));
+				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randLimit));
+				Log.log("Képernyőn: " + randLimit);
+				
+				driver.findElement(By.id("form-button")).click();
+				sleep(2000);
+				Log.log("Sikeres teszt");
+				
+				//admin interakció kell majd, ha működő képes, akkor írható tovább a teszt
+
+}
 
 	public static void registerCompany(String string, String email)
 			throws IOException, AWTException, InterruptedException {
@@ -2174,7 +2285,7 @@ public class TestBase {
 	}
 
 	private static void sleep(int i) throws InterruptedException {
-		System.out.println("wait " + i + " millisconds");
+		System.out.println("\t"+"\t"+"wait " + i + " millisconds");
 		Thread.sleep(i);
 
 	}
@@ -2536,6 +2647,11 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		select("car_company_page_menus[1][menu_modul]", "Hírek");
 		submit();
 	}
+
+	
+	
+	
+	
 	
 	public static void CarReviews() throws IOException, InterruptedException {
 		
@@ -3439,5 +3555,5 @@ public static void gasStation() throws IOException, InterruptedException {
 		Log.log("Sikeres tölttőállomás teszt!");
 	
 	}
-	
+
 }
