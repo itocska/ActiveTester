@@ -210,10 +210,12 @@ public class TestBase {
 		print("FOUND: " + driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size());
 		if (driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size() != 0) {
 			driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).clear();
+			driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys(Keys.BACK_SPACE);
 			if (name == "doors") {
 				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).click();
 
 				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).clear();
+				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys(Keys.BACK_SPACE);
 
 				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys("3");
 			} else {
@@ -221,6 +223,7 @@ public class TestBase {
 			}
 		} else {
 			driver.findElement(By.cssSelector("textarea[name=\"" + name + "\"]")).clear();
+			driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys(Keys.BACK_SPACE);
 			driver.findElement(By.cssSelector("textarea[name=\"" + name + "\"]")).sendKeys(text);
 		}
 
