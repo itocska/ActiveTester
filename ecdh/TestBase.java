@@ -3250,91 +3250,213 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 	
 	public static void addNewTire() throws IOException, InterruptedException {
 		
+		goToPage("https://rc.ecdh.hu/hu/sajat-auto/1493");
 		sleep(4000);
 		clickLinkWithText("Új gumi hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("summer_tire_change_month")));
-		int randIndex = new Random().nextInt(3)+1;
+		int randType = new Random().nextInt(3)+1;
 		Select type = new Select(driver.findElement(By.id("type")));
-		type.selectByIndex(randIndex);
+		type.selectByIndex(randType);
+		String typeValue = type.getFirstSelectedOption().getText();
+		Log.log(typeValue);
 		Log.log("Típus választás");
 		
-		fillName("price","200000");
+		int randPrice = new Random().nextInt(50000)+200000;
+		fillName("price",""+randPrice);
 		Log.log("Gumi ára");
 		
-		randIndex = new Random().nextInt(28)+1;
+		int randFacturer = new Random().nextInt(28)+1;
 		Select mufacturer = new Select(driver.findElement(By.id("mufacturer")));
-		mufacturer.selectByIndex(randIndex);
+		mufacturer.selectByIndex(randFacturer);
+		String facturerValue = mufacturer.getFirstSelectedOption().getText();
+		Log.log(facturerValue);
 		Log.log("Márka választás");
 		
 		fillName("item_description","test model");
 		Log.log("Gumi modell");
 		
-		randIndex = new Random().nextInt(2)+1;
+
 		Select number = new Select(driver.findElement(By.id("number")));
-		number.selectByIndex(randIndex);
+		number.selectByIndex(2);
 		Log.log("darabszám választás");
-		int kerekszam = 0;
-		if(randIndex == 1) {
-			kerekszam = 2;
-		}else {
-			kerekszam = 4;
-		}
 		
-		randIndex = new Random().nextInt(2)+1;
+		
+		int randWorn = new Random().nextInt(2)+1;
 		Select worn = new Select(driver.findElement(By.id("worn")));
-		worn.selectByIndex(randIndex);
+		worn.selectByIndex(randWorn);
+		String wornValue = worn.getFirstSelectedOption().getText();
+		Log.log(wornValue);
 		Log.log("állapot választás");
 		
-		randIndex = new Random().nextInt(52)+1;
+		int randDotWeek = new Random().nextInt(52)+1;
 		Select dot_week = new Select(driver.findElement(By.id("dot_week")));
-		dot_week.selectByIndex(randIndex);
+		dot_week.selectByIndex(randDotWeek);
+		String dwValue = dot_week.getFirstSelectedOption().getText();
+		Log.log(dwValue);
 		Log.log("DOT hét");
 		
-		randIndex = new Random().nextInt(30)+1;
+		int randDotYear = new Random().nextInt(30)+1;
 		Select dot_year = new Select(driver.findElement(By.id("dot_year")));
-		dot_year.selectByIndex(randIndex);
+		dot_year.selectByIndex(randDotYear);
+		String dyValue = dot_year.getFirstSelectedOption().getText();
+		Log.log(dyValue);
 		Log.log("Dot év");
 		
-		if(kerekszam == 4) {
-			randIndex = new Random().nextInt(10)+1;
+			int randDepthLeftFront = new Random().nextInt(10)+1;
 			Select thread_depth_1 = new Select(driver.findElement(By.id("thread-depth-1")));
-			thread_depth_1.selectByIndex(randIndex);
+			thread_depth_1.selectByIndex(randDepthLeftFront);
+			String dlfValue = thread_depth_1.getFirstSelectedOption().getText();
+			Log.log(dlfValue);
 			Log.log("Bal első");
 			
-			randIndex = new Random().nextInt(10)+1;
+			int randDepthLeftBack = new Random().nextInt(10)+1;
 			Select thread_depth_2 = new Select(driver.findElement(By.id("thread-depth-2")));
-			thread_depth_2.selectByIndex(randIndex);
+			thread_depth_2.selectByIndex(randDepthLeftBack);
+			String dlbValue = thread_depth_2.getFirstSelectedOption().getText();
+			Log.log(dlbValue);
 			Log.log("Bal hátsó");
 			
-			randIndex = new Random().nextInt(10)+1;
+			int randDepthRightFront = new Random().nextInt(10)+1;
 			Select thread_depth_3 = new Select(driver.findElement(By.id("thread-depth-3")));
-			thread_depth_3.selectByIndex(randIndex);
+			thread_depth_3.selectByIndex(randDepthRightFront);
+			String drfValue = thread_depth_3.getFirstSelectedOption().getText();
+			Log.log(drfValue);
 			Log.log("Jobb első");
 			
-			randIndex = new Random().nextInt(10)+1;
+			int randDepthRightBack = new Random().nextInt(10)+1;
 			Select thread_depth_4 = new Select(driver.findElement(By.id("thread-depth-4")));
-			thread_depth_4.selectByIndex(randIndex);
+			thread_depth_4.selectByIndex(randDepthRightBack);
+			String drbValue = thread_depth_4.getFirstSelectedOption().getText();
+			Log.log(drbValue);
 			Log.log("Jobb hátsó");
 			
-		}else {
-			
-			randIndex = new Random().nextInt(10)+1;
-			Select thread_depth_1 = new Select(driver.findElement(By.id("thread-depth-1")));
-			thread_depth_1.selectByIndex(randIndex);
-			Log.log("Bal első");
-			
-			randIndex = new Random().nextInt(10)+1;
-			Select thread_depth_2 = new Select(driver.findElement(By.id("thread-depth-2")));
-			thread_depth_2.selectByIndex(randIndex);
-			Log.log("Bal hátsó");
-		}
 		
-		randIndex = new Random().nextInt(500)+100;
-		fillName("tire_storage","test text"+randIndex);
+		int randText = new Random().nextInt(500)+100;
+		driver.findElement(By.id("tire-storage")).sendKeys("test text "+randText);
 		Log.log("Tárolás megjegyzés");
 		
 		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
 		Log.log("Gumi sikeresen hozzáadva");
+		sleep(3000);
+		
+		onScreen(typeValue);
+		onScreen(facturerValue);
+		onScreen("4 db");
+		clickLinkWithText(typeValue);
+		sleep(2000);
+		
+		onScreen(typeValue);
+		onScreen(facturerValue);
+		onScreen("test model");
+		onScreen("4");
+		driver.findElement(By.cssSelector(".fas.fa-pencil-alt.circle")).click();
+		sleep(2000);
+		
+		onScreen(typeValue);
+		checkPrice(randPrice," ");
+		onScreen(facturerValue);
+		onScreen("test model");
+		onScreen("4");
+		onScreen(wornValue);
+		onScreen(dwValue);
+		onScreen(dyValue);
+		onScreen(dlfValue);
+		onScreen(dlbValue);
+		onScreen(drfValue);
+		onScreen(drbValue);
+		onScreen("test text "+randText);
+		
+		
+		randType = new Random().nextInt(3)+1;
+		type = new Select(driver.findElement(By.id("type")));
+		type.selectByIndex(randType);
+		typeValue = type.getFirstSelectedOption().getText();
+		Log.log(typeValue);
+		Log.log("Típus választás");
+		
+		randPrice = new Random().nextInt(50000)+200000;
+		fillName("price",""+randPrice);
+		Log.log("Gumi ára");
+		
+		randFacturer = new Random().nextInt(28)+1;
+		mufacturer = new Select(driver.findElement(By.id("mufacturer")));
+		mufacturer.selectByIndex(randFacturer);
+		facturerValue = mufacturer.getFirstSelectedOption().getText();
+		Log.log(facturerValue);
+		Log.log("Márka választás");
+		
+		fillName("item_description","test model");
+		Log.log("Gumi modell");
+		
+		
+		number = new Select(driver.findElement(By.id("number")));
+		number.selectByIndex(1);
+		Log.log("darabszám választás");
+		
+		
+		randWorn = new Random().nextInt(2)+1;
+		worn = new Select(driver.findElement(By.id("worn")));
+		worn.selectByIndex(randWorn);
+		wornValue = worn.getFirstSelectedOption().getText();
+		Log.log(wornValue);
+		Log.log("állapot választás");
+		
+		randDotWeek = new Random().nextInt(52)+1;
+		dot_week = new Select(driver.findElement(By.id("dot_week")));
+		dot_week.selectByIndex(randDotWeek);
+		dwValue = dot_week.getFirstSelectedOption().getText();
+		Log.log(dwValue);
+		Log.log("DOT hét");
+		
+		randDotYear = new Random().nextInt(30)+1;
+		dot_year = new Select(driver.findElement(By.id("dot_year")));
+		dot_year.selectByIndex(randDotYear);
+		dyValue = dot_year.getFirstSelectedOption().getText();
+		Log.log(dyValue);
+		Log.log("Dot év");
+			
+		
+		
+		randDepthLeftFront = new Random().nextInt(10)+1;
+		thread_depth_1 = new Select(driver.findElement(By.id("thread-depth-1")));
+		thread_depth_1.selectByIndex(randDepthLeftFront);
+		dlfValue = thread_depth_1.getFirstSelectedOption().getText();
+		Log.log(dlfValue);
+		Log.log("Bal első");
+		
+		randDepthLeftBack = new Random().nextInt(10)+1;
+		thread_depth_2 = new Select(driver.findElement(By.id("thread-depth-2")));
+		thread_depth_2.selectByIndex(randDepthLeftBack);
+		dlbValue = thread_depth_2.getFirstSelectedOption().getText();
+		Log.log(dlbValue);
+		Log.log("Bal hátsó");
+		
+		
+		randText = new Random().nextInt(500)+100;
+		driver.findElement(By.id("tire-storage")).sendKeys("test text "+randText);
+		Log.log("Tárolás megjegyzés");
+		
+		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		Log.log("Gumi sikeresen módosítva");
+		sleep(3000);
+		
+		onScreen(typeValue);
+		onScreen(facturerValue);
+		onScreen("4 db");
+		clickLinkWithText(typeValue);
+		sleep(2000);
+		
+		onScreen(typeValue);
+		onScreen(facturerValue);
+		onScreen("test model");
+		onScreen("4");
+		
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		driver.findElement(By.cssSelector(".btn.btn-sm.h-100.d-flex.align-items-center.btn-secondary")).click();
+		Log.log("Gumi sikeresen törölve!");
+		
+		
+		
 	}
 	
 	public static void documentStorage() throws IOException, InterruptedException {
