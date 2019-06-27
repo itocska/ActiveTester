@@ -1692,6 +1692,14 @@ public class TestBase {
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(string));
 		Log.log("Képernyőn: " + string);
 	}
+	
+	private static void onScreenValue(String string) throws IOException {
+		wait.until(
+				ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + string + "']")));
+		System.out.println(string);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(string));
+		Log.log("Képernyőn: " + string);
+	}
 
 	public static void test() {
 		driver.get("https://testcenter.vr/selenium-test-surface.php");
@@ -3250,7 +3258,6 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 	
 	public static void addNewTire() throws IOException, InterruptedException {
 		
-		goToPage("https://rc.ecdh.hu/hu/sajat-auto/1493");
 		sleep(4000);
 		clickLinkWithText("Új gumi hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("summer_tire_change_month")));
@@ -3346,20 +3353,38 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		sleep(2000);
 		
 		onScreen(typeValue);
-		onScreen(facturerValue);
+		onScreen(facturerValue + " ");
 		onScreen("test model");
-		onScreen("4");
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='card']//*[contains(text(), '4')]")));
+		System.out.println("4");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("4"));
+		Log.log("Képernyőn: 4");
+		
 		driver.findElement(By.cssSelector(".fas.fa-pencil-alt.circle")).click();
 		sleep(2000);
 		
 		onScreen(typeValue);
-		checkPrice(randPrice," ");
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + randPrice + "']")));
+		System.out.println(randPrice);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randPrice));
+		Log.log("Képernyőn: " + randPrice);
+		
 		onScreen(facturerValue);
-		onScreen("test model");
-		onScreen("4");
+		onScreenValue("test model");
 		onScreen(wornValue);
-		onScreen(dwValue);
-		onScreen(dyValue);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='dot_week']//*[contains(text(), '"+dwValue+"')][1]")));
+		System.out.println(dwValue);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+dwValue));
+		Log.log("Képernyőn: " + dwValue);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='dot_year']//*[contains(text(), '"+dyValue+"')][1]")));
+		System.out.println(dyValue);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+dyValue));
+		Log.log("Képernyőn: " + dyValue);
+		
 		onScreen(dlfValue);
 		onScreen(dlbValue);
 		onScreen(drfValue);
@@ -3414,8 +3439,6 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		dyValue = dot_year.getFirstSelectedOption().getText();
 		Log.log(dyValue);
 		Log.log("Dot év");
-			
-		
 		
 		randDepthLeftFront = new Random().nextInt(10)+1;
 		thread_depth_1 = new Select(driver.findElement(By.id("thread-depth-1")));
@@ -3442,19 +3465,22 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		
 		onScreen(typeValue);
 		onScreen(facturerValue);
-		onScreen("4 db");
+		onScreen("2 db");
 		clickLinkWithText(typeValue);
 		sleep(2000);
 		
 		onScreen(typeValue);
-		onScreen(facturerValue);
+		onScreen(facturerValue + " ");
 		onScreen("test model");
-		onScreen("4");
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='card']//*[contains(text(), '2')]")));
+		System.out.println("2");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("2"));
+		Log.log("Képernyőn: 2");
 		
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		driver.findElement(By.cssSelector(".btn.btn-sm.h-100.d-flex.align-items-center.btn-secondary")).click();
 		Log.log("Gumi sikeresen törölve!");
-		
 		
 		
 	}
