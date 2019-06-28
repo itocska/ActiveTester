@@ -207,24 +207,24 @@ public class TestBase {
 	}
 
 	public static void fillName(String name, String text) throws IOException {
-		print("FOUND: " + driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size());
-		if (driver.findElements(By.cssSelector("input[name=\"" + name + "\"]")).size() != 0) {
-			driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).clear();
-			driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys(Keys.BACK_SPACE);
+		print("FOUND: " + driver.findElements(By.cssSelector("input[name='" + name + "']")).size());
+		if (driver.findElements(By.cssSelector("input[name='" + name + "']")).size() != 0) {
+			driver.findElement(By.cssSelector("input[name='" + name + "']")).clear();
+			driver.findElement(By.cssSelector("input[name='" + name + "']")).sendKeys(Keys.BACK_SPACE);
 			if (name == "doors") {
-				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).click();
+				driver.findElement(By.cssSelector("input[name='" + name + "']")).click();
 
-				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).clear();
-				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys(Keys.BACK_SPACE);
+				driver.findElement(By.cssSelector("input[name='" + name + "']")).clear();
+				driver.findElement(By.cssSelector("input[name='" + name + "']")).sendKeys(Keys.BACK_SPACE);
 
-				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys("3");
+				driver.findElement(By.cssSelector("input[name='" + name + "']")).sendKeys("3");
 			} else {
-				driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys(text);
+				driver.findElement(By.cssSelector("input[name='" + name + "']")).sendKeys(text);
 			}
 		} else {
-			driver.findElement(By.cssSelector("textarea[name=\"" + name + "\"]")).clear();
-			driver.findElement(By.cssSelector("input[name=\"" + name + "\"]")).sendKeys(Keys.BACK_SPACE);
-			driver.findElement(By.cssSelector("textarea[name=\"" + name + "\"]")).sendKeys(text);
+			driver.findElement(By.cssSelector("textarea[name='" + name + "']")).clear();
+			driver.findElement(By.cssSelector("textarea[name='" + name + "']")).sendKeys(Keys.BACK_SPACE);
+			driver.findElement(By.cssSelector("textarea[name='" + name + "']")).sendKeys(text);
 		}
 
 		Log.log(name + " field filled with: " + text);
