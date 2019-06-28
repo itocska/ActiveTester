@@ -2226,14 +2226,14 @@ public class TestBase {
 	}
 
 	public static void checkPrice(int num, String delimiter) throws IOException {
-		String pattern = "###,###";
+		String pattern = "###,###,###";
 		DecimalFormat format = new DecimalFormat(pattern);
 		String stringPrice = format.format(num);
 		String commaStringPrice = stringPrice.replaceAll("[^0-9]", delimiter);
 		String[] parts = commaStringPrice.split(delimiter);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("//*[contains(text(), \"" + parts[0] + "\") and contains(text(), \"" + parts[1] + "\")]")));
-		Log.log("Képernyőn: " + parts[0] + " " + parts[1]);
+				By.xpath("//*[contains(text(), '" + parts[0] + "') and contains(text(), '" + parts[1] + "') and contains(text(), '" + parts[2] + "')]")));
+		Log.log("Képernyőn: " + parts[0] + " " + parts[1] + " " + parts[2]);
 	}
 
 	public static void addNewCarEventGapInsurance() throws IOException, InterruptedException {
@@ -4100,5 +4100,6 @@ public static void companySearch() throws IOException, InterruptedException {
 	onScreen(tevKorValue);
 	
 	}
+
 
 }
