@@ -3983,4 +3983,122 @@ public static void gasStation() throws IOException, InterruptedException {
 	
 	}
 
+public static void companySearch() throws IOException, InterruptedException {
+
+	String firstResult ="TestText";
+	clickLinkWithText("Cégkereső");
+	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+	
+	try {
+		
+	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//section//span/a)[1]")));
+	
+	}catch(NoSuchElementException e) {
+		
+		Log.log("Nincs cég az oldalon!");
+		driver.close();
+		System.exit(0);
+		
+	}
+	
+	String firstCompany = driver.findElement(By.xpath("(//section//span/a)[1]")).getText();
+	String secondCompany = driver.findElement(By.xpath("(//section//span/a)[2]")).getText();
+	
+	fillName("name",firstCompany);
+	submit();
+	sleep(3000);
+	
+	try {
+		
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//section//span/a)[1]")));
+			String record1 = driver.findElement(By.xpath("(//section//span/a)[1]")).getText();
+			
+			if(firstCompany.equals(record1)) {
+				
+				Log.log("Név szerinti kereső teszt1: jó");
+				
+			}else {
+				
+				Log.log("Név szerinti kereső teszt1: HIBA!");
+				driver.close();
+				System.exit(0);
+				
+			}
+		
+		}catch(NoSuchElementException e) {
+			
+			Log.log("Kereső nem ad találatokat!");
+			driver.close();
+			System.exit(0);
+			
+		}
+	
+
+	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+	fillName("name",secondCompany);
+	submit();
+	sleep(3000);
+
+	try {
+		
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//section//span/a)[1]")));
+			String record2 = driver.findElement(By.xpath("(//section//span/a)[1]")).getText();
+			
+			if(secondCompany.equals(record2)) {
+				
+				Log.log("Név szerinti kereső teszt2: jó");
+				
+			}else {
+				
+				Log.log("Név szerinti kereső teszt2: HIBA!");
+				driver.close();
+				System.exit(0);
+				
+			}
+		
+		}catch(NoSuchElementException e) {
+			
+			Log.log("Kereső nem ad találatokat!");
+			driver.close();
+			System.exit(0);
+			
+		}
+	
+	clickLinkWithText("Cégkereső");
+	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+	driver.findElement(By.id("profiles")).click();
+	sleep(2000);
+	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
+	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
+	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
+	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
+	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
+	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
+	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
+	sleep(1000);
+	driver.findElement(By.id("profiles")).sendKeys(Keys.ENTER);
+	sleep(1000);
+	Select tevKor = new Select(driver.findElement(By.id("profiles")));
+	String tevKorValue = tevKor.getFirstSelectedOption().getText();
+	submit();
+	sleep(5000);
+	
+	try {
+		
+		firstResult = driver.findElement(By.xpath("(//section//span/a)[1]")).getText();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(),'Tovább az adatlapra')])[1]"))).click();
+	
+	}catch(NoSuchElementException e) {
+		
+		Log.log("Kereső nem ad találatokat!");
+		driver.close();
+		System.exit(0);
+		
+	}
+	
+	onScreen(firstResult);
+	onScreen(tevKorValue);
+	
+	}
+
 }
