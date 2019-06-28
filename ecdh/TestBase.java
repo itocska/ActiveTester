@@ -4101,5 +4101,67 @@ public static void companySearch() throws IOException, InterruptedException {
 	
 	}
 
+public static void companyRate() throws IOException, InterruptedException {
+
+	clickLinkWithText("Cégkereső");
+	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+	Boolean goodFilter = false;
+	Select profileSelect = new Select(driver.findElement(By.id("profiles")));
+	
+	while(goodFilter = true) {
+		
+		int currentIndex = 1;
+		profileSelect.selectByIndex(currentIndex);
+		String currentProfile = profileSelect.getFirstSelectedOption().getText();
+		submit();
+		sleep(2000);
+		
+		try{
+			
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//section//span/a)[1]")));
+				clickLinkWithText("Tovább az adatlapra");
+				goodFilter = true;
+				
+			}catch(NoSuchElementException e) {
+				
+				Log.log("Nincs találat erre a tevékenységi körre: "+currentProfile);
+				currentIndex++;
+				
+			}
+		
+	}
+	
+	sleep(4000);
+	clickLinkWithText("részletes értékelés");
+	sleep(1000);
+	driver.findElement(By.xpath("//div[3]/div[1]/div/div/div/div[2]/span[2]/span[1]/i")).click();
+	sleep(1000);
+	driver.findElement(By.xpath("//div[3]/div[2]/div/div/div/div[2]/span[2]/span[2]/i")).click();
+	sleep(1000);
+	driver.findElement(By.xpath("//div[3]/div[3]/div/div/div/div[2]/span[2]/span[3]/i")).click();
+	sleep(1000);
+	driver.findElement(By.xpath("//div[3]/div[4]/div/div/div/div[2]/span[2]/span[4]/i")).click();
+	sleep(1000);
+	driver.findElement(By.xpath("//div[3]/div[5]/div/div/div/div[2]/span[2]/span[5]/i")).click();
+	sleep(1000);
+	int rateTextNum = new Random().nextInt(500)+100;
+	fillName("car_company_ratings[1][text_rate]","Teszt értékelő szöveg "+rateTextNum);
+	submit();
+	sleep(1000);
+	
+	try{
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'row mt-2')]//span[contains(@style,'width: 60%')]")));
+			Log.log("Értékelés összegző helyes eredmény");
+			
+		}catch(NoSuchElementException e) {
+			
+			Log.log("Értékelés összegző hiba!");
+			driver.close();
+			System.exit(0);
+			
+		}
+	
+	}
 
 }
