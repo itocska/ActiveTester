@@ -430,19 +430,6 @@ public class TestBase {
 		actions.moveToElement(parent, 5, 5).click().build().perform();
 		Log.log("Accept rules");
 
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + personalUser + "']")));
-		System.out.println(personalUser);
-		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(personalUser));
-		Log.log("Képernyőn: " + personalUser);
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + "HU" + "']")));
-		System.out.println("Magyarország");
-		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("HU"));
-		Log.log("Képernyőn: " + "Magyarország");
-		
-		
-		
 		submit();
 		sleep(2000);
 		Log.log("Tovább a fizetéshez");
@@ -2272,14 +2259,14 @@ public class TestBase {
 	}
 
 	public static void checkPrice(int num, String delimiter) throws IOException {
-		String pattern = "###,###";
+		String pattern = "###,###,###";
 		DecimalFormat format = new DecimalFormat(pattern);
 		String stringPrice = format.format(num);
 		String commaStringPrice = stringPrice.replaceAll("[^0-9]", delimiter);
 		String[] parts = commaStringPrice.split(delimiter);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("//*[contains(text(), '" + parts[0] + "') and contains(text(), '" + parts[1] + "')]")));
-		Log.log("Képernyőn: " + parts[0] + " " + parts[1]);
+				By.xpath("//*[contains(text(), '" + parts[0] + "') and contains(text(), '" + parts[1] + "') and contains(text(), '" + parts[2] + "')]")));
+		Log.log("Képernyőn: " + parts[0] + " " + parts[1] + " " + parts[2]);
 	}
 
 	public static void addNewCarEventGapInsurance() throws IOException, InterruptedException {
@@ -2763,7 +2750,7 @@ public class TestBase {
  	    checkPrice(randomNum1, " ");
  		checkPrice(randomNum2, " ");
  		checkPrice(randomNum3, " ");
- 		checkPrice(randomNum4, " ");  
+ 		checkPrice(randomNum4, " ");
  	    onScreen("8.5");
  	    rentURLfromrp = driver.getCurrentUrl();
  	    Log.log("Az autó szerepel a Bérautó listában");
