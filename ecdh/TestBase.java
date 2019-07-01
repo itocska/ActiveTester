@@ -4197,4 +4197,6 @@ public static void companyRate() throws IOException, InterruptedException {
 	
 	}
 
+	
+
 }
