@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -995,7 +996,7 @@ public class TestBase {
 	}
 
 	public static void setCarForSale() throws IOException, InterruptedException {
-		
+        
 		String carURL = driver.getCurrentUrl();
 		
 		Random rand = new Random();
@@ -1004,13 +1005,34 @@ public class TestBase {
 		click(".switch");
 		sleep(1000);
 		fillName("sell_price", ""+randomprice);
-		randomprice = randomprice + 10000000;
 		sleep(1000);
-		fillName("sell_description", getRandomText(40));
+		driver.findElement(By.name("sell_description")).clear();
+		String randomText = UUID.randomUUID().toString();
+		fillName("sell_description", randomText);
+		
+	
 		sleep(1000);
-		Random rand2 = new Random();
+		rand = new Random();
 		int randomzip = rand.nextInt(89) + 10;
+        
+		while(13<= randomzip && randomzip <=19) {randomzip = rand.nextInt(89) + 10;}
+		
+        fillName("loc_zip_id_ac",""+randomzip);
+		
+		try {
+			driver.findElement(By.cssSelector(".ui-menu-item")).click();
+		}catch(NoSuchElementException e){
+			
+			randomzip=rand.nextInt(89)+10;
+			while(13<= randomzip && randomzip <=19) {randomzip = rand.nextInt(89) + 10;}
+			fillName("loc_zip_id_ac",""+randomzip);
+			click(".ui-menu-item");
+			
+		}
+		
+		
 		fillName("loc_zip_id_ac", ""+randomzip);
+		
 		sleep(1000);
 		click("#ui-id-1");
 		sleep(1000);
@@ -1020,6 +1042,13 @@ public class TestBase {
 		sleep(1000);
 		driver.findElement(By.id("save-and-back")).click();
 		checkPrice(randomprice, " ");
+		driver.findElement(By.cssSelector(".fas.fa-eye")).click();
+		checkPrice(randomprice, " ");
+		onScreen(randomText);
+		WebElement nameText = driver.findElement(By.className("name"));
+		String nametextValue = nameText.getText();
+		onScreen(""+nametextValue);
+		sleep(10000);
 		Log.log("Autó sikeresen meghirdetve");
 		clickLinkWithText("Használt autó hirdetések");
 		Log.log("Használt Autó kereső");
@@ -1027,18 +1056,22 @@ public class TestBase {
 		Log.log("Részletes Kereső Kiválasztva");
 		fillName("pricefrom",""+randomprice);
 		fillName("priceto",""+randomprice);
+		fillName("loc_zip_id_ac",""+randomzip);
 		Log.log("Ár megadva");
+		Log.log("IRSZ megadva!");
 		driver.findElement(By.id("form-button")).click();
 		Log.log("Találatok Megjelenítése");
 		driver.findElement(By.className("price")).click();
+		checkPrice(randomprice, " ");
+		onScreen(randomText);
+		onScreen("");
 		Log.log("Az autó szerepel a Használt Autó hírdetések között!");
 		goToPage(carURL);
 		sleep(3000);
 		driver.findElement(By.cssSelector(".fas.fa-pencil-alt")).click();
 		click(".switch");
-		driver.findElement(By.id("save-and-back")).click();
+		clickLinkWithText("Vissza az adatlapra");
 		Log.log("Hirdetés levéve");
-
 
 	}
 
