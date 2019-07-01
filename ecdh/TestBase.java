@@ -429,6 +429,17 @@ public class TestBase {
 		parent = myElement.findElement(By.xpath(".."));
 		actions.moveToElement(parent, 5, 5).click().build().perform();
 		Log.log("Accept rules");
+		
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + personalUser + "']")));
+		System.out.println(personalUser);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(personalUser));
+		Log.log("Képernyőn: " + personalUser);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + "HU" + "']")));
+		System.out.println("Magyarország");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("HU"));
+		Log.log("Képernyőn: " + "Magyarország");
 
 		submit();
 		sleep(2000);
@@ -1662,9 +1673,9 @@ public class TestBase {
 
 	private static void clickLinkWithText(String string) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-				"//a[not(contains(@class,'d-sm-none'))]/descendant-or-self::*[contains(text(),\"" + string + "\")]")));
+				"//a[not(contains(@class,'d-sm-none'))]/descendant-or-self::*[contains(text(),'" + string + "')]")));
 		driver.findElement(By.xpath(
-				"//a[not(contains(@class,'d-sm-none'))]/descendant-or-self::*[contains(text(),\"" + string + "\")]"))
+				"//a[not(contains(@class,'d-sm-none'))]/descendant-or-self::*[contains(text(),'" + string + "')]"))
 				.click();
 	}
 
@@ -2259,14 +2270,14 @@ public class TestBase {
 	}
 
 	public static void checkPrice(int num, String delimiter) throws IOException {
-		String pattern = "###,###,###";
+		String pattern = "###,###";
 		DecimalFormat format = new DecimalFormat(pattern);
 		String stringPrice = format.format(num);
 		String commaStringPrice = stringPrice.replaceAll("[^0-9]", delimiter);
 		String[] parts = commaStringPrice.split(delimiter);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("//*[contains(text(), '" + parts[0] + "') and contains(text(), '" + parts[1] + "') and contains(text(), '" + parts[2] + "')]")));
-		Log.log("Képernyőn: " + parts[0] + " " + parts[1] + " " + parts[2]);
+				By.xpath("//*[contains(text(), '" + parts[0] + "') and contains(text(), '" + parts[1] + "')]")));
+		Log.log("Képernyőn: " + parts[0] + " " + parts[1]);
 	}
 
 	public static void addNewCarEventGapInsurance() throws IOException, InterruptedException {
@@ -4197,6 +4208,5 @@ public static void companyRate() throws IOException, InterruptedException {
 	
 	}
 
-	
 
 }
