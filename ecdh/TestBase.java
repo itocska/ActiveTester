@@ -4260,6 +4260,88 @@ public static void companyRate() throws IOException, InterruptedException {
 		}
 	
 	}
-
+public static void documentGenerator() throws IOException, InterruptedException {
+	
+	clickLinkWithText("Dokumentum generáló");
+	sleep(3000);
+	clickLinkWithText("Vétel");
+	sleep(2000);
+	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: Autó')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: Kellék')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: Vételár')])[2]")).click();
+	driver.findElement(By.xpath("//label[contains(text(),'Bizományból kiadás')]")).click();
+	driver.findElement(By.xpath("//label[contains(text(),'Bizományosi szerződés')]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Foglaló')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Meghatalmazás: Átírás')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Meghatalmazás: Műszaki vizsga')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Meghatalmazás: Regisztrációs adó')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: átírási ktg')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Adásvételi szerződés')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Állapotlap')])[2]")).click();
+	submit();
+	sleep(3000);
+	Log.log("Minden vétel dokumentum kitöltése");
+	
+	String plateNum = driver.findElement(By.id("car-plate-number")).getAttribute("value");
+	String carVin = driver.findElement(By.id("car-vin")).getAttribute("value");
+	
+	int randKeys = new Random().nextInt(5)+1;
+	fillName("car_keys",""+randKeys);
+	int randKomment = new Random().nextInt(500)+1;
+	fillName("note","Teszt megjegyzés "+randKomment);
+	clickLinkWithText("Partner Kiválasztása");
+	sleep(2000);
+	clickLinkWithText("Új partner felvétele");
+	sleep(2000);
+	
+	Log.log("Partner felvétel...");
+	fillName("last_name","TesztCsalád");
+	fillName("first_name","TesztVezeték");
+	fillName("personal_ident","123456AB");
+	fillName("mothers_name","Partner Anyu");
+	fillName("birth_date","1956-03-11");
+	fillName("birth_place","Budapest");
+	fillName("nationality","Magyar");
+	fillName("email","test@email.com");
+	fillName("phone","12345678");
+	fillName("car_address[loc_zip_id_ac]","1052");
+	sleep(1000);
+	driver.findElement(By.id("car-address-loc-zip-id")).sendKeys(Keys.ENTER);
+	sleep(1000);
+	fillName("car_address[street]","Sas");
+	driver.findElement(By.id("car-address-street-type")).click();
+	sleep(1000);
+	driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ARROW_DOWN);
+	sleep(1000);
+	driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ENTER);
+	sleep(1000);
+	fillName("car_address[street_num]","25");
+	fillName("car_address[building]","A");
+	fillName("car_address[floor]","2");
+	fillName("car_address[door]","204");
+	driver.findElement(By.xpath("//section//button[@type='submit']")).click();
+	sleep(2000);
+	
+	String sellerName = driver.findElement(By.id("partner1-name")).getAttribute("value");
+	String taxNum = driver.findElement(By.id("partner1-tax-no")).getAttribute("value");
+	String regNum = driver.findElement(By.id("partner1-reg-no")).getAttribute("value");
+	String address = driver.findElement(By.id("partner1-address")).getAttribute("value");
+	
+	fillName("sign_city_id_ac","Budapest");
+	sleep(1000);
+	driver.findElement(By.id("sign-city-id")).sendKeys(Keys.ENTER);
+	sleep(1000);
+	driver.findElement(By.id("sign-date")).click();
+	driver.findElement(By.xpath("//form/div[4]/div[1]")).click();
+	
+	fillName("witness1_name","Tanú 1");
+	fillName("witness1_personal_ident","234567CD");
+	fillName("witness1_address","Repülőtéri út 6/a");
+	fillName("witness2_name","Tanú 2");
+	fillName("witness2_personal_ident","345678EF");
+	fillName("witness2_address","Igazából ez bármi lehet");
+	submit();
+	
+	}
 
 }
