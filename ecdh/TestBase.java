@@ -1,4 +1,4 @@
-package ecdh;
+﻿package ecdh;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -4144,6 +4144,59 @@ public static void companySearch() throws IOException, InterruptedException {
 	onScreen(tevKorValue);
 	
 	}
+
+
+    public static void CarTransmission() throws IOException, InterruptedException {
+	
+	
+	String carPot = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body[@class='ecdh']/main[@class='car-view']/section[@class='content']/div[@class='container my-car']/div[@class='row tabs']/div[@class='col-md-6 col-lg-4']/div[@class='d-none d-sm-block']/div[@class='data-sheet clearfix'][1]/div[@class='half-box'][2]/dd"))).getText();
+	String make = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body[@class='ecdh']/main[@class='car-view']/section[@class='content']/div[@class='container my-car']/div[@class='row tabs']/div[@class='col-md-6 col-lg-4']/div[@class='d-none d-sm-block']/div[@class='data-sheet clearfix'][4]/div[@class='half-box'][1]/dd"))).getText();
+	String Cm3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body[@class='ecdh']/main[@class='car-view']/section[@class='content']/div[@class='container my-car']/div[@class='row tabs']/div[@class='col-md-6 col-lg-4']/div[@class='d-none d-sm-block']/div[@class='data-sheet clearfix'][3]/div[@class='half-box'][2]/dd"))).getText();
+	String km = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body[@class='ecdh']/main[@class='car-view']/section[@class='content']/div[@class='container my-car']/div[@class='row tabs']/div[@class='tab-content col-md-6 col-lg-8']/div[@id='data']/div[@class='row']/div[@class='col-xl-5 order-0 order-sm-1 my-3 my-lg-0']/div[@class='side-data-actions']/dd[4]/a[@class='d-block mb-2']"))).getText();
+	sleep(2000);
+	Log.log("Autó Átadás elindítása!");
+	clickLinkWithText("Autóm eladása");
+	fillName("buyer_email",companyUser);
+	submit();
+	
+	sleep(2000);
+	
+	goToPage(url+"/hu/eladas-kerelmek-atadasok");
+	String carName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body[@class='ecdh ']/main[@class='add-advert']/div[@class='container']/div[@class='card']/div[@class='row list-item'][1]/div[@class='col col-md-8 col-lg-12']/div[@class='row align-items-center']/div[@class='col-12 col-sm-6 col-lg'][1]/a"))).getText();
+	driver.findElement(By.id("userMenu")).click();
+	clickLinkWithText("Kijelentkezés");
+	Log.log("Kijelentkezés!");
+	sleep(2000);
+	Log.log("Bejelentkezés!");
+	TestBase.login(TestBase.companyUser, TestBase.companyPassword);
+	click(".fas.fa-bell");
+	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+	"/html/body[@class='ecdh']/header/div[@class='container']/div[@class='row']/div[@class='user-menu col-8 col-md-6 text-right']/div[@id='notificationMenu']/div[@class='dropdown-menu dropdown-menu-right show']/a[@class='new'][1]/span[@class='notification-title']"))).click();
+	onScreen(carName);
+	Log.log("Autó Átvétel Elfogadása!");
+	click(".fa.fa-check.circle");
+	click(".btn-secondary");
+	
+	sleep(2000);
+	
+	goToPage(url+"/hu/garazs");
+	driver.findElement(By.cssSelector(".overflow-hidden")).click();
+	
+	sleep(2000);
+	
+	
+	Log.log("Autó Adatainak ellenőrzése!");
+	onScreen(carPot);    
+	onScreen(Cm3);
+	onScreen(km);
+	click(".fas.fa-long-arrow-alt-left");
+	Log.log("Sikeres Autó Átvétel!");
+
+}
+
+
+
+
 
 public static void companyRate() throws IOException, InterruptedException {
 
