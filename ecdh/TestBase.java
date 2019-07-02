@@ -2853,7 +2853,8 @@ public class TestBase {
 	}
 
 	public static void buildCompanyPage() throws IOException, InterruptedException {
-goToPage(url+"/hu/ceg-oldal-szerkesztes");
+      
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		
 		
 		if (driver.findElements(By.xpath("//a/descendant-or-self::*[contains(text(),\"kattintson ide cégoldala létrehozásához\")]")).size() != 0) {
@@ -2863,14 +2864,19 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		clickLinkWithText("Fejléc szerkesztése");
 		Log.log("Fejléc szerkesztése"); 	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"logo_text\"]")));
-		fillName("logo_text", getRandomText(5));
+		int rand = new Random().nextInt(500)+500;
+		String logoText = "Logo TExt "+rand;
+		fillName("logo_text",logoText);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"logo_slogan\"]")));
-		fillName("logo_slogan", getRandomText(5));
+		rand = new Random().nextInt(500)+600;
+		String logoSlogen = "Logo Slogan "+rand;
+		fillName("logo_slogan",logoSlogen);
 		sleep(2000);  
 		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
 		Log.log("Fejléc mentése"); 
 		sleep(2000);
-		
+		onScreen(logoText);
+		onScreen(logoSlogen);
 		
 		clickLinkWithText("Menü szerkesztése");
 		Log.log("Menü szerkesztése");
@@ -2886,41 +2892,58 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 			sleep(1000);
 			Log.log("3 elem hozzáadása"); 
 			
-			Random rand = new Random();
+			rand = new Random().nextInt(10);
 			
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name=\"car_company_page_menus[2][title]\"]")));
-			fillName("car_company_page_menus[0][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			 String firstMenu = "Elso menu"+rand;
+			fillName("car_company_page_menus[0][title]", firstMenu);
 			randomSelect("car_company_page_menus[0][menu_modul]");
 			
-			fillName("car_company_page_menus[1][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			 String secondMenu = "Masodik menu"+rand;
+			fillName("car_company_page_menus[1][title]", secondMenu);
 			randomSelect("car_company_page_menus[1][menu_modul]");
 			
-			fillName("car_company_page_menus[2][title]", getRandomText(4).substring(0, 1 + rand.nextInt(10)));
+			String thirdMenu = "Harmadik menu"+rand;
+			fillName("car_company_page_menus[2][title]", thirdMenu);
 			randomSelect("car_company_page_menus[2][menu_modul]");
 			Log.log("3 elem részletezés"); 
-			
+
 			driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
 			Log.log("Menü mentése");  
-			 
+		    onScreen(firstMenu);
+		    onScreen(secondMenu);
+		    onScreen(thirdMenu);
+			
+			
 			}else {
 				
 				Log.log("Már ki van töltve"); 
+				sleep(2000);
+				driver.findElement(By.xpath("html/body/div/div/div/div/form/div/div/div/div")).click();
 				
 			}
 
-		sleep(1000);  
+		
+		
+		sleep(2000);
 		driver.findElement(By.xpath("/html/body/main/div/div/div[3]/h4/a")).click();
 		Log.log("Bemutatkozás szerkesztése"); 
 		sleep(2000);
-		fillName("about_us_title",getRandomText(5));
-		fillName("about_us",getRandomText(20));
+		rand = new Random().nextInt(30);
+		String aboutUstitle = "AboutUs"+rand;
+		fillName("about_us_title",aboutUstitle);
+		String aboutUs = "AboutUs"+rand;
+		fillName("about_us",aboutUs);
 		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
 		Log.log("Bemutatkozás mentve");
 		sleep(2000);
 		
 		clickLinkWithText("új oldal hozzáadása");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/div/div/form//div/div/div/div/div/input"))).sendKeys("Teszt cím");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content_ifr"))).sendKeys(getRandomText(60));
+		rand = new Random().nextInt(30);
+		String Title = "Title Example"+rand;
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/div/div/form//div/div/div/div/div/input"))).sendKeys(Title);
+		String ContentIfr = "Ez egy Példa tartalom :)"+rand;
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content_ifr"))).sendKeys(ContentIfr);
 		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();	
 		sleep(3000);
 		goToPage(url+"/hu/ceg-oldal-szerkesztes");
@@ -2937,49 +2960,40 @@ goToPage(url+"/hu/ceg-oldal-szerkesztes");
 		orszag.selectByVisibleText("Magyarország");
 		fillName("phone","701234567");
 		fillName("email", "kovacs@jozsef.hu");
-		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		driver.findElement(By.xpath("html/body/div/div/div/div/form/div/button")).click();
 		sleep(3000);
 		Log.log("munkatárs mentve");
+		onScreen("Józsi");
+		onScreen("R1");
+		onScreen("kovacs@jozsef.hu");
+
+		driver.findElement(By.cssSelector(".fas.fa-edit.circle")).click();
+		sleep(2000);
+		driver.findElement(By.name("name")).clear();
+		fillName("name", "Béla");
+		driver.findElement(By.name("titulus")).clear();
+		fillName("titulus", "R2");
+		driver.findElement(By.name("phone")).clear();
+		orszag = new Select(driver.findElement(By.name("phone_country")));
+		orszag.selectByVisibleText("Románia");
+		fillName("phone","709876543");
+		fillName("email", "kovacs@bela.hu");
 		
-		companyPageNewArticle();
-		companyPageNewArticle();
-		companyPageNewArticle();
-		companyPageNewArticle();
-
-		CompanyWebpage();
-
-	}
-
-	public static String companyPageNewArticle() throws IOException, InterruptedException {
-		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("//a/descendant-or-self::*[contains(text(),\"új hír hozzáadása\")]")));
-		clickLinkWithText("új hír hozzáadása");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("textarea[name=\"lead\"]")));
-		String title = getRandomText(5);
-		fillName("title", title);
-		fillName("lead", getRandomText(10));
-		fillName("content", getRandomText(50));
-		submit();
-		sleep(4000);
-		Log.log("Céges oldal hír beküldve: " + title);
-		return title;  
-
-	}
-
-	public static void CompanyWebpage() throws IOException, InterruptedException {
-		goToPage(url + "/hu/ceg-oldal-szerkesztes");
-		clickLinkWithText("Menü szerkesztése");
-		sleep(6000);
-		driver.findElement(By.id("car-company-page-menus-add")).click();
-		fillName("car_company_page_menus[0][title]", "Rólunk");
-		select("car_company_page_menus[0][menu_modul]", "Nyitó oldal");
-		driver.findElement(By.id("car-company-page-menus-add")).click();
-		fillName("car_company_page_menus[1][title]", "Híreink");
-		select("car_company_page_menus[1][menu_modul]", "Hírek");
-		submit();
-	}
-
+		driver.findElement(By.xpath("html/body/div/div/div/div/form/div/button")).click();
+		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		onScreen(logoText);
+		onScreen(logoSlogen);
+		onScreen(aboutUs);
+		onScreen(aboutUstitle);
+		onScreen(Title);
+		onScreen("Béla");
+		onScreen("R2");
+		onScreen("kovacs@bela.hu");
 	
+
+	}
+
+
 	
 	
 	
