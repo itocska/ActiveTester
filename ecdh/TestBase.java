@@ -1704,6 +1704,12 @@ public class TestBase {
 		driver.findElement(By.cssSelector("input[name='loc_zip_id_ac']")).sendKeys("1016");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), \"1016\")]")));
 		driver.findElement(By.xpath("//a[contains(text(), \"1016\")]")).click();
+		driver.findElement(By.id("end-date")).click();
+		sleep(1000);
+		driver.findElement(By.id("end-date")).sendKeys(Keys.ARROW_RIGHT);
+		driver.findElement(By.id("end-date")).sendKeys(Keys.ARROW_RIGHT);
+		driver.findElement(By.id("end-date")).sendKeys(Keys.ARROW_RIGHT);
+		driver.findElement(By.id("end-date")).sendKeys(Keys.ENTER);
 		driver.findElement(By.className("submitBtn")).click();
 
 		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),
