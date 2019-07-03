@@ -362,7 +362,8 @@ public class TestBase {
 		Select orszag = new Select(driver.findElement(By.name("phone_country")));
 		orszag.selectByVisibleText("Magyarország");
 		fillName("phone", "709874512");
-
+		String randNumTax = "";
+		String randNumReg = "";
 		Select cusType = new Select(driver.findElement(By.name("customer_type")));
 		Random rand = new Random();
 		Integer randomNumif = rand.nextInt(2);
@@ -384,7 +385,8 @@ public class TestBase {
 
 		{
 
-			cusType.selectByVisibleText("céges");
+			 cusType.selectByVisibleText("céges");
+			 
 			driver.findElement(By.cssSelector("input[name='invoice[loc_zip_id_ac]']")).sendKeys("1112");
 			sleep(2000);
 			driver.findElement(By.cssSelector(".ui-menu-item:first-child")).click();
@@ -392,8 +394,6 @@ public class TestBase {
 			fillName("company_name", "TesztCég" + cegRnd);
 
 			Random rand2 = new Random();
-			String randNumTax = "";
-			String randNumReg = "";
 			for (int i = 0; i < 11; i++) {
 				Integer randomNumTax = rand2.nextInt((9) + 1);
 				randNumTax = randNumTax + String.valueOf(randomNumTax);
@@ -407,8 +407,7 @@ public class TestBase {
 			}
 			fillName("reg_no", randNumReg);
 			Log.log("Cégjegyzékszám kitöltés");
-
-			fillName("invoice[street]", "Repülőtéri ");
+			fillName("invoice[street]", "Repülőtéri");
 			Select streetType = new Select(driver.findElement(By.name("invoice[street_type]")));
 			streetType.selectByVisibleText("út");
 			fillName("invoice[street_num]", "6");
@@ -440,6 +439,83 @@ public class TestBase {
 		System.out.println("Magyarország");
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("HU"));
 		Log.log("Képernyőn: " + "Magyarország");
+
+		
+	
+		
+		try{
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + "1" + "']")));
+			System.out.println("magánszemély");
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("magánszemély"));
+			Log.log("Képernyőn: " + "magánszemély");
+		 
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='invoice-street']")));
+			System.out.println("Repülőtéri");
+			Log.log("Képernyőn: " + "Repülőtéri");
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='invoice-street-type']")));
+			System.out.println("út");
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("út"));
+			Log.log("Képernyőn: " + "út");
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='invoice-loc-zip-id']")));
+			System.out.println("1112");
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("1112"));
+			Log.log("Képernyőn: " + "1112");
+	
+			onScreenValue("6");
+			
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='invoice-building']")));
+			System.out.println("A");
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("A"));
+			Log.log("Képernyőn: " + "A");
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email']")));
+			System.out.println("adokmate0916@gmail.com");
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("adokmate0916@gmail.com"));
+			Log.log("Képernyőn: " + "adokmate0916@gmail.com");
+		}
+		
+			
+		catch(NoSuchElementException e)	{
+		
+			
+			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section//input[@value='" + "2" + "']")));
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("céges"));
+			Log.log("Képernyőn: " + "céges");
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='invoice-street']")));
+			System.out.println("Repülőtéri");
+			Log.log("Képernyőn: " + "Repülőtéri");
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='invoice-street-type']")));
+			System.out.println("út");
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("út"));
+			Log.log("Képernyőn: " + "út");
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='invoice-loc-zip-id']")));
+			System.out.println("1112");
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("1112"));
+			Log.log("Képernyőn: " + "1112");
+			
+			onScreenValue("TesztCég");
+			onScreenValue(randNumReg);
+			onScreenValue(randNumTax);
+			onScreenValue("6");
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email']")));
+			System.out.println("adokmate0916@gmail.com");
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("adokmate0916@gmail.com"));
+			Log.log("Képernyőn: " + "adokmate0916@gmail.com");
+			
+		
+		}
+			
+		
+		
+	
 
 		submit();
 		sleep(2000);
@@ -2695,6 +2771,7 @@ public class TestBase {
 		checkField("ident", ident);
 		checkField("price", "" + price);
 		checkField("period", period);
+	
 
 		submit();
 

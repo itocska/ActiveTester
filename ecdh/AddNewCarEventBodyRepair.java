@@ -11,7 +11,6 @@ public class AddNewCarEventBodyRepair {
 		try {
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.oneStepInner();
-		  // Karosszéria javítás
 		  TestBase.addNewCarEventBodyRepair();
 		  
 		  
