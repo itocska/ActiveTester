@@ -18,7 +18,7 @@ public class SendRequestForOfferPart {
 		  String companyName = TestBase.GetCompanyName();
 		  TestBase.userLogout();
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
-		  TestBase.checkRequestOffer(companyName, "2000");
+		  TestBase.checkRequestOfferPart(companyName);
 		  
 		  
 		} 

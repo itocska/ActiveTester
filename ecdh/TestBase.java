@@ -1371,7 +1371,7 @@ public class TestBase {
 		return requestId;
 
 	}
-
+	public static String haKell;
 	public static String checkRequest(String requestId) throws IOException, InterruptedException {
 		TestBase.goToPage(url + "/hu/gumi-erdeklodesek");
 
@@ -1393,6 +1393,7 @@ public class TestBase {
 		Integer randomNum = 2000 + rand.nextInt((30000 - 1) + 1);
 		String randNum = String.valueOf(randomNum);
 		fillName("car_tire_company_offer_items[0][price]", randNum);
+		haKell = randNum;
 
 		randomSelect("car_tire_company_offer_items[0][season]");
 		driver.findElement(By.cssSelector("input[name=\"car_tire_company_offer_items[0][delivery_date]\"]")).click();
@@ -1408,30 +1409,42 @@ public class TestBase {
 	public static String checkRequestPart(String requestId) throws IOException, InterruptedException {
 		TestBase.goToPage(url + "/hu/alkatresz-erdeklodesek");
 
-		assertTrue("Tire request succeed", driver.getPageSource().contains(requestId));
-		Log.log("Gumi ajánlatkérés megérkezett.");
+		assertTrue("Part request succeed", driver.getPageSource().contains(requestId));
+		Log.log("Alkatrész ajánlatkérés megérkezett.");
 
 		click(".bell");
-		clickLinkWithText("Gumi ajánlatkérés");
+		clickLinkWithText("Alkatrész ajánlatkérés");
 		onScreen(requestId);
 		Log.log("Értesítés céges oldalon megérkezett.");
 
-		// driver.findElement(By.cssSelector("a[data-original-title=\"Ajánlat
-		// adása\"]")).click();
-
-		randomSelect("car_tire_company_offer_items[0][manufacturer]");
-		fillName("car_tire_company_offer_items[0][item_description]", "test");
+		
+		fillName("car_piece_part_company_offer_items[0][item_description]", "test");
 
 		Random rand = new Random();
 		Integer randomNum = 2000 + rand.nextInt((30000 - 1) + 1);
 		String randNum = String.valueOf(randomNum);
-		fillName("car_tire_company_offer_items[0][price]", randNum);
+		fillName("car_piece_part_company_offer_items[0][price]", randNum);
+		haKell = randNum;
 
-		randomSelect("car_tire_company_offer_items[0][season]");
-		driver.findElement(By.cssSelector("input[name=\"car_tire_company_offer_items[0][delivery_date]\"]")).click();
+		//randomSelect("car_part_company_offer_items[0][season]");
+		driver.findElement(By.cssSelector("input[name=\"car_piece_part_company_offer_items[0][delivery_date]\"]")).click();
+		driver.findElement(By.id("car-piece-part-company-offer-items-0-delivery-date")).sendKeys(Keys.ARROW_RIGHT);
+		driver.findElement(By.id("car-piece-part-company-offer-items-0-delivery-date")).sendKeys(Keys.ENTER);
+		sleep(2000);
+		
+		driver.findElement(By.id("valid-to")).click();
+		driver.findElement(By.id("valid-to")).sendKeys(Keys.ARROW_RIGHT);
+		driver.findElement(By.id("valid-to")).sendKeys(Keys.ARROW_RIGHT);
+		driver.findElement(By.id("valid-to")).sendKeys(Keys.ENTER);
+		sleep(2000);
+		
+		fillName("delivery_price_from", "20000");
+		fillName("delivery_price_to", "40000");
+		
+		
 		driver.findElement(By.cssSelector("textarea[name=\"note\"]")).sendKeys("test note");
 
-		driver.findElement(By.className("submitBtn")).click();
+		driver.findElement(By.cssSelector(".btn.btn-secondary.btn-lg")).click();
 		Thread.sleep(5000);
 
 		return randNum;
@@ -1583,7 +1596,7 @@ public class TestBase {
 		driver.findElement(By.cssSelector(css)).click();
 	}
 
-	public static void checkRequestOffer(String companyName, String price) throws IOException {
+	public static void checkRequestOfferTire(String companyName, String price) throws IOException {
 		driver.findElement(By.cssSelector("#active-tire-requests .list-item:nth-child(1) a")).click();
 		onScreen(companyName);
 		Log.log("Ajánlat megérkezett.");
@@ -1599,9 +1612,24 @@ public class TestBase {
 
 		String formattedPrice = formatter.format(amount).replaceAll(",", " ");
 
-		assertEquals("Ár stimmel", savedPrice, formattedPrice + " Ft");
+		assertEquals("Ár nem stimmel", savedPrice, formattedPrice + " Ft");
 
 		Log.log("Ár stimmel");
+	}
+	
+	public static void checkRequestOfferPart(String companyName) throws IOException {
+		driver.findElement(By.cssSelector("#active-piecepart-requests .list-item:nth-child(1) a")).click();
+		onScreen(companyName);
+		Log.log("Ajánlat megérkezett.");
+
+		click(".bell");
+		clickLinkWithText("Alkatrész ajánlat");
+		onScreen(companyName);
+		Log.log("Értesítés user oldalon megérkezett (" + companyName + ").");
+		String savedPrice = driver.findElement(By.className("price")).getText();
+
+		assertEquals("Ár stimmel", haKell, savedPrice);
+		
 	}
 
 	public static void sendRequestFinalOrder() {
@@ -1631,12 +1659,17 @@ public class TestBase {
 		return false;
 	}
 
-	public static String SendRequestPart() throws IOException {
+	public static String SendRequestPart() throws IOException, InterruptedException {
+		
 		clickLinkWithText("Ajánlatkérés");
 		click(".sprite-technical");
+		sleep(1000);
 		clickXpath("//span[contains(text(),'Fékrendszer')]/following-sibling::i");
+		sleep(1000);
 		clickXpath("//span[contains(text(),'Fékcső')]/following-sibling::a");
+		sleep(1000);
 		driver.findElement(By.xpath("//span[contains(text(),'Fékcső')]/following-sibling::a")).click();
+		sleep(1000);
 		clickLinkWithText("Ajánlatkérés");
 
 		fillName("loc_zip_id_ac", "10");
@@ -4211,6 +4244,9 @@ public static void documentGenerator() throws IOException, InterruptedException 
 	
 	clickLinkWithText("Dokumentum generáló");
 	sleep(3000);
+	
+	//vétel dokumentumok kiválasztása------------------------------------
+	Log.log("vétel dokumentumok kiválasztása...");
 	clickLinkWithText("Vétel");
 	sleep(2000);
 	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: Autó')])[2]")).click();
@@ -4228,19 +4264,26 @@ public static void documentGenerator() throws IOException, InterruptedException 
 	submit();
 	sleep(3000);
 	Log.log("Minden vétel dokumentum kitöltése");
+	//vétel dokumentumok kiválasztása-------------------------------------
 	
+	
+	//Átadás-átvételi nyilatkozat----------------------------------------------------------------------------
+	String mFacturer = driver.findElement(By.xpath("//div[@class='car-manufacturer']")).getText();
 	String plateNum = driver.findElement(By.id("car-plate-number")).getAttribute("value");
 	String carVin = driver.findElement(By.id("car-vin")).getAttribute("value");
 	
 	int randKeys = new Random().nextInt(5)+1;
 	fillName("car_keys",""+randKeys);
+	
 	int randKomment = new Random().nextInt(500)+1;
 	fillName("note","Teszt megjegyzés "+randKomment);
+	
 	clickLinkWithText("Partner Kiválasztása");
 	sleep(2000);
 	clickLinkWithText("Új partner felvétele");
 	sleep(2000);
 	
+	//partner----------------------------------------------------
 	Log.log("Partner felvétel...");
 	fillName("last_name","TesztCsalád");
 	fillName("first_name","TesztVezeték");
@@ -4252,9 +4295,9 @@ public static void documentGenerator() throws IOException, InterruptedException 
 	fillName("email","test@email.com");
 	fillName("phone","12345678");
 	fillName("car_address[loc_zip_id_ac]","1052");
-	sleep(1000);
+	sleep(3000);
 	driver.findElement(By.id("car-address-loc-zip-id")).sendKeys(Keys.ENTER);
-	sleep(1000);
+	sleep(3000);
 	fillName("car_address[street]","Sas");
 	driver.findElement(By.id("car-address-street-type")).click();
 	sleep(1000);
@@ -4268,8 +4311,9 @@ public static void documentGenerator() throws IOException, InterruptedException 
 	fillName("car_address[door]","204");
 	driver.findElement(By.xpath("//section//button[@type='submit']")).click();
 	sleep(2000);
+	//partner vége----------------------------------------------------
 	
-	String sellerName = driver.findElement(By.id("partner1-name")).getAttribute("value");
+	String buyerName = driver.findElement(By.id("partner1-name")).getAttribute("value");
 	String taxNum = driver.findElement(By.id("partner1-tax-no")).getAttribute("value");
 	String regNum = driver.findElement(By.id("partner1-reg-no")).getAttribute("value");
 	String address = driver.findElement(By.id("partner1-address")).getAttribute("value");

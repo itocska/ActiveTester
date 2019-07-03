@@ -20,7 +20,7 @@ public class SendRequestForOfferTire {
 		  Log.log("Ajánlott ár:" + price);
 		  TestBase.userLogout();
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
-		  TestBase.checkRequestOffer(companyName, price);
+		  TestBase.checkRequestOfferTire(companyName, price);
 		  TestBase.sendRequestFinalOrder();
 		  TestBase.userLogout();
 		  TestBase.login(TestBase.companyUser, TestBase.companyPassword);
