@@ -1962,7 +1962,8 @@ public class TestBase {
 		Log.log("Ár stimmel");
 	}
 	
-	public static void checkRequestOfferPart(String companyName) throws IOException {
+	public static void checkRequestOfferPart(String companyName, String price) throws IOException {
+		
 		driver.findElement(By.cssSelector("#active-piecepart-requests .list-item:nth-child(1) a")).click();
 		onScreen(companyName);
 		Log.log("Ajánlat megérkezett.");
@@ -1973,22 +1974,71 @@ public class TestBase {
 		Log.log("Értesítés user oldalon megérkezett (" + companyName + ").");
 		String savedPrice = driver.findElement(By.className("price")).getText();
 
-		assertEquals("Ár stimmel", haKell, savedPrice);
-		
-	}
+		double amount = Double.parseDouble(price);
+		DecimalFormat formatter = new DecimalFormat("###,###,###");
 
-	public static void sendRequestFinalOrder() {
+		String formattedPrice = formatter.format(amount).replaceAll(",", "");
+
+		if(savedPrice.equals(formattedPrice+" Ft")) {
+			
+			Log.log("Ár stimmel");
+			
+		}else {
+		
+		Log.log("Ár nem stimmel!!!!!!!!!!");
+		Log.log("Itt szerepel: "+savedPrice);
+		Log.log("Korábban megadott: "+formattedPrice+" Ft");
+
+
+		}
+	}
+		
+
+	public static void sendRequestFinalOrder() throws InterruptedException, IOException {
+		
 		click(".checkbox");
 		click(".btn-lg");
+		sleep(3000);
+		fillName("car_address[loc_zip_id_ac]", "1052");
+		sleep(1000);
+		driver.findElement(By.id("car-address-loc-zip-id")).sendKeys(Keys.ENTER);
+		fillName("car_address[street]","Sas");
+		driver.findElement(By.id("car-address-street-type")).click();
+		sleep(1000);
+		driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ENTER);
+		sleep(1000);
+		fillName("car_address[street_num]", "25");
+		fillName("car_address[building]", "a");
+		fillName("car_address[floor]", "2");
+		fillName("car_address[door]", "204");
+		
 		submit();
+		sleep(4000);
 
 	}
 
-	public static void checkRequestFinalOrder(String price) throws IOException {
+	public static void checkRequestFinalOrderTire(String price) throws IOException {
 		click(".bell");
 		clickLinkWithText("Gumi rendelés");
 		onScreen(price);
 		Log.log("Értesítés céges oldalon megérkezett.");
+	}
+	public static void checkRequestFinalOrderPart(String price) throws IOException {
+		
+		click(".bell");
+		clickLinkWithText("Alkatrész rendelés");
+		int priceInt = Integer.parseInt(price);
+		checkPrice(priceInt, " ");
+		
+		onScreen("1052 Budapest, Sas utca 25. a 2.em/204");
+		onScreen("hey!");
+		onScreen("Fékcső");
+		onScreen("test");
+		
+		Log.log("Értesítés céges oldalon megérkezett.");
+		clickLinkWithText("Teljesítve");
+		
 	}
 
 	public static String GetCompanyName() throws IOException {
