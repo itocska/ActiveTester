@@ -456,42 +456,7 @@ public class TestBase {
 
 		}
 
-		Actions actions = new Actions(driver);
 
-		WebElement myElement = driver.findElement(By.xpath("//label[@for=\"accept-rules2\"]"));
-		WebElement parent = myElement.findElement(By.xpath(".."));
-		actions.moveToElement(parent, 5, 5).click().build().perform();
-		Log.log("Accept privacy terms");
-
-		myElement = driver.findElement(By.xpath("//label[@for=\"accept-rules\"]"));
-		parent = myElement.findElement(By.xpath(".."));
-		actions.moveToElement(parent, 5, 5).click().build().perform();
-		Log.log("Accept rules");
-		
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + personalUser + "']")));
-		System.out.println(personalUser);
-		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(personalUser));
-		Log.log("Képernyőn: " + personalUser);
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + "HU" + "']")));
-		System.out.println("Magyarország");
-		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("HU"));
-		Log.log("Képernyőn: " + "Magyarország");
-
-		submit();
-		sleep(2000);
-		Log.log("Tovább a fizetéshez");
-
-		driver.findElement(By.cssSelector(".bg-blue.btnClass.uppercase.paymentButton")).click();
-		sleep(2000);
-		Log.log("Fizetés");
-
-		driver.findElement(By.cssSelector(".btn.btn-lg.btn-primary.btn-block.btn-success")).click();
-		sleep(2000);
-		Log.log("Siker");
-
-	}
 	
 	public static void AddCarSync()throws IOException, InterruptedException {
 		
