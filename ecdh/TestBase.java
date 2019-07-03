@@ -1667,7 +1667,7 @@ public class TestBase {
 		driver.findElement(By.cssSelector(".confirmation .popover-content .bgm-lightblue")).click();
 	}
 
-	public static void oneStepInner() throws IOException {
+	public static void oneStepInner() throws IOException, InterruptedException {
 		List<WebElement> elements = driver.findElements(By.cssSelector("#mycar-block.card .profile-car-item"));
 		for (WebElement element : elements) {
 			Log.log(element.findElement(By.className("numberplate")).getText());
@@ -1675,7 +1675,9 @@ public class TestBase {
 
 		element = elements.get(new Random().nextInt(elements.size()));
 		Log.log(element.findElement(By.className("numberplate")).getText() + " selected.");
+		sleep(3000);
 		element.click();
+		sleep(3000);
 	}
 
 	public static String SendRequestTire() throws IOException, InterruptedException {
@@ -1822,9 +1824,11 @@ public class TestBase {
 		return options.get(randnMumber).getText();
 	}
 
-	public static void userLogout() throws IOException {
+	public static void userLogout() throws IOException, InterruptedException {
+		sleep(3000);
 		Log.log("Kijelentkezés a fiókból.");
 		goToPage(url + "/hu/kijelentkezes");
+		sleep(3000);
 	}
 
 	public static void registerUserWrongEmail() throws IOException {
