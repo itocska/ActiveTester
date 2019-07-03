@@ -452,6 +452,44 @@ public class TestBase {
 		driver.findElement(By.cssSelector(".btn.btn-lg.btn-primary.btn-block.btn-success")).click();
 		sleep(2000);
 		Log.log("Siker");
+		
+
+		}
+
+		Actions actions = new Actions(driver);
+
+		WebElement myElement = driver.findElement(By.xpath("//label[@for=\"accept-rules2\"]"));
+		WebElement parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept privacy terms");
+
+		myElement = driver.findElement(By.xpath("//label[@for=\"accept-rules\"]"));
+		parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept rules");
+		
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + personalUser + "']")));
+		System.out.println(personalUser);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(personalUser));
+		Log.log("Képernyőn: " + personalUser);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + "HU" + "']")));
+		System.out.println("Magyarország");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("HU"));
+		Log.log("Képernyőn: " + "Magyarország");
+
+		submit();
+		sleep(2000);
+		Log.log("Tovább a fizetéshez");
+
+		driver.findElement(By.cssSelector(".bg-blue.btnClass.uppercase.paymentButton")).click();
+		sleep(2000);
+		Log.log("Fizetés");
+
+		driver.findElement(By.cssSelector(".btn.btn-lg.btn-primary.btn-block.btn-success")).click();
+		sleep(2000);
+		Log.log("Siker");
 
 	}
 	
@@ -778,8 +816,9 @@ public class TestBase {
 	}
 
 	public static void addNewCar() throws IOException, InterruptedException, AWTException {
-		randomSelect("car_year");
-		randomSelect("car_month");
+		Random rand = new Random();
+		String carYear = randomSelect("car_year");
+		String carMonth = randomSelect("car_month");
 		sleep(2000);
 		manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
 		sleep(2000);
@@ -787,8 +826,13 @@ public class TestBase {
 		sleep(2000);
 		click("#car-type-id");
 		sleep(5000);
-		fillName("numberplate", generatePlateNumber());
-		fillName("km", "120000");
+		String NumberPlate = generatePlateNumber();
+        fillName("numberplate",NumberPlate);
+        int kmNumberInt = rand.nextInt(998999)+10000;
+        fillName("km",""+kmNumberInt);
+       
+		
+		
 		click(".btn-secondary");
 		sleep(3000);
 		passShepherd();
@@ -797,106 +841,442 @@ public class TestBase {
 		sleep(1000);
 		passShepherd();
 		sleep(1000);
+		onScreen(manufacturer);
+		onScreen(model);
+		onScreen(carYear);
+		onScreen(carMonth);
+		onScreen(NumberPlate);
+		checkPrice(kmNumberInt," ");
 
 	}
 
 	public static void fillCarDetail() throws IOException, InterruptedException, AWTException {
 
-		clickLinkWithText("Adatok szerkesztése");
-		TestBase.select("petrol", "Dízel");
-		randomSelect("car_condition");
+		 clickLinkWithText("Adatok szerkesztése");
+			TestBase.select("petrol", "Dízel");
+			randomSelect("car_condition");
+	 
+			Random rand = new Random();
+			long leftLimit = 11111111111111111L;
+			long rightLimit = 99999999999999999L;
+			long randomLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
 
-		Random rand = new Random();
-		long leftLimit = 11111111111111111L;
-		long rightLimit = 99999999999999999L;
-		long randomLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
+		    String vin = String.valueOf(randomLong);
+			fillName("vin", vin);
 
-		fillName("vin", String.valueOf(randomLong));
+			String engineNumber ="";
+			Integer randomNum = rand.nextInt(999999999);
+			engineNumber = randomNum.toString();
+			fillName("motor_number", engineNumber);
 
-		Integer randomNum = rand.nextInt(999999999);
-		fillName("motor_number", randomNum.toString());
+			randomNum = rand.nextInt(199);
+			String power = randomNum.toString(); 
+			fillName("power", power);
 
-		randomNum = rand.nextInt(199);
-		fillName("power", randomNum.toString());
+			randomNum = rand.nextInt((899999) + 100000);
+			String trafficLicense = randomNum.toString();
+			String randomNumSt = String.valueOf(trafficLicense) + "AB";
+			fillName("traffic_license", randomNumSt);
 
-		randomNum = rand.nextInt((899999) + 100000);
-		String randomNumSt = String.valueOf(randomNum) + "AB";
-		fillName("traffic_license", randomNumSt);
+			
+			String randomNumStr2 ="";
+			randomNum = rand.nextInt((899999) + 10000);
+			String registrationNumber = randomNum.toString();
+			randomNumStr2 = String.valueOf(registrationNumber) + 'A';
+			fillName("registration_number", randomNumStr2);
 
-		randomNum = rand.nextInt((899999) + 10000);
-		String randomNumStr = String.valueOf(randomNum) + 'A';
-		fillName("registration_number", randomNumStr);
+			randomNum = rand.nextInt(70)+10;
+			String fuelCapacity = randomNum.toString();
+			fillName("fuel_capacity", fuelCapacity);
 
-		randomNum = rand.nextInt(1999);
-		fillName("fuel_capacity", randomNum.toString());
+			
+			driver.findElement(By.name("doors")).click();
+			driver.findElement(By.name("doors")).clear();
+			sleep(2000);
+			randomNum = rand.nextInt(3)+3;
+			String doors = randomNum.toString();
+			fillName("doors",doors);
 
-		// randomNum = rand.nextInt(4) + 1;
-		// fillName("doors", randomNum.toString());
-		fillName("doors", "3");
-		sleep(10000);
 
-		randomNum = rand.nextInt(4) + 1;
-		// fillName("seats", randomNum.toString());
-		fillName("seats", "4");
+			randomNum = rand.nextInt(4) + 1;
+			String seats = randomNum.toString();
+			fillName("seats",seats);
+			
+			String Cylinder="";
+			String make ="";
+			String gearType="";
+			String carOffset="";
+			String warranty="";
+			String enviromental_V9="";
+			make = randomSelect("make");
+			gearType = randomSelect("gear_type");
+			carOffset =randomSelect("car_offset");
+			Cylinder =randomSelect("cylinder");
+			warranty = randomSelect("warranty");
+			enviromental_V9 = randomSelect("enviromental_v9");
 
-		randomSelect("make");
-		randomSelect("car_offset");
-		randomSelect("cylinder");
-		randomSelect("warranty");
-		randomSelect("enviromental_v9");
+			
+			String max_Load="";
+			randomNum = rand.nextInt(200) + 100;
+			max_Load = randomNum.toString();
+			fillName("max_load", max_Load);
 
-		randomNum = rand.nextInt(200) + 100;
-		fillName("max_load", randomNum.toString());
+			String trunk ="";
+			randomNum = rand.nextInt(200) + 100;
+			trunk = randomNum.toString();
+			fillName("trunk", trunk);
+	        
+			int engine_capacity =0;
+			randomNum = rand.nextInt(2000) + 1000;
+			engine_capacity = rand.nextInt(9989)+1000;
+			fillName("engine_capacity",""+engine_capacity);
 
-		randomNum = rand.nextInt(200) + 100;
-		fillName("trunk", randomNum.toString());
+			String netWeight ="";
+			randomNum = rand.nextInt(3200) + 100;
+			netWeight = randomNum.toString();
+			fillName("net_weight", netWeight);
+			
+			String weight="";
+			randomNum += 100;
+			weight = randomNum.toString();
+			fillName("weight", weight);
 
-		randomNum = rand.nextInt(2000) + 1000;
-		fillName("engine_capacity", randomNum.toString());
+			click(".btn-secondary");
+			Thread.sleep(3000);
+			click(".btn-secondary");
+			Thread.sleep(3000);
 
-		randomNum = rand.nextInt(3200) + 100;
-		fillName("net_weight", randomNum.toString());
-		randomNum += 100;
-		fillName("weight", randomNum.toString());
-
-		click(".btn-secondary");
-		Thread.sleep(3000);
-		click(".btn-secondary");
-		Thread.sleep(3000);
-
-		List<WebElement> elements = driver.findElements(By.className("collapsed"));
-		for (WebElement element : elements) {
-			String name = element.getAttribute("data-target");
-			Log.log(name + " collapsed");
-			element.click();
-			Thread.sleep(1500);
-		}
-
-		elements = driver.findElements(By.tagName("select"));
-		for (WebElement element : elements) {
-			String name = element.getAttribute("name");
-			randomSelect(name);
-		}
-
-		elements = driver.findElements(By.cssSelector(".checkbox label"));
-		for (WebElement element : elements) {
-			rand = new Random();
-			randomNum = rand.nextInt(2);
-			if (randomNum == 0) {
+			List<WebElement> elements = driver.findElements(By.className("collapsed"));
+			for (WebElement element : elements) {
+				String name = element.getAttribute("data-target");
+				Log.log(name + " collapsed");
 				element.click();
+				Thread.sleep(1500);
 			}
-		}
 
-		click(".btn-primary");
-		Thread.sleep(3000);
+			String selectors = "1";
+			int selInt = 1;
+			String currentValue1="";
+			String currentValue2="";
+			String currentValue3="";
+			String currentValue4="";
+			String currentValue5="";
+			String currentValue6="";
+			
+			
+			elements = driver.findElements(By.tagName("select"));
+			for (WebElement element : elements ) {
+				String name = element.getAttribute("name");
+				randomSelect(name);
+				
+				Select test = new Select(driver.findElement(By.name(name)));
+				
+				selectors = "" + selInt;
+				
+				switch(selectors) {
+				
+				case "1" : currentValue1 = test.getFirstSelectedOption().getText();break;
+				case "2" : currentValue2 = test.getFirstSelectedOption().getText();break;
+				case "3" : currentValue3 = test.getFirstSelectedOption().getText();break;
+				case "4" : currentValue4 = test.getFirstSelectedOption().getText();break;
+				case "5" : currentValue5 = test.getFirstSelectedOption().getText();break;
+				case "6" : currentValue6 = test.getFirstSelectedOption().getText();break;
+						   
+				}
+				
+				selInt++;
+					
+			}
+			
+			Log.log(currentValue1);
+			Log.log(currentValue2);
+			Log.log(currentValue3);
+			Log.log(currentValue4);
+			Log.log(currentValue5);
+			Log.log(currentValue6);
 
-		Log.log("Autó beküldve.");
+			elements = driver.findElements(By.cssSelector(".checkbox label"));
+			for (WebElement element : elements) {
+				rand = new Random();
+				randomNum = rand.nextInt(2);
+				if (randomNum == 0) {
+					element.click();
+				}
+			}
 
-		clickLinkWithText("1");
-		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(manufacturer));
-		Log.log("Autó mentve. Gyártó: " + manufacturer);
-		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(model));
-		Log.log("Modell: " + model);
+			driver.findElement(By.id("save-and-back")).click();
+			Thread.sleep(3000);
+
+			Log.log("Autó beküldve.");
+			onScreen(vin);
+			onScreen(engineNumber);
+			onScreen(registrationNumber);
+			onScreen(trafficLicense);
+			
+			wait.until(
+			ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class = 'half-box'][1]/dd[contains(text(), '"+ seats +"')]")));
+			System.out.println(seats);
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(seats));
+			Log.log("Képernyőn: " + seats);
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class = 'half-box'][2]/dd[contains(text(),'" + doors + "')])[1]")));
+			System.out.println(doors);
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(doors));
+			Log.log("Képernyőn: " + doors);
+					
+			onScreen("Dízel");
+			checkPrice(engine_capacity," ");
+			onScreen(make);
+			onScreen(gearType);
+			
+			
+			driver.findElement(By.cssSelector(".btn.btn-primary.btn-block.d-sm-block")).click();
+			
+			
+			
+					
+			onScreenValue(vin);
+			onScreenValue(engineNumber);
+			onScreenValue(power);
+			onScreenValue(randomNumSt);
+			onScreenValue(randomNumStr2);
+			onScreenValue(fuelCapacity);
+			onScreen(make);
+			onScreen(gearType);
+			onScreen(carOffset);
+			onScreen(Cylinder);
+			onScreen(warranty);
+			onScreen(enviromental_V9);
+			onScreenValue(max_Load);
+			onScreenValue(trunk);
+			onScreenValue(""+engine_capacity);
+			onScreenValue(netWeight);
+			onScreenValue(weight);
+			
+			
+		    driver.findElement(By.id("form-button")).click();
+		    sleep(2000);
+		    driver.findElement(By.id("form-button")).click();
+		    onScreen(currentValue1);
+		    onScreen(currentValue2);
+		    onScreen(currentValue3);
+		    onScreen(currentValue4);
+		    onScreen(currentValue5);
+		    
+		    driver.findElement(By.id("save-and-back")).click();
+		   
+		    
+
+		    
+		    
+		    clickLinkWithText("Adatok szerkesztése");
+			TestBase.select("petrol", "Dízel");
+			randomSelect("car_condition");
+	 
+	          rand = new Random();
+			 leftLimit = 11111111111111111L;
+			 rightLimit = 99999999999999999L;
+			 randomLong = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
+
+		     vin = String.valueOf(randomLong);
+			fillName("vin", vin);
+
+			 engineNumber ="";
+			 randomNum = rand.nextInt(999999999);
+			engineNumber = randomNum.toString();
+			fillName("motor_number", engineNumber);
+
+			randomNum = rand.nextInt(199);
+			 power = randomNum.toString(); 
+			fillName("power", power);
+
+			randomNum = rand.nextInt((899999) + 100000);
+			 trafficLicense = randomNum.toString();
+			 randomNumSt = String.valueOf(trafficLicense) + "AB";
+			fillName("traffic_license", randomNumSt);
+
+			
+			 randomNumStr2 ="";
+			randomNum = rand.nextInt((899999) + 10000);
+			 registrationNumber = randomNum.toString();
+			randomNumStr2 = String.valueOf(registrationNumber) + 'A';
+			fillName("registration_number", randomNumStr2);
+
+			randomNum = rand.nextInt(70)+10;
+			fuelCapacity = randomNum.toString();
+			fillName("fuel_capacity", fuelCapacity);
+
+			
+			driver.findElement(By.name("doors")).click();
+			driver.findElement(By.name("doors")).clear();
+			sleep(2000);
+			randomNum = rand.nextInt(3)+3;
+			 doors = randomNum.toString();
+			fillName("doors",doors);
+
+
+			randomNum = rand.nextInt(4) + 1;
+			 seats = randomNum.toString();
+			fillName("seats",seats);
+			
+			 Cylinder="";
+			 make ="";
+			 gearType="";
+			 carOffset="";
+			 warranty="";
+			 enviromental_V9="";
+			make = randomSelect("make");
+			gearType = randomSelect("gear_type");
+			carOffset =randomSelect("car_offset");
+			Cylinder =randomSelect("cylinder");
+			warranty = randomSelect("warranty");
+			enviromental_V9 = randomSelect("enviromental_v9");
+
+			
+			 max_Load="";
+			randomNum = rand.nextInt(200) + 100;
+			max_Load = randomNum.toString();
+			fillName("max_load", max_Load);
+
+			trunk ="";
+			randomNum = rand.nextInt(200) + 100;
+			trunk = randomNum.toString();
+			fillName("trunk", trunk);
+	        
+			 engine_capacity =0;
+			randomNum = rand.nextInt(2000) + 1000;
+			engine_capacity = rand.nextInt(9989)+1000;
+			fillName("engine_capacity",""+engine_capacity);
+
+			netWeight ="";
+			randomNum = rand.nextInt(3200) + 100;
+			netWeight = randomNum.toString();
+			fillName("net_weight", netWeight);
+			
+			weight="";
+			randomNum += 100;
+			weight = randomNum.toString();
+			fillName("weight", weight);
+
+			click(".btn-secondary");
+			Thread.sleep(3000);
+			click(".btn-secondary");
+			Thread.sleep(3000);
+
+			elements = driver.findElements(By.className("collapsed"));
+			for (WebElement element : elements) {
+				String name = element.getAttribute("data-target");
+				Log.log(name + " collapsed");
+				element.click();
+				Thread.sleep(1500);
+			}
+
+			 selectors = "1";
+			 selInt = 1;
+			 currentValue1="";
+			 currentValue2="";
+			 currentValue3="";
+			 currentValue4="";
+			 currentValue5="";
+			 currentValue6="";
+			
+			
+			elements = driver.findElements(By.tagName("select"));
+			for (WebElement element : elements ) {
+				String name = element.getAttribute("name");
+				randomSelect(name);
+				
+				Select test = new Select(driver.findElement(By.name(name)));
+				
+				selectors = "" + selInt;
+				
+				switch(selectors) {
+				
+				case "1" : currentValue1 = test.getFirstSelectedOption().getText();break;
+				case "2" : currentValue2 = test.getFirstSelectedOption().getText();break;
+				case "3" : currentValue3 = test.getFirstSelectedOption().getText();break;
+				case "4" : currentValue4 = test.getFirstSelectedOption().getText();break;
+				case "5" : currentValue5 = test.getFirstSelectedOption().getText();break;
+				case "6" : currentValue6 = test.getFirstSelectedOption().getText();break;
+						   
+				}
+				
+				selInt++;
+					
+			}
+			
+			Log.log(currentValue1);
+			Log.log(currentValue2);
+			Log.log(currentValue3);
+			Log.log(currentValue4);
+			Log.log(currentValue5);
+			Log.log(currentValue6);
+
+			elements = driver.findElements(By.cssSelector(".checkbox label"));
+			for (WebElement element : elements) {
+				rand = new Random();
+				randomNum = rand.nextInt(2);
+				if (randomNum == 0) {
+					element.click();
+				}
+			}
+
+			driver.findElement(By.id("save-and-back")).click();
+			Thread.sleep(3000);
+
+			Log.log("Autó beküldve.");
+			onScreen(vin);
+			onScreen(engineNumber);
+			onScreen(registrationNumber);
+			onScreen(trafficLicense);
+			
+			wait.until(
+			ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class = 'half-box'][1]/dd[contains(text(), '"+ seats +"')]")));
+			System.out.println(seats);
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(seats));
+			Log.log("Képernyőn: " + seats);
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class = 'half-box'][2]/dd[contains(text(),'" + doors + "')])[1]")));
+			System.out.println(doors);
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(doors));
+			Log.log("Képernyőn: " + doors);
+					
+			onScreen("Dízel");
+			checkPrice(engine_capacity," ");
+			onScreen(make);
+			onScreen(gearType);
+			
+			
+			driver.findElement(By.cssSelector(".btn.btn-primary.btn-block.d-sm-block")).click();
+			
+			
+			
+					
+			onScreenValue(vin);
+			onScreenValue(engineNumber);
+			onScreenValue(power);
+			onScreenValue(randomNumSt);
+			onScreenValue(randomNumStr2);
+			onScreenValue(fuelCapacity);
+			onScreen(make);
+			onScreen(gearType);
+			onScreen(carOffset);
+			onScreen(Cylinder);
+			onScreen(warranty);
+			onScreen(enviromental_V9);
+			onScreenValue(max_Load);
+			onScreenValue(trunk);
+			onScreenValue(""+engine_capacity);
+			onScreenValue(netWeight);
+			onScreenValue(weight);
+		    driver.findElement(By.id("form-button")).click();
+		    sleep(2000);
+		    driver.findElement(By.id("form-button")).click();
+		    onScreen(currentValue1);
+		    onScreen(currentValue2);
+		    onScreen(currentValue3);
+		    onScreen(currentValue4);
+		    onScreen(currentValue5);
 
 	}
 
