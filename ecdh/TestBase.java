@@ -178,8 +178,7 @@ public class TestBase {
 
 		System.out.println(driver.getTitle());
 
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Aktiválás']")));
-		assertTrue("Registration succeed", driver.getPageSource().contains("befejezte"));
+		passShepherd();
 		Log.log("Activation succeed");
 
 		// driver.get(Gmail.getMails("{email}", "{password}", "ECDH",
@@ -1706,7 +1705,9 @@ public class TestBase {
 	}
 
 	public static void adminLogin() throws IOException, InterruptedException {
+		sleep(5000);
 		goToPage(url + "/hu/bejelentkezes");
+		sleep(5000);
 		fillName("username", adminUser);
 		fillName("password", adminPassword);
 		driver.findElement(By.className("btn-secondary")).click();
