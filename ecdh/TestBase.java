@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -1831,6 +1832,8 @@ public class TestBase {
 
 		driver.findElement(By.className("submitBtn")).click();
 		Thread.sleep(5000);
+		
+		Log.log("Ajánlat adása");
 
 		return randNum;
 
@@ -2095,6 +2098,19 @@ public class TestBase {
 		click(".checkbox");
 		click(".btn-lg");
 		sleep(3000);
+		
+		try {
+			
+			driver.findElement(By.id("car-address-loc-zip-id")).click();
+			
+		}catch(ElementNotVisibleException e){
+			
+			driver.findElement(By.xpath("//span[@class='switch']")).click();
+			sleep(3000);
+			
+		}
+		
+		
 		fillName("car_address[loc_zip_id_ac]", "1052");
 		sleep(1000);
 		driver.findElement(By.id("car-address-loc-zip-id")).sendKeys(Keys.ENTER);
@@ -2109,6 +2125,8 @@ public class TestBase {
 		fillName("car_address[floor]", "2");
 		fillName("car_address[door]", "204");
 		
+		Log.log("Megrendelés");
+		
 		submit();
 		sleep(4000);
 
@@ -2119,11 +2137,12 @@ public class TestBase {
 		clickLinkWithText("Gumi rendelés");
 		onScreen(price);
 		
-		onScreen("1052 Budapest, Sas utca 25. a 2.em/204");
+		onScreen("1052 Budapest, Sas utca 25.");
 		onScreen("test note");
 		
 		Log.log("Értesítés céges oldalon megérkezett.");
 		clickLinkWithText("Teljesítve");
+		Log.log("Archiválva");
 	}
 	public static void checkRequestFinalOrderPart(String price) throws IOException {
 		
