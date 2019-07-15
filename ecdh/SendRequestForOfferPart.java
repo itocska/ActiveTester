@@ -24,6 +24,7 @@ public class SendRequestForOfferPart {
 			
 			TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 			TestBase.checkRequestOfferPart(companyName, price);
+			
 			TestBase.sendRequestFinalOrder();
 			TestBase.userLogout();
 			

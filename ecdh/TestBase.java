@@ -1879,7 +1879,9 @@ public class TestBase {
 
 		driver.findElement(By.cssSelector(".btn.btn-secondary.btn-lg")).click();
 		Thread.sleep(5000);
-
+		
+		Log.log("Ajánlat adás");
+		
 		return randNum;
 
 	}
@@ -2151,13 +2153,14 @@ public class TestBase {
 		int priceInt = Integer.parseInt(price);
 		checkPrice(priceInt, " ");
 		
-		onScreen("1052 Budapest, Sas utca 25. a 2.em/204");
+		onScreen("1052 Budapest, Sas utca 25.");
 		onScreen("hey!");
 		onScreen("Fékcső");
 		onScreen("test");
 		
 		Log.log("Értesítés céges oldalon megérkezett.");
 		clickLinkWithText("Teljesítve");
+		Log.log("Archiválva");
 		
 	}
 
@@ -2188,6 +2191,7 @@ public class TestBase {
 		clickLinkWithText("Ajánlatkérés");
 
 		fillName("loc_zip_id_ac", "10");
+		sleep(2000);
 		clickLinkWithText("1014");
 		if (driver.findElement(By.cssSelector("input[name=\"vin\"]")).isDisplayed()) {
 			fillName("vin", "12345678901234567");
