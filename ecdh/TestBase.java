@@ -2796,7 +2796,8 @@ public class TestBase {
 
 		assertTrue("CASCO biztosítás lejárat OK.", insurance.contains("Lejár: " + dateLocale(dueDate)));
 		Log.log("CASCO biztosítás lejárat OK.");
-
+		
+		sleep(3000);
 		clickLinkWithText("biztosítás");
 		onScreen(company);
 		onScreen(period);
@@ -2814,8 +2815,8 @@ public class TestBase {
 	
 
 		submit();
-
-		click("i.fa-trash");
+		sleep(3000);
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		click("a[data-apply=\"confirmation\"]");
 
 		sleep(8000);
