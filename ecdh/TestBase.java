@@ -1922,8 +1922,8 @@ public class TestBase {
 	public static void registerUserWrongEmail() throws IOException {
 
 		driver.findElement(By.partialLinkText("Regisztráció")).click();
-		assertEquals("Go to URL", driver.getCurrentUrl(), url + "/hu/regisztracio");
-		Log.log("Click Registraion");
+		/*assertEquals("Go to URL", driver.getCurrentUrl(), url + "/hu/regisztracio");
+		Log.log("Click Registraion");*/
 
 		try {
 			element = driver.findElement(By.className("ok"));
@@ -2391,12 +2391,10 @@ public class TestBase {
 		sleep(2000);
 		clickXpath("//div[contains(text(), \"Kiválasztás\")]");
 		Log.log("Kiválasztás clicked");
+		sleep(2000);
 		List<WebElement> items = driver.findElements(By.cssSelector("ul.tree-browser > li"));
 		List<String> list = new ArrayList<String>();
 		String oneItem;
-
-		int randPrice = new Random().nextInt(123456);
-		fillName("price_work", "" + randPrice);
 
 		for (WebElement item : items) {
 			oneItem = item.findElement(By.tagName("span")).getText();
@@ -2448,6 +2446,10 @@ public class TestBase {
 			selectCarPartItem(list.get(randomNumber), 3);
 
 		}
+		sleep(1000);
+		
+		int randPrice = new Random().nextInt(123456);
+		fillName("price_work", "" + randPrice);
 		sleep(1000);
 		fillName("car_mycar_service_log_items[0][price]", "20000");
 
