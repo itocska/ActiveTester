@@ -3075,6 +3075,8 @@ public class TestBase {
 		driver.findElement(By.name("end_date")).clear();
 		fillName("end_date",endDate);
 		sleep(1000);
+		driver.findElement(By.xpath("//h1")).click();
+		sleep(1000);
 		driver.findElement(By.id("form-button")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("pickup-location"))).click();
 		Random rand0 = new Random();
@@ -3091,6 +3093,17 @@ public class TestBase {
 		
 		driver.findElement(By.id("notes")).sendKeys(getRandomText(50));
         
+		try {
+			
+			driver.findElement(By.xpath("//*[contains(text(),'Vezetéknév')]"));
+			
+		}catch(NoSuchElementException e){
+			
+			driver.findElement(By.xpath("(//span[@class='switch'])[2]")).click();
+			sleep(3000);
+			
+		}
+		
 		try {
 			
 			fillName("car_address[loc_zip_id_ac]",""+randomzip);
@@ -3367,7 +3380,6 @@ public class TestBase {
          click(".switch");
          driver.findElement(By.id("form-button")).click();
          sleep(2000);
-         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Vissza az adatlapra')]"))).click();
          Log.log("Hirdetés levéve");
          Log.log("Sikeres Autóbérlés Teszt!");
 
