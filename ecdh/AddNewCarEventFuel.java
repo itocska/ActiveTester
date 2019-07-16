@@ -11,8 +11,6 @@ public class AddNewCarEventFuel {
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.oneStepInner();
 		  TestBase.addNewCarEventFuel();
-		  TestBase.addNewCarEventFuel();
-		  TestBase.addNewCarEventFuel();
 		  
 		} 
 		catch (AssertionError|WebDriverException e) {

@@ -1333,42 +1333,87 @@ public class TestBase {
 		Log.log("Kötelező mezők validálása.");
 
 		Random rand = new Random();
-		Integer randomNum = 1 + rand.nextInt((30 - 1) + 1);
-		String amount = String.valueOf(randomNum);
-
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		driver.findElement(By.cssSelector("input[name=\"fueling_date\"]")).clear();
-		fillName("fueling_date", dateFormat.format(date));
-		fillName("liter", amount);
+		
+		Integer randomNum = rand.nextInt(50) + 10;
+		String liter = String.valueOf(randomNum);
+		
+		fillName("liter", liter);
+		
+		randomNum = rand.nextInt(10000)+10000;
+		Integer cost = randomNum;
+		
+		fillName("fueling_cost", ""+cost);
+		
+		driver.findElement(By.id("fueling-date")).click();
+		driver.findElement(By.id("fueling-date")).sendKeys(Keys.ENTER);
+		
 		String fuelType = randomSelect("type");
-		fillName("car_gas_station_id_ac", "mészár");
+		
+		fillName("car_gas_station_id_ac", "mészá");
+		sleep(1000);
 		click("ul li.ui-menu-item:nth-child(2) a");
 
 		submit();
+		sleep(1000);
 
 		Log.log("Esemény: tankolás beküldve.");
-		onScreen(amount + " l");
+		onScreen(liter + " l");
 		Log.log("Esemény: tankolás elmentve.");
+		sleep(2000);
 
-		click(".event.timeline a[href*=\"tankolas\"]");
+		click("a[href*=\"tankolas-megtekintese\"]");
+		sleep(1000);
+		
 		onScreen(fuelType);
-		onScreen(amount + " l");
+		onScreen(liter + " l");
 		assertTrue("Gas station coordinates false",
 				driver.getPageSource().contains("google.maps.LatLng(47.49087143, 19.03070831)"));
 		driver.findElement(By.id("map0")).isDisplayed();
 		Log.log("Térkép ok");
+		
+		checkPrice(cost, " ");
 
 		clickLinkWithText("Szerkesztés");
-		checkField("liter", amount);
+		checkField("liter", liter);
 		checkField("type", fuelType);
+		checkField("fueling_cost", ""+cost);
+		
+		randomNum = rand.nextInt(50) + 10;
+		liter = String.valueOf(randomNum);
+		fillName("liter", liter);
+		
+		randomNum = rand.nextInt(10000)+10000;
+		cost = randomNum;
+		fillName("fueling_cost", ""+cost);
+		
 		submit();
+		sleep(1000);
+		
+		Log.log("Módosítva");
+		onScreen(liter + " l");
+		onScreen(fuelType);
+		checkPrice(cost, " ");
+		sleep(1000);
+		
+		click("a[href*=\"tankolas-megtekintese\"]");
+		sleep(1000);
+		
+		onScreen(fuelType);
+		onScreen(liter + " l");
+		assertTrue("Gas station coordinates false",
+				driver.getPageSource().contains("google.maps.LatLng(47.49087143, 19.03070831)"));
+		driver.findElement(By.id("map0")).isDisplayed();
+		Log.log("Térkép ok");
+		
+		checkPrice(cost, " ");
+		
 
-		click("i.fa-trash");
-		click("a[data-apply=\"confirmation\"]");
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		sleep(1000);
+		driver.findElement(By.cssSelector(".btn.grayBtn.deleteAttachedItem")).click();
 
-		sleep(8000);
-		assertTrue("Event deleted", !driver.getPageSource().contains(amount + " l"));
+		sleep(4000);
+		assertTrue("Event deleted", !driver.getPageSource().contains(liter + " l"));
 		Log.log("Esemény: Tankolás sikeresen törölve.");
 
 	}
