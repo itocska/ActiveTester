@@ -1609,11 +1609,30 @@ public class TestBase {
 		checkField("price", priceString);
 		checkField("note", noteText);
 		submit();
+		sleep(3000);
+		
+		onScreen(cleaningType);
+		clickLinkWithText(cleaningType);
+		
+		sleep(2000);
+		onScreen(now);
+		onScreen(cleaningType);
+		checkPrice(price, " ");
+		onScreen(noteText);
+		
+		clickLinkWithText("Szerkesztés");
+		checkField("cleaning_type", cleaningType);
+		checkField("price", priceString);
+		checkField("note", noteText);
+		submit();
+		sleep(3000);
+		
 
-		click("i.fa-trash");
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		sleep(2000);
 		click("a[data-apply=\"confirmation\"]");
 
-		sleep(8000);
+		sleep(4000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
 		Log.log("Esemény: tisztítás sikeresen törölve.");
 	}
