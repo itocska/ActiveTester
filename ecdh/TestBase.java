@@ -2718,13 +2718,14 @@ public class TestBase {
 		click(".sprite-mycar_highway_ticket");
 
 		driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
-		List<WebElement> list = driver.findElements(By.cssSelector("input[type=\"radio\"]"));
+		driver.findElement(By.id("start-date")).sendKeys(Keys.ENTER);
+		List<WebElement> list = driver.findElements(By.cssSelector("input[type=\"radio\"]:not([id=\"ticket1\"])"));
 		int size = list.size();
 		int randNumber = new Random().nextInt(size - 1) + 1;
 		String id = list.get(randNumber).getAttribute("id");
 		// list.get(randNumber).click();
 		driver.findElement(By.xpath("//label[@for='" + id + "']")).click();
-		String name = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-name i")).getText();
+		String name = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-name")).getText();
 		String expiration = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-expiration"))
 				.getText();
 		String price = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-price")).getText();
@@ -2744,34 +2745,63 @@ public class TestBase {
 		// assertTrue("Autópályamatrica lejárat OK.", insurance.contains(expiration));
 		// Log.log("Autópályamatrica lejárat OK.");
 
-		assertTrue("Autópályamatrica adatok OK.", insurance.contains(expiration));
+		Log.log(expiration);
+		Log.log(name);
+		//assertTrue("Autópályamatrica adatok OK.", insurance.contains(expiration));
 		assertTrue("Autópályamatrica adatok OK.", insurance.contains(name));
 		Log.log("Autópályamatrica adatok OK.");
 
 		onScreen("Új autópálya matrica");
 		clickLinkWithText("Új autópálya matrica");
+		sleep(1000);
 		onScreen(expiration);
 		onScreen(name);
 		onScreen(price);
 
 		clickLinkWithText("Szerkesztés");
 
-		list = driver.findElements(By.cssSelector("input[type=\"radio\"]"));
+		list = driver.findElements(By.cssSelector("input[type=\"radio\"]:not([id=\"ticket1\"])"));
+		size = list.size();
 		randNumber = new Random().nextInt(size - 1) + 1;
 		id = list.get(randNumber).getAttribute("id");
+		// list.get(randNumber).click();
 		driver.findElement(By.xpath("//label[@for='" + id + "']")).click();
-		name = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-name i")).getText();
+		name = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-name")).getText();
 		expiration = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-expiration")).getText();
 		price = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-price")).getText();
 
 		Log.log(name + " autópálya matrica kiválasztva.");
 		Log.log(expiration + " lejárattal.");
 		Log.log(price + " áron.");
+		
 		submit();
+		sleep(1000);
+		driver.findElement(By.cssSelector(".fas.fa-long-arrow-alt-left")).click();
+		sleep(1000);
 
+		pattern = "//dt[contains(text(),' Autópálya-matrica érvényessége')]//following-sibling::dd[1]";
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
+		insuranceParent = driver.findElement(By.xpath(pattern));
+		insurance = insuranceParent.findElement(By.tagName("a")).getText();
+
+		Log.log(expiration);
+		Log.log(name);
+		
+		assertTrue("Autópályamatrica adatok OK.", insurance.contains(name));
+		Log.log("Autópályamatrica adatok OK.");
+
+		onScreen("Új autópálya matrica");
+		clickLinkWithText("Új autópálya matrica");
+		sleep(1000);
 		onScreen(expiration);
 		onScreen(name);
 		onScreen(price);
+		
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		sleep(2000);
+		driver.findElement(By.cssSelector(".btn.grayBtn.deleteAttachedItem")).click();
+		
+		Log.log("Autópályamatrica sikeresen törölve");
 
 	}
 
