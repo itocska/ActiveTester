@@ -882,8 +882,17 @@ public class TestBase {
 		sleep(1000);
 		passShepherd();
 		sleep(1000);
-		onScreen(manufacturer);
-		onScreen(model);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), '" + manufacturer + "')]")));
+		System.out.println(manufacturer);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(manufacturer));
+		Log.log("Képernyőn: " + manufacturer);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), '" + model + "')]")));
+		System.out.println(model);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(model));
+		Log.log("Képernyőn: " + model);
+		
 		onScreen(carYear);
 		onScreen(carMonth);
 		onScreen(NumberPlate);
