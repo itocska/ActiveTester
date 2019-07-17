@@ -2954,13 +2954,40 @@ public class TestBase {
 		checkField("ident", ident);
 		checkField("price", "" + price);
 		// checkField("period", period);
+		
+		randNumber = new Random().nextInt(123456);
+		ident = "" + randNumber;
+		fillName("ident", ident);
+
+		price = new Random().nextInt(123456);
+		stringPrice = "" + price;
+		fillName("price", stringPrice);
 
 		submit();
+		sleep(2000);
+			
+		clickLinkWithText("biztosítás");
+		onScreen(company);
+		// onScreen(period);
+		onScreen(ident);
 
-		click("i.fa-trash");
+		checkPrice(price, " ");
+
+		clickLinkWithText("Szerkesztés");
+		sleep(20000);
+		checkSelect("type", "GAP biztosítás");
+		checkSelect("company", company);
+
+		checkField("ident", ident);
+		checkField("price", "" + price);
+
+		submit();
+		sleep(2000);
+		
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		click("a[data-apply=\"confirmation\"]");
 
-		sleep(8000);
+		sleep(3000);
 		assertTrue("Event deleted", !driver.getPageSource().contains("GAP biztosítás"));
 		Log.log("Esemény: GAP biztosítás sikeresen törölve.");
 	}
