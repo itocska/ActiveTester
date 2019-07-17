@@ -1740,7 +1740,7 @@ public class TestBase {
 
 	}
 
-	public static void addNewCarEventOther() throws IOException {
+	public static void addNewCarEventOther() throws IOException, InterruptedException {
 		// driver.findElement(By.xpath("//span[contains(text(),
 		// \"esemény\")]")).click();
 		clickLinkWithText("esemény");
@@ -1761,6 +1761,7 @@ public class TestBase {
 		fillName("note", noteText);
 
 		driver.findElement(By.className("submitBtn")).click();
+		sleep(2000);
 
 		Log.log("Esemény: egyéb beküldve.");
 
@@ -1769,6 +1770,7 @@ public class TestBase {
 		assertTrue("Autó meghirdetve", driver.getPageSource().contains("Teszt esemény " + randNum));
 
 		Log.log("Esemény: egyéb sikeresen elmentve.");
+		sleep(2000);
 
 		clickLinkWithText(eventText);
 		driver.findElement(By.cssSelector("a.red-link")).click();
