@@ -4189,6 +4189,17 @@ public class TestBase {
 		driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div[4]/a")).click();
 		driver.findElement(By.className("sprite-invite")).click();
 		// clickLinkWithText("Új meghívó link");
+		try{
+
+			driver.findElement(By.xpath("//*[contains(text(),'Új meghívó link')]")).click();
+			
+		}catch(NoSuchElementException e){
+			
+			Log.log("Már van meghívó link generálva");
+			
+		}
+		
+		sleep(2000);
 		fillName("invitee_emails[0][invitee_email]", testerMail);
 		String inviteLink = driver.findElement(By.xpath("/html/body/main/section[2]/div[1]/div[2]/div[2]/a")).getText();
 		submit();
