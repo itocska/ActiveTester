@@ -2727,10 +2727,12 @@ public class TestBase {
 		fillName("note", noteText);
 
 		submit();
+		sleep(1000);
 		onScreen(penaltyType);
-		checkPrice(price, "\u00a0");
-
-		clickLinkWithText("Büntetés");
+		checkPrice(price, " ");
+		
+		sleep(3000);
+		driver.findElement(By.cssSelector("a[href*='birsag-esemeny-megtekintese']")).click();
 		onScreen(penaltyType);
 		onScreen("Nem");
 
@@ -2739,14 +2741,34 @@ public class TestBase {
 		checkField("price", "" + price);
 		onScreen(noteText);
 		driver.findElement(By.xpath("//*[contains(text(),'Fizetve')]")).click();
+		
+		price = 1000 + rand.nextInt((50000 - 1) + 1);
+		fillName("price", "" + price);
+		note = 1000 + rand.nextInt((50000 - 1) + 1);
+		noteText = "Note " + note;
+		fillName("note", noteText);
+		
 		submit();
+		sleep(2000);
+		
 		clickLinkWithText(penaltyType);
+		sleep(2000);
+		onScreen(penaltyType);
 		onScreen("Igen");
+		
+		clickLinkWithText("Szerkesztés");
+		checkField("penalty_type", penaltyType);
+		checkField("price", "" + price);
+		onScreen(noteText);
+		
+		submit();
+		sleep(2000);
 
-		click("i.fa-trash");
-		clickLinkWithText("Esemény törlése");
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		sleep(1000);
+		clickLinkWithText("Igen");
 
-		sleep(8000);
+		sleep(5000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(penaltyType));
 		Log.log("Esemény: Bírság sikeresen törölve.");
 
