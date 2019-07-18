@@ -2571,7 +2571,10 @@ public class TestBase {
 		String noteText = "Test note " + randNumber;
 		fillName("note", noteText);
 		submit();
-		clickLinkWithText("Időszakos szerviz");
+		sleep(2000);
+		
+		driver.findElement(By.cssSelector("a[href*='szerviz-esemeny-megtekintese']")).click();
+		
 		onScreen(partName);
 		onScreen(noteText);
 		checkPrice(randPrice, " ");
