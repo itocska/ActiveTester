@@ -2637,8 +2637,11 @@ public class TestBase {
 		String noteText = "Test note " + randNumber;
 		fillName("note", noteText);
 		submit();
+		sleep(2000);
 		Log.log("Sikeresen mentve");
-		clickLinkWithText("Egyéb szerviz");
+		
+		driver.findElement(By.cssSelector("a[href*='szerviz-esemeny-megtekintese']")).click();
+		sleep(1000);
 		onScreen(partName);
 		onScreen(noteText);
 		checkPrice(randPrice, " ");
@@ -2656,11 +2659,47 @@ public class TestBase {
 		}
 		onScreen(noteText);
 		checkField("car_mycar_service_log_items[0][price]", randPrice + "");
+		
+		randNumber = new Random().nextInt(500) + 1;
+		randPrice = new Random().nextInt(123456);
+		sleep(1000);
+		fillName("car_mycar_service_log_items[0][price]", "" + randPrice);
+		fillName("car_mycar_service_log_items[0][item_description]", "part " + randNumber);
+		randWorkPrice = new Random().nextInt(123456);
+		fillName("price_work", "" + randWorkPrice);
+		noteText = "Test note " + randNumber;
+		fillName("note", noteText);
+		
 		submit();
+		sleep(2000);
 		Log.log("Sikeres módosítás");
+		
+		Log.log("Újra ellenőrzés...");
+		clickLinkWithText("Egyéb szerviz");
+		onScreen(partName);
+		onScreen(noteText);
+		checkPrice(randPrice, " ");
+		clickLinkWithText("Szerkesztés");
+		Log.log("Módosítás");
+		sleep(2000);
+		oldalonAlkatresz = driver.findElement(By.id("car-mycar-service-log-items-0-text")).getAttribute("value");
+		if (oldalonAlkatresz.equals(partName)) {
+			driver.findElement(By.xpath("//*[contains(text(), \"" + partName + "\")]"));
+			System.out.println(partName);
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(partName));
+			Log.log("Képernyőn: " + partName);
+		} else {
+			Log.log("Alkatrész hiba");
+		}
+		onScreen(noteText);
+		checkField("car_mycar_service_log_items[0][price]", randPrice + "");
+		
+		submit();
+		sleep(2000);
+		Log.log("Törlés...");
 
-		click(".fas.fa-trash.circle");
-		click(".btn.btn-sm.h-100.d-flex.align-items-center.btn-secondary");
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		driver.findElement(By.cssSelector(".btn.btn-sm.h-100.d-flex.align-items-center.btn-secondary")).click();
 		sleep(1000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
 		Log.log("Esemény: egyéb sikeresen törölve.");
