@@ -1572,7 +1572,8 @@ public class TestBase {
 
 		click("input[name=\"service_date\"]");
 		// click("body");
-		new Actions(driver).moveByOffset(0, 0).click().build().perform();
+		//new Actions(driver).moveByOffset(0, 0).click().build().perform();
+		driver.findElement(By.id("service-date")).sendKeys(Keys.ENTER);
 
 		clickLinkWithText("Új felvétele");
 
