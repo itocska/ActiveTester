@@ -3713,7 +3713,9 @@ public class TestBase {
 		clickLinkWithText("új oldal hozzáadása");
 		rand = new Random().nextInt(30);
 		String Title = "Title Example"+rand;
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/div/div/form//div/div/div/div/div/input"))).sendKeys(Title);
+		sleep(2000);
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/div/div/form//div/div/div/div/div/input"))).sendKeys(Title);
+		fillName("title", Title);
 		String ContentIfr = "Ez egy Példa tartalom :)"+rand;
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("content_ifr"))).sendKeys(ContentIfr);
 		driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();	
@@ -3752,7 +3754,9 @@ public class TestBase {
 		fillName("email", "kovacs@bela.hu");
 		
 		driver.findElement(By.xpath("html/body/div/div/div/div/form/div/button")).click();
-		goToPage(url+"/hu/ceg-oldal-szerkesztes");
+		
+		clickCss(".fas.fa-long-arrow-alt-left");
+		
 		onScreen(logoText);
 		onScreen(logoSlogen);
 		onScreen(aboutUs);
