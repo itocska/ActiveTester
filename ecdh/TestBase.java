@@ -1443,15 +1443,18 @@ public class TestBase {
 		fillName("car_company_id_ac", "Abc kft.");
 		submit();
 
-		wait.until(
-				ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Autó vizsgáztatva')]")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Autó vizsgáztatva')]")));
 
 		assertTrue("Mûszaki vizsga elmentve", driver.getPageSource().contains("Autó vizsgáztatva"));
 		Log.log("Esemény: mûszaki vizsga elmentve.");
 
 		onScreen("Abc kft.");
+		
+		sleep(3000);
 
-		clickLinkWithText("Autó vizsgáztatva");
+		driver.findElement(By.cssSelector("a[href*='muszaki-vizsga-megtekintese']")).click();
+		
+		sleep(3000);
 		onScreen("Abc kft.");
 		String now = dateLocale(LocalDate.now());
 
@@ -1465,10 +1468,11 @@ public class TestBase {
 		checkField("car_company_id_ac", "Abc kft.");
 		onScreen(noteText);
 
-		driver.findElement(By.cssSelector(".checkbox-taxi label")).click();
+		driver.findElement(By.xpath("//*[contains(text(), 'Taxi')]")).click();
 		submit();
 
 		clickLinkWithText("Műszaki vizsga");
+		
 		now = dateLocale(LocalDate.now().plusYears(1));
 		onScreen(now);
 
