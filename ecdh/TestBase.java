@@ -1725,7 +1725,10 @@ public class TestBase {
 
 		Log.log("Esemény: baleset elmentve.");
 
-		clickLinkWithText("Az autó megsérült");
+		sleep(2000);
+		driver.findElement(By.cssSelector("a[href*='baleset-esemeny-megtekintese']")).click();
+		sleep(2000);
+		
 		onScreen(noteText);
 
 		clickLinkWithText("Szerkesztés");
