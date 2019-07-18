@@ -4176,22 +4176,25 @@ public class TestBase {
 		onScreen("Második részlet");
 		onScreen(noteText2);
 		submit();
+		sleep(3000);
 
 		// driver.findElement(By.xpath("/html/body/main/section[2]/div/div[2]/div[2]/div[3]/a[3]/i")).click();
 		// driver.findElement(By.cssSelector("i.fas.fa-trash.circle")).click();
-		click("i.fa-trash");
+		
+		clickCss(".fas.fa-trash.circle");
+		
 		sleep(2000);
 		driver.findElement(By.className("btn-secondary")).click();
 
 		Log.log("Esemény: Teljesítményadó második részlet sikeresen törölve.");
-		sleep(2000);
+		sleep(4000);
 		// driver.findElement(By.xpath("/html/body/main/section[2]/div/div[2]/div[2]/div[3]/a[3]/i")).click();
-		click("i.fa-trash");
+		clickCss(".fas.fa-trash.circle");
 		sleep(2000);
 		driver.findElement(By.className("btn-secondary")).click();
 
 		Log.log("Esemény: Teljesítményadó első részlet sikeresen törölve.");
-		sleep(2000);
+		sleep(4000);
 
 		/*
 		 * clickLinkWithText("Új esemény hozzáadása"); sleep(2000);
@@ -4249,15 +4252,27 @@ public class TestBase {
 		onScreen("Egy összegben");
 		onScreen(noteText3);
 		submit();
+		sleep(3000);
 
 		// driver.findElement(By.xpath("/html/body/main/section[2]/div/div[2]/div[2]/div[3]/a[3]/i")).click();
-		click("i.fa-trash");
+		clickCss(".fas.fa-trash.circle");
+		sleep(1000);
 		driver.findElement(By.className("btn-secondary")).click();
 
 		Log.log("Esemény: Egész éves teljesítményadó sikeresen törölve.");
 
 	}
 
+	private static void clickCss(String string) throws IOException, InterruptedException {
+		
+		sleep(2000);
+		WebElement element = driver.findElement(By.cssSelector(string));
+		Actions actions = new Actions(driver);
+		actions.moveToElement(element).click().perform();
+		sleep(3000);
+		
+	}
+	
 	public static void inviteActivateFriend() throws IOException, InterruptedException {
 
 		driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div[4]/a")).click();
