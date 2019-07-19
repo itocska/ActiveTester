@@ -3797,7 +3797,7 @@ public class TestBase {
 		// Select category = new
 		// Select(driver.findElement(By.id("MainContent_control_VehicleCategoryList")));
 
-		sleep(500);
+		sleep(1500);
 		randomNum = rand.nextInt(1) + 2;
 
 		try {
@@ -3813,7 +3813,7 @@ public class TestBase {
 
 		try {
 			Select brand = new Select(driver.findElement(By.id("MainContent_control_BrandList")));
-			sleep(500);
+			sleep(1500);
 			randomNum = rand.nextInt(25) + 1;
 			brand.selectByIndex(randomNum);
 		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
@@ -3824,7 +3824,7 @@ public class TestBase {
 
 		try {
 			Select brand = new Select(driver.findElement(By.id("MainContent_control_BrandList")));
-			sleep(500);
+			sleep(1500);
 			randomNum = rand.nextInt(1) + 1;
 			brand.selectByIndex(randomNum);
 		} catch (org.openqa.selenium.StaleElementReferenceException ex) {
@@ -3835,7 +3835,7 @@ public class TestBase {
 
 		try {
 			Select brand = new Select(driver.findElement(By.id("MainContent_control_ModelRange1List")));
-			sleep(500);
+			sleep(1500);
 			randomNum = rand.nextInt(1) + 1;
 			brand.selectByIndex(randomNum);
 			
@@ -3848,7 +3848,7 @@ public class TestBase {
 		
 		try {
 			Select brand = new Select(driver.findElement(By.id("MainContent_control_ModelRange2List")));
-			sleep(500);
+			sleep(1500);
 			randomNum = rand.nextInt(1) + 1;
 			brand.selectByIndex(randomNum);
 			
@@ -3897,11 +3897,13 @@ public class TestBase {
 		   
 		   Log.log("A felhasználói feltételeket és az adatvédelmi nyilatkozatot elolvastam megértettem és elfogadom");
 		   driver.findElement(By.id("MainContent_ControlButtonCCbasic")).click();
-		   sleep(1000);
-		   driver.findElement(By.id("MainContent_controlCheckBoxInvoiceRequired")).click();
+		   sleep(3000);
 		   
 		   driver.switchTo().defaultContent();
 		   driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+		   sleep(2000);
+		   driver.findElement(By.id("MainContent_controlCheckBoxInvoiceRequired")).click();
+		   sleep(3000);
 		 
 		   fillName("ctl00$MainContent$controlTextBoxCegnev","Teszt Ember");
 		   fillName("ctl00$MainContent$controlTextBoxAdoszam","1035678942");
