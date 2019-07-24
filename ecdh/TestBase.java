@@ -753,8 +753,8 @@ public class TestBase {
 
 		sleep(6000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH)'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH)'])[2]")).click();
+				By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH) To:" + companyUser + "'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH) To:" + companyUser + "'])[2]")).click();
 
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Céges fiók létrehozása')]")));
@@ -780,8 +780,19 @@ public class TestBase {
 		}
 
 		System.out.println(driver.getTitle());
+		sleep(2000);
 		passShepherd();
+		sleep(2000);
+		passShepherd();
+		sleep(2000);
+		passShepherd();
+		sleep(2000);
+		passShepherd();
+		sleep(2000);
+		passShepherd();
+		sleep(2000);
 		Log.log("Activation succeed");
+		goToPage(url + "/hu/kijelentkezes");
 
 	}
 
