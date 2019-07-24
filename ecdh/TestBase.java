@@ -472,10 +472,11 @@ public class TestBase {
 			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("A"));
 			Log.log("Képernyőn: " + "A");
 			
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email']")));
-			System.out.println("adokmate0916@gmail.com");
-			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("adokmate0916@gmail.com"));
-			Log.log("Képernyőn: " + "adokmate0916@gmail.com");
+			String mail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email']"))).getText();
+			
+			System.out.println(mail);
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(mail));
+			Log.log("Képernyőn: " + mail);
 		}
 		
 			
@@ -505,11 +506,12 @@ public class TestBase {
 			onScreenValue(randNumTax);
 			onScreenValue("6");
 			
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email']")));
-			System.out.println("adokmate0916@gmail.com");
-			assertTrue("Szerepel a forrásban", driver.getPageSource().contains("adokmate0916@gmail.com"));
-			Log.log("Képernyőn: " + "adokmate0916@gmail.com");
+			String mail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='email']"))).getText();
 			
+			System.out.println(mail);
+			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(mail));
+			Log.log("Képernyőn: " + mail);
+		
 		
 		}
 			
