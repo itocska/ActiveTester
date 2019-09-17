@@ -64,6 +64,7 @@ public class TestBase {
 	public static String myUrl;
 	public static String manufacturer;
 	public static String model;
+	public static String yearfrom;
 
 	// byITOtest
 	public static Properties prop = new Properties();
@@ -753,8 +754,8 @@ public class TestBase {
 
 		sleep(6000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH) To:" + companyUser + "'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH) To:" + companyUser + "'])[2]")).click();
+				By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH)'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH)'])[2]")).click();
 
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Céges fiók létrehozása')]")));
@@ -780,19 +781,8 @@ public class TestBase {
 		}
 
 		System.out.println(driver.getTitle());
-		sleep(2000);
 		passShepherd();
-		sleep(2000);
-		passShepherd();
-		sleep(2000);
-		passShepherd();
-		sleep(2000);
-		passShepherd();
-		sleep(2000);
-		passShepherd();
-		sleep(2000);
 		Log.log("Activation succeed");
-		goToPage(url + "/hu/kijelentkezes");
 
 	}
 
@@ -880,12 +870,12 @@ public class TestBase {
 		sleep(2000);
 		click("#car-type-id");
 		sleep(5000);
+		
 		String NumberPlate = generatePlateNumber();
-        fillName("numberplate",NumberPlate);
+        fillName("numberplate","111111");
         int kmNumberInt = rand.nextInt(998999)+10000;
         fillName("km",""+kmNumberInt);
        
-		
 		
 		click(".btn-secondary");
 		sleep(3000);
@@ -895,13 +885,13 @@ public class TestBase {
 		sleep(1000);
 		passShepherd();
 		sleep(1000);
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), '" + manufacturer + "')]")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='breadcrumb-item'][2]/span")));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), '" + manufacturer + "')]")));
 		System.out.println(manufacturer);
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(manufacturer));
 		Log.log("Képernyőn: " + manufacturer);
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), '" + model + "')]")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='breadcrumb-item'][2]/span")));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), '" + model + "')]")));
 		System.out.println(model);
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(model));
 		Log.log("Képernyőn: " + model);
@@ -915,9 +905,11 @@ public class TestBase {
 
 	public static void fillCarDetail() throws IOException, InterruptedException, AWTException {
 
-		 clickLinkWithText("Adatok szerkesztése");
-			TestBase.select("petrol", "Dízel");
-			randomSelect("car_condition");
+
+		  sleep(2000);
+		  clickLinkWithText("Adatok szerkesztése");
+		  TestBase.select("petrol", "Dízel");
+		  randomSelect("car_condition");
 	 
 			Random rand = new Random();
 			long leftLimit = 11111111111111111L;
@@ -1058,15 +1050,17 @@ public class TestBase {
 			Log.log(currentValue5);
 			Log.log(currentValue6);
 
-			elements = driver.findElements(By.cssSelector(".checkbox label"));
+			elements = driver.findElements(By.cssSelector(".checkbox-label"));
 			for (WebElement element : elements) {
 				rand = new Random();
 				randomNum = rand.nextInt(2);
 				if (randomNum == 0) {
 					element.click();
+					Thread.sleep(1500);
 				}
 			}
-
+			
+            sleep(2000);
 			driver.findElement(By.id("save-and-back")).click();
 			Thread.sleep(3000);
 
@@ -1544,6 +1538,7 @@ public class TestBase {
 		fillName("car_user[mobile]", "301234567");
 		sleep(1000);
 		driver.findElement(By.id("save-and-back")).click();
+		sleep(2000);
 		checkPrice(randomprice, " ");
 		driver.findElement(By.cssSelector(".fas.fa-eye")).click();
 		checkPrice(randomprice, " ");
@@ -2728,6 +2723,39 @@ public class TestBase {
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
 		Log.log("Esemény: egyéb sikeresen törölve.");
 
+	}
+	
+	public static void importCarSearch() throws IOException, InterruptedException, AWTException {
+		
+		
+	driver.findElement(By.name("mf_ac")).click();
+	
+	manufacturer = fillCarField("#mf", "#ui-id-1");
+		try {	
+		model = fillCarField("#mu", "#ui-id-2");
+		
+		}catch(IllegalArgumentException e){
+		
+			driver.findElement(By.id("mf")).clear();
+			manufacturer = fillCarField("#mf", "#ui-id-1");	
+			model = fillCarField("#mu", "#ui-id-2");
+		}
+		
+		driver.findElement(By.xpath("//div[@class='col-sm-6'][3]/div[@class='form-group  select  fg-line']/div[@class='multiple-select-holder  ']/span[@class='multiselect-native-select']/div[@class='btn-group']/button[@class='multiselect dropdown-toggle btn btn-default']")).click();
+		sleep(2000);
+		driver.findElement(By.xpath("//div[@class='btn-group show']/ul[@class='multiselect-container dropdown-menu show']/li[2]/a/label[@class='checkbox']")).click();
+		driver.findElement(By.xpath("//div[@class='col-sm-6'][4]/div[@class='row']/div[@class='col-10 pl-1 petrolHolder']/div[@class='form-group  select  fg-line']/div[@class='multiple-select-holder  ']/span[@class='multiselect-native-select']/div[@class='btn-group']/button[@class='multiselect dropdown-toggle btn btn-default']")).click();
+		driver.findElement(By.xpath("//ul[@class='multiselect-container dropdown-menu show']/li[2]/a/label[@class='checkbox']")).click();
+		Select yearfrom = new Select(driver.findElement(By.name("yearfrom")));
+		yearfrom.selectByVisibleText("2012");
+		fillName("kmto","1200");
+		fillName("priceto","12");
+		sleep(2000);
+		submit();
+		
+		
+		
+		
 	}
 
 	public static void addNewCarEventPenalty() throws IOException, InterruptedException {
