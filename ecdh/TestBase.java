@@ -902,7 +902,92 @@ public class TestBase {
 		checkPrice(kmNumberInt," ");
 
 	}
+	public static void addNewCarOtherCountryTest() throws IOException, InterruptedException, AWTException {
+		
+		Random rand = new Random();
+		String carYear = randomSelect("car_year");
+		String carMonth = randomSelect("car_month");
+		sleep(2000);
+		manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
+		sleep(2000);
+		model = fillCarField("#car-model-id", "#ui-id-2");
+		sleep(2000);
+		click("#car-type-id");
+		sleep(5000);
+		String NumberPlate = generatePlateNumber();
+        fillName("numberplate",""+NumberPlate);
+		driver.findElement(By.name("numberplate_country")).click();
+		Select orszag = new Select(driver.findElement(By.name("numberplate_country")));
+		orszag.selectByVisibleText("A - Ausztria");
+        int kmNumberInt = rand.nextInt(998999)+10000;
+        fillName("km",""+kmNumberInt);
+       
+		
+		click(".btn-secondary");
+		sleep(3000);
+		passShepherd();
+		sleep(1000);
+		passShepherd();
+		sleep(1000);
+		passShepherd();
+		sleep(1000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='breadcrumb-item'][2]/span")));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), '" + manufacturer + "')]")));
+		System.out.println(manufacturer);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(manufacturer));
+		Log.log("Képernyőn: " + manufacturer);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='breadcrumb-item'][2]/span")));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), '" + model + "')]")));
+		System.out.println(model);
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(model));
+		Log.log("Képernyőn: " + model);
+		
+		onScreen(carYear);
+		onScreen(carMonth);
+		onScreen(NumberPlate);
+		checkPrice(kmNumberInt," ");
+		
+		
+		
 
+	}
+	
+	public static void addNewCarError() throws IOException, InterruptedException, AWTException {
+		
+		Random rand = new Random();
+		String carYear = randomSelect("car_year");
+		String carMonth = randomSelect("car_month");
+		sleep(2000);
+		manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
+		sleep(2000);
+		model = fillCarField("#car-model-id", "#ui-id-2");
+		sleep(2000);
+		click("#car-type-id");
+		sleep(5000);
+		
+		String NumberPlate = generatePlateNumber();
+        fillName("numberplate","111111");
+        int kmNumberInt = rand.nextInt(998999)+10000;
+        fillName("km",""+kmNumberInt);
+       
+		
+		click(".btn-secondary");
+		sleep(3000);
+		passShepherd();
+		sleep(1000);
+		passShepherd();
+		sleep(1000);
+		passShepherd();
+		sleep(1000);
+		onScreen("Nem megfelelő formátum.");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(model));
+		Log.log("Hiba teszt sikeres Log mentve!");
+		
+		
+		
+	
+	}
+	
 	public static void fillCarDetail() throws IOException, InterruptedException, AWTException {
 
 
@@ -5221,4 +5306,103 @@ public static void documentGenerator() throws IOException, InterruptedException 
 	
 	}
 
+
+public static void documentGeneratorErrorTest() throws IOException, InterruptedException {
+	
+	clickLinkWithText("Dokumentum generáló");
+	sleep(3000);
+	
+	//vétel dokumentumok kiválasztása------------------------------------
+	Log.log("vétel dokumentumok kiválasztása...");
+	clickLinkWithText("Vétel");
+	sleep(2000);
+	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: Autó')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: Kellék')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: Vételár')])[2]")).click();
+	driver.findElement(By.xpath("//label[contains(text(),'Bizományból kiadás')]")).click();
+	driver.findElement(By.xpath("//label[contains(text(),'Bizományosi szerződés')]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Foglaló')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Meghatalmazás: Átírás')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Meghatalmazás: Műszaki vizsga')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Meghatalmazás: Regisztrációs adó')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Átadás-átvételi: átírási ktg')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Adásvételi szerződés')])[2]")).click();
+	driver.findElement(By.xpath("(//label[contains(text(),'Állapotlap')])[2]")).click();
+	submit();
+	sleep(3000);
+	Log.log("Minden vétel dokumentum kitöltése");
+	//vétel dokumentumok kiválasztása-------------------------------------
+
+	submit();
+	Log.log("Hiba üzenetek ellenőrze");
+	onScreen("Kötelező mező");
+	onScreen("A mező nem lehet üres.");
+	sleep(3000);
+	//Átadás-átvételi nyilatkozat----------------------------------------------------------------------------
+	String mFacturer = driver.findElement(By.xpath("//div[@class='car-manufacturer']")).getText();
+	String plateNum = driver.findElement(By.id("car-plate-number")).getAttribute("value");
+	String carVin = driver.findElement(By.id("car-vin")).getAttribute("value");
+	clickLinkWithText("Partner Kiválasztása");
+	sleep(2000);
+	clickLinkWithText("Új partner felvétele");
+	sleep(2000);
+	
+	//partner----------------------------------------------------
+	Log.log("Partner felvétel...");
+	driver.findElement(By.xpath("//section//button[@type='submit']")).click();
+	onScreen("A mező nem lehet üres.");
+	Log.log("Hiba Üzenetek Ellenőrzése!");
+	sleep(10000);
+	fillName("last_name","TesztCsalád");
+	fillName("first_name","TesztVezeték");
+	fillName("personal_ident","123456AB");
+	fillName("mothers_name","Partner Anyu");
+	fillName("birth_date","1956-03-11");
+	fillName("birth_place","Budapest");
+	fillName("nationality","Magyar");
+	fillName("email","test@email.com");
+	fillName("phone","12345678");
+	fillName("car_address[loc_zip_id_ac]","1052");
+	sleep(3000);
+	driver.findElement(By.id("car-address-loc-zip-id")).sendKeys(Keys.ENTER);
+	sleep(3000);
+	fillName("car_address[street]","Sas");
+	driver.findElement(By.id("car-address-street-type")).click();
+	sleep(1000);
+	driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ARROW_DOWN);
+	sleep(1000);
+	driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ENTER);
+	sleep(1000);
+	fillName("car_address[street_num]","25");
+	fillName("car_address[building]","A");
+	fillName("car_address[floor]","2");
+	fillName("car_address[door]","204");
+	driver.findElement(By.xpath("//section//button[@type='submit']")).click();
+	sleep(2000);
+	//partner vége----------------------------------------------------
+	
+	String buyerName = driver.findElement(By.id("partner1-name")).getAttribute("value");
+	String taxNum = driver.findElement(By.id("partner1-tax-no")).getAttribute("value");
+	String regNum = driver.findElement(By.id("partner1-reg-no")).getAttribute("value");
+	String address = driver.findElement(By.id("partner1-address")).getAttribute("value");
+	
+	fillName("sign_city_id_ac","Budapest");
+	sleep(1000);
+	driver.findElement(By.id("sign-city-id")).sendKeys(Keys.ENTER);
+	sleep(1000);
+	driver.findElement(By.id("sign-date")).click();
+	driver.findElement(By.xpath("//form/div[4]/div[1]")).click();
+	
+	fillName("witness1_name","Tanú 1");
+	fillName("witness1_personal_ident","234567CD");
+	fillName("witness1_address","Repülőtéri út 6/a");
+	fillName("witness2_name","Tanú 2");
+	fillName("witness2_personal_ident","345678EF");
+	fillName("witness2_address","Igazából ez bármi lehet");
+	submit();
+
+	
 }
+}
+
+
