@@ -5135,10 +5135,7 @@ public static void companySearch() throws IOException, InterruptedException {
 	click(".fas.fa-long-arrow-alt-left");
 	Log.log("Sikeres Autó Átvétel!");
 
-}
-
-
-
+    }
 
 
 public static void companyRate() throws IOException, InterruptedException {
@@ -5211,6 +5208,8 @@ public static void companyRate() throws IOException, InterruptedException {
 		}
 	
 	}
+
+
 public static void documentGenerator() throws IOException, InterruptedException {
 	
 	clickLinkWithText("Dokumentum generáló");
@@ -5400,9 +5399,33 @@ public static void documentGeneratorErrorTest() throws IOException, InterruptedE
 	fillName("witness2_personal_ident","345678EF");
 	fillName("witness2_address","Igazából ez bármi lehet");
 	submit();
-
 	
-}
-}
+	}
 
 
+
+public static void setNewRSSChannel()  throws IOException, InterruptedException {
+	
+	
+	
+	
+	}
+
+
+public static void checkRSSChannel()  throws IOException, InterruptedException {
+	
+	
+	
+	
+	}
+
+
+public static void deleteTestRSSChannel()  throws IOException, InterruptedException {
+	
+	
+	
+	
+	}
+
+
+}
