@@ -5406,24 +5406,123 @@ public static void documentGeneratorErrorTest() throws IOException, InterruptedE
 
 public static void setNewRSSChannel()  throws IOException, InterruptedException {
 	
+	driver.findElement(By.id("userMenu")).click();
+	//driver.findElement(By.cssSelector("")).click();
+	clickLinkWithText("Admin");
+	sleep(5000);
 	
-	
-	
+		try {
+		
+			WebElement isVisibleElement = driver.findElement(By.xpath("//*[contains(text(), 'RSS hírcsatornák')]"));
+			boolean visible = isVisibleElement.isDisplayed();
+			Log.log("" + visible);
+			//onScreen("RSS hírcsatornák");
+			//clickLinkWithText("RSS hírcsatornák");
+			
+			if(visible == true) {
+				
+				clickLinkWithText("RSS hírcsatornák");
+				
+			}else {
+				
+				Log.log("RSS Admin keresése");
+				isVisibleElement = driver.findElement(By.xpath("//*[contains(text(), 'RSS Admin')]"));
+				visible = isVisibleElement.isDisplayed();
+				
+				if(visible == true) {
+					
+					clickLinkWithText("RSS Admin");
+					clickLinkWithText("RSS hírcsatornák");
+					
+				}else {
+				
+					Log.log("oldal menü kinyitása");
+					driver.findElement(By.cssSelector(".hi-trigger.ma-trigger")).click();
+					sleep(2000);
+					clickLinkWithText("RSS Admin");
+					clickLinkWithText("RSS hírcsatornák");
+				}
+			}
+			
+		}catch(NoSuchElementException e) {
+		
+		goToPage(url+"/hu/admin/car/rss-heads");
+		
+		}
+		
+		try{
+			
+			driver.findElement(By.cssSelector(".zmdi.zmdi-plus")).click();
+			
+		}catch(NoSuchElementException e) {
+			
+			goToPage(url+"/hu/admin/car/rss-heads/add");
+			
+		}
+		
+		/*
+		 negatív teszteset, nincs elvárt validáció a mezőkre
+		 
+		 submit();
+		 onScreen("Sikeres RssHeads hozzáadás");
+		 Log.log("Adatok nélkül mentve");
+		 */
+		
+		fillName("title","HVG_itocska_test");
+		fillName("url","https://hvg.hu/rss/cegauto");
+		sleep(2000);
+		submit();
+		// TÖRIK A TESZT Bug #12297
+		sleep(2000);
+		onScreen("Sikeres Rss Heads hozzáadás");
+
 	}
+	
 
 
 public static void checkRSSChannel()  throws IOException, InterruptedException {
 	
-	
-	
+	onScreen("HVG_itocska_test");
+	onScreen("http://hvg.hu/");
+	onScreen("hvg.hu RSS");
+	onScreen("hvg@hvg.hu");
+	onScreen("hvg.hu");
+	sleep(3000);
+	goToPage(url+"/hu/admin/car/rss-items");
+	sleep(1000);
+	onScreen("HVG_itocska_test");
+	goToPage(url+"/hu/mediafigyelo");
+	onScreen("HVG_itocska_test");
+	/*
+	első HVG mentése, majd ellenőrzése
+	goToPage(url+"/hu/admin/car/rss-items");
+	sleep(2000);
+	clickLinkWithText("RSS Csatorna");
+	sleep(2000);
+	clickLinkWithText("RSS Csatorna");
+	*/
+	goToPage(url+"/hu/admin/car/rss-heads");
+	onScreen("HVG_itocska_test");
+	onScreen("https://hvg.hu/rss/cegauto");
+	driver.findElement(By.cssSelector(".zmdi.zmdi-check")).click();
+	goToPage(url+"/hu/mediafigyelo");
+	onScreen("HVG_itocska_test");
+	goToPage(url+"/hu/admin/car/rss-heads");
+	driver.findElement(By.cssSelector(".zmdi.zmdi-edit")).click();
+	fillName("title","HVG_itocska_test2");
+	submit();
+	goToPage(url+"/hu/admin/car/rss-heads");
+	onScreen("HVG_itocska_test2");
 	
 	}
 
 
 public static void deleteTestRSSChannel()  throws IOException, InterruptedException {
 	
-	
-	
+	goToPage(url+"/hu/admin/car/rss-heads");
+	driver.findElement(By.cssSelector(".zmdi.zmdi-delete")).click();
+	driver.findElement(By.cssSelector(".btn.bgm-lightblue")).click();
+	Log.log("Sikeres teszt");
 	
 	}
 
