@@ -541,7 +541,7 @@ public class TestBase {
 		
 		int rand = new Random().nextInt(500)+500;
 		String randUser = "Felhasználó "+rand;
-		rand = new Random().nextInt(50)+1;
+		rand = new Random().nextInt(50)+10;
 		int randLimit = rand;
 		
 		try {
@@ -575,7 +575,8 @@ public class TestBase {
 			}catch(NoSuchElementException e) {
 
 				Log.log("A szinkron már folyamatban");
-				driver.findElement(By.xpath("(//a[contains(text(), 'Megtekint')])[1]")).click();
+				sleep(3000);
+				driver.findElement(By.xpath("(//div[@id='toggle-partner-sync-block']//a[contains(text(), 'Megtekint')])[1]")).click();
 				sleep(2000);
 				clickLinkWithText("Módosítás");
 		      	sleep(2000);
@@ -586,14 +587,19 @@ public class TestBase {
 				Log.log("Átírva megfogható adatokra");
 
 			}
-		
-				driver.findElement(By.xpath("(//a[contains(text(), 'Megtekint')])[1]")).click();
+				
+				driver.findElement(By.xpath("(//div[@id='toggle-partner-sync-block']//a[contains(text(), 'Megtekint')])[1]")).click();
 				sleep(2000);
 				Log.log("Megtekint ellenőrzése...");
 				
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section/div/div/div/div/div[contains(text(),'"+randLimit+"')]")));
-				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randLimit));
-				Log.log("Képernyőn: " + randLimit);
+				sleep(3000);
+				//wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='blue-bg p-3']//text()[contains(.,'"+randLimit+"')]")));
+				String limit = driver.findElement(By.xpath("substring(//div[@class='blue-bg p-3']//text()[contains(.,'"+randLimit+"')], 26, 2)")).getText();
+				if(limit.equals(randLimit)) {
+					Log.log("Képernyőn: " + randLimit);
+				}else {
+					Log.log("nem található a limit");
+				}
 					
 				clickLinkWithText("Módosítás");
 				sleep(2000);
