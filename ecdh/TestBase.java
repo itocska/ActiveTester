@@ -911,17 +911,53 @@ public class TestBase {
 	public static void addNewCar() throws IOException, InterruptedException, AWTException {
 		Random rand = new Random();
 		String carYear = randomSelect("car_year");
+		
 		String carMonth = randomSelect("car_month");
 		sleep(2000);
 		manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
 		sleep(2000);
+		
+		try {
+			
+			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi gyártó')]"));
+			
+			fillName("car_manufacturer_custom","Test Gyártó");
+			fillName("car_model_custom","Test Modell");
+			fillName("car_type_custom","Test Típus");
+			
+		}catch(ElementNotVisibleException e) {
+			
+		}
+		
 		model = fillCarField("#car-model-id", "#ui-id-2");
 		sleep(2000);
+
+		try {
+			
+			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi modell')]"));
+			
+			fillName("car_model_custom","Test Modell");
+			fillName("car_type_custom","Test Típus");
+			
+		}catch(ElementNotVisibleException e) {
+			
+		}
+		
 		click("#car-type-id");
 		sleep(5000);
+
+		try {
+			
+			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi típus')]"));
+			
+			fillName("car_type_custom","Test Típus");
+			
+		}catch(ElementNotVisibleException e) {
+			
+		}
 		
-		String NumberPlate = generatePlateNumber();
-        fillName("numberplate","111111");
+		
+        fillName("numberplate","abc123");
         int kmNumberInt = rand.nextInt(998999)+10000;
         fillName("km",""+kmNumberInt);
        
@@ -947,7 +983,7 @@ public class TestBase {
 		
 		onScreen(carYear);
 		onScreen(carMonth);
-		onScreen(NumberPlate);
+		onScreen("ABC-123");
 		checkPrice(kmNumberInt," ");
 
 	}
