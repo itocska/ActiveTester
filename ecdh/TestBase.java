@@ -4826,7 +4826,7 @@ public class TestBase {
 public static void addNewCalendarEvent() throws IOException, InterruptedException {
 		
 		sleep(1000);
-		driver.findElement(By.xpath("//*[@id='calendar']//*[contains(text(),'20')]")).click();
+		driver.findElement(By.xpath("//*[@class='fc-view-container']//*[contains(text(),'20')]")).click();
 		sleep(1000);
 		Log.log("Nap kiválasztása");
 		clickLinkWithText("Esemény hozzáadása");
@@ -4849,7 +4849,7 @@ public static void addNewCalendarEvent() throws IOException, InterruptedExceptio
 		Log.log("Naptári esemény sikeresen felvive");
 		
 		sleep(1000);
-		driver.findElement(By.xpath("//*[@id='calendar']//*[contains(text(),'20')]")).click();
+		driver.findElement(By.xpath("//*[@class='fc-view-container']//*[contains(text(),'20')]")).click();
 		sleep(1000);
 		driver.findElement(By.xpath("//*[contains(text(),'"+titleText+"')]")).click();
 		onScreen(titleText);
@@ -4863,7 +4863,7 @@ public static void addNewCalendarEvent() throws IOException, InterruptedExceptio
 		
 		onScreen(titleText);
 		onScreen(descText);
-		onScreen("-20");
+		onScreen("20.");
 		onScreen("Budapest, Repülőtéri út 6, Magyarország");
 		driver.findElement(By.xpath("//label[contains(text(),'Egész napos')]")).click();
 		rand = new Random().nextInt(500)+500;
@@ -4871,7 +4871,9 @@ public static void addNewCalendarEvent() throws IOException, InterruptedExceptio
 		titleText = "Test esemény "+rand;
 		fillName("description","Test megjegyzés "+ rand);
 		descText = "Test megjegyzés "+rand;
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recurring"))).click();
+		sleep(3000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='popup-content']//*[contains(text(), 'Ismétlődik')]"))).click();
+		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recurring-data-interval")));
 		fillName("recurring_data[interval]","30");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recurring-data-frequency"))).click();
@@ -4883,7 +4885,9 @@ public static void addNewCalendarEvent() throws IOException, InterruptedExceptio
 		driver.findElement(By.id("recurring-data-end-condition")).sendKeys(Keys.ARROW_DOWN);
 		driver.findElement(By.id("recurring-data-end-condition")).sendKeys(Keys.ENTER);
 		fillName("recurring_data[count]","1");
-		driver.findElement(By.cssSelector(".btn.btn-primary.w-100")).click();
+		
+		sleep(2000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn.btn-primary.w-100"))).click();
 		onScreen(titleText);
 		onScreen("20.");
 		onScreen(descText);
