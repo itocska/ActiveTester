@@ -21,6 +21,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
@@ -35,6 +44,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import de.svenjacobs.loremipsum.LoremIpsum;
 
@@ -537,7 +548,7 @@ public class TestBase {
 
 
 	
-	public static void AddCarSync()throws IOException, InterruptedException {
+	public static void AddCarSync()throws IOException, InterruptedException, ParserConfigurationException, SAXException, XPathExpressionException {
 		
 		int rand = new Random().nextInt(500)+500;
 		String randUser = "Felhasználó "+rand;
@@ -593,9 +604,26 @@ public class TestBase {
 				Log.log("Megtekint ellenőrzése...");
 				
 				sleep(3000);
+				
 				//wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='blue-bg p-3']//text()[contains(.,'"+randLimit+"')]")));
-				String limit = driver.findElement(By.xpath("substring(//div[@class='blue-bg p-3']//text()[contains(.,'"+randLimit+"')], 26, 2)")).getText();
-				if(limit.equals(randLimit)) {
+				
+				 DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			     documentBuilderFactory.setNamespaceAware(true);
+			     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			     Document doc = documentBuilder.parse("src/cricketTeam_info.xml");
+			 
+			     XPathFactory xpathFactory = XPathFactory.newInstance();
+			     XPath xpath = xpathFactory.newXPath();
+				
+				XPathExpression expr = xpath.compile("substring(//div[@class='blue-bg p-3']//text()[contains(.,'"+randLimit+"')], 26, 2)");
+				String substr = (String) expr.evaluate(doc, XPathConstants.STRING);
+				
+				String strLimit = "" + randLimit;
+				
+				Log.log(strLimit);
+				Log.log(substr);
+				
+				if(substr.equals(randLimit)) {
 					Log.log("Képernyőn: " + randLimit);
 				}else {
 					Log.log("nem található a limit");
@@ -626,11 +654,25 @@ public class TestBase {
 				
 				
 				
-				driver.findElement(By.xpath("(//a[contains(text(), 'Megtekint')])[1]")).click();
+				driver.findElement(By.xpath("(//div[@id='toggle-partner-sync-block']//a[contains(text(), 'Megtekint')])[1]")).click();
 				sleep(2000);
 				Log.log("Szerkesztett megtekint ellenőrzése...");
 				
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section/div/div/div/div/div[contains(text(),'"+randLimit+"')]")));
+				//wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section/div/div/div/div/div[contains(text(),'"+randLimit+"')]")));
+				
+				expr = xpath.compile("substring(//div[@class='blue-bg p-3']//text()[contains(.,'"+randLimit+"')], 26, 2)");
+				substr = (String) expr.evaluate(doc, XPathConstants.STRING);
+				
+				strLimit = "" + randLimit;
+				
+				if(substr.equals(randLimit)) {
+					Log.log("Képernyőn: " + randLimit);
+				}else {
+					Log.log("nem található a limit");
+				}
+				
+				
+				
 				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randLimit));
 				Log.log("Képernyőn: " + randLimit);
 				
@@ -643,6 +685,7 @@ public class TestBase {
 				Log.log("Képernyőn: " + randUser);
 				
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section//input[@value='" + randLimit + "']")));
+				
 				assertTrue("Szerepel a forrásban", driver.getPageSource().contains(""+randLimit));
 				Log.log("Képernyőn: " + randLimit);
 				
