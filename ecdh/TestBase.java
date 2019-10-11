@@ -1862,6 +1862,10 @@ try {
 		fillName("note", noteText);
 
 		submit();
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
 
 		Log.log("Esemény: tisztítás beküldve.");
 
