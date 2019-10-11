@@ -1932,17 +1932,22 @@ try {
 		submit();
 
 		Log.log("Esemény: baleset beküldve.");
+		sleep(2000);
 
 		String now = dateLocale(LocalDate.now());
 		System.out.println(now);
 		onScreen(now);
-		onScreen("Az autó megsérült");
+		//spec onScreen
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(), 'Sérülés megtekintése')])[2]")));
+		System.out.println("Sérülés megtekintése");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("Sérülés megtekintése"));
+		Log.log("Képernyőn: Sérülés megtekintése");
 
 		Log.log("Esemény: baleset elmentve.");
 
 		sleep(2000);
-		driver.findElement(By.cssSelector("a[href*='baleset-esemeny-megtekintese']")).click();
-		sleep(2000);
+		//driver.findElement(By.cssSelector("a[href*='baleset-esemeny-megtekintese']")).click();
+		//sleep(2000);
 		
 		onScreen(noteText);
 
@@ -2052,7 +2057,19 @@ try {
 		element = elements.get(new Random().nextInt(elements.size()));
 		Log.log(element.findElement(By.className("numberplate")).getText() + " selected.");
 		sleep(3000);
-		element.click();
+		
+		 try {
+			 
+			 	element.click();
+			 	
+		    } catch (Exception e) {
+		    	
+		    	driver.navigate().refresh();
+		    	sleep(5000);
+		    	element.click();
+		        
+		    }
+		
 		sleep(3000);
 	}
 
