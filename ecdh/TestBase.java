@@ -1045,9 +1045,46 @@ public class TestBase {
 		sleep(2000);
 		manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
 		sleep(2000);
+		
+try {
+			
+			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi gyártó')]"));
+			
+			fillName("car_manufacturer_custom","Test Gyártó");
+			fillName("car_model_custom","Test Modell");
+			fillName("car_type_custom","Test Típus");
+			
+		}catch(ElementNotVisibleException e) {
+			
+		}
+		
 		model = fillCarField("#car-model-id", "#ui-id-2");
 		sleep(2000);
+
+		try {
+			
+			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi modell')]"));
+			
+			fillName("car_model_custom","Test Modell");
+			fillName("car_type_custom","Test Típus");
+			
+		}catch(ElementNotVisibleException e) {
+			
+		}
+		
 		click("#car-type-id");
+		sleep(5000);
+
+		try {
+			
+			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi típus')]"));
+			
+			fillName("car_type_custom","Test Típus");
+			
+		}catch(ElementNotVisibleException e) {
+			
+		}
+		
 		sleep(5000);
 		
 		String NumberPlate = generatePlateNumber();
