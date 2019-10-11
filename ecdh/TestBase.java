@@ -3224,6 +3224,10 @@ try {
 		String stringPrice = "" + price;
 		fillName("price", stringPrice);
 		submit();
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
 
 		String pattern = "//dt[contains(text(),'CASCO biztosítás')]//following-sibling::dd[1]";
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
