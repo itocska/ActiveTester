@@ -3155,7 +3155,8 @@ try {
 	public static void addNewCarEventCompulsoryInsurance() throws IOException, InterruptedException {
 		// goToPage(url+"/hu/biztositas-hozzadasa/" + getCarId() + "/1");
 		clickLinkWithText("esemény hozzáadása");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_insurance")));
+		sleep(4000);
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sprite.sprite-mycar_insurance")));
 		clickLinkWithText("Kötelező");
 
 		String company = randomSelect("company");
@@ -3171,6 +3172,10 @@ try {
 		fillName("price", stringPrice);
 		submit();
 
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
+		
 		String pattern = "//dt[contains(text(),'Kötelező gépjármű biztosítás')]//following-sibling::dd[1]";
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement insuranceParent = driver.findElement(By.xpath(pattern));
@@ -3193,7 +3198,7 @@ try {
 		checkPrice(price, " ");
 
 		clickLinkWithText("Szerkesztés");
-		checkSelect("type", "Kötelező gépjármû biztosítás");
+		checkSelect("type", "Kötelező gépjármű biztosítás");
 		checkSelect("company", company);
 
 		checkField("ident", ident);
