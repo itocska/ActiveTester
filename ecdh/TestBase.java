@@ -3314,6 +3314,10 @@ try {
 		String stringPrice = "" + price;
 		fillName("price", stringPrice);
 		submit();
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
 
 		String pattern = "//dt[contains(text(),'GAP biztosítás')]//following-sibling::dd[1]";
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
@@ -3361,7 +3365,7 @@ try {
 		checkPrice(price, " ");
 
 		clickLinkWithText("Szerkesztés");
-		sleep(20000);
+		sleep(2000);
 		checkSelect("type", "GAP biztosítás");
 		checkSelect("company", company);
 
