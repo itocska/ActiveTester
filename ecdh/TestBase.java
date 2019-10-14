@@ -76,6 +76,7 @@ public class TestBase {
 	public static String manufacturer;
 	public static String model;
 	public static String yearfrom;
+	public static String publicPart;
 
 	// byITOtest
 	public static Properties prop = new Properties();
@@ -2058,24 +2059,28 @@ try {
 	}
 
 	public static void oneStepInner() throws IOException, InterruptedException {
-		List<WebElement> elements = driver.findElements(By.cssSelector("#mycar-block.card .profile-car-item"));
-		for (WebElement element : elements) {
-			Log.log(element.findElement(By.className("numberplate")).getText());
-		}
 
-		element = elements.get(new Random().nextInt(elements.size()));
-		Log.log(element.findElement(By.className("numberplate")).getText() + " selected.");
-		sleep(3000);
-		
 		 try {
 			 
+			 	List<WebElement> elements = driver.findElements(By.cssSelector("#mycar-block.card .profile-car-item"));
+				for (WebElement element : elements) {
+					Log.log(element.findElement(By.className("numberplate")).getText());
+				}
+				element = elements.get(new Random().nextInt(elements.size()));
+				Log.log(element.findElement(By.className("numberplate")).getText() + " selected.");
 			 	element.click();
 			 	
 		    } catch (Exception e) {
 		    	
 		    	driver.navigate().refresh();
 		    	sleep(5000);
-		    	element.click();
+			 	List<WebElement> elements = driver.findElements(By.cssSelector("#mycar-block.card .profile-car-item"));
+				for (WebElement element : elements) {
+					Log.log(element.findElement(By.className("numberplate")).getText());
+				}
+				element = elements.get(new Random().nextInt(elements.size()));
+				Log.log(element.findElement(By.className("numberplate")).getText() + " selected.");
+			 	element.click();
 		        
 		    }
 		
@@ -2693,16 +2698,21 @@ try {
 
 	public static void addNewCarEventBodyRepair() throws IOException, InterruptedException {
 		clickLinkWithText("esemény hozzáadása");
-		sleep(2000);
-
-		List<WebElement> sprites = driver.findElements(By.cssSelector(".sprite-mycar_service_log-body"));
+		sleep(5000);
+		
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_service_log-body"))).click();
+		/*List<WebElement> sprites = driver.findElements(By.cssSelector(".sprite-mycar_service_log-body"));
 		for (WebElement sprite : sprites) {
 
 			if (sprite.isDisplayed()) {
 				sprite.click();
 
 			}
-		}
+		}*/
+		
+		WebElement element = driver.findElement(By.cssSelector(".sprite.sprite-mycar_service_log-body"));
+		Actions actions = new Actions(driver);
+		actions.moveToElement(element).click().build().perform();
 
 		driver.findElement(By.cssSelector("input[name=\"service_date\"]")).sendKeys();
 		sleep(2000);
@@ -2712,6 +2722,7 @@ try {
 		fillName("car_company_id_ac", "a");
 		sleep(3000);
 		click("ul#ui-id-1 li:nth-child(1)");
+		//driver.findElement(By.id("car-company-id")).sendKeys(Keys.ENTER);
 		sleep(2000);
 		clickXpath("//div[contains(text(), \"Kiválasztás\")]");
 		Log.log("Kiválasztás clicked");
@@ -2782,8 +2793,7 @@ try {
 		Log.log("Kiválasztás clicked");
 		clickXpath("//span[contains(text(), \"Szélvédő és egyéb üvegek\")]");
 		clickXpath("//li[@class=\"active\"]/ul/li/span[contains(text(),\"Oldalsó ajtó üveg\")]");
-		clickXpath(
-				"//li[@class=\"active\"]/ul/li[@class=\"active\"]//li/span[contains(text(),\"Bal hátsó\")]/parent::li//i");
+		clickXpath("//li[@class=\"active\"]/ul/li[@class=\"active\"]//li/span[contains(text(),\"Bal hátsó\")]/parent::li//i");
 		sleep(3000);
 		fillName("car_mycar_service_log_items[1][price]", "12435");
 
@@ -2791,7 +2801,50 @@ try {
 		String noteText = "Test note " + RN;
 		driver.findElement(By.cssSelector("textarea[name=\"note\"]")).sendKeys(noteText);
 		submit();
+		
+		String now = dateLocale(LocalDate.now());
+		System.out.println(now);
+		onScreen(now);
+		onScreen("Karosszéria javítás");
+		onScreen(noteText);
+		int p1 = 12435;
+		int p2 = 20000;
+		checkPrice(p1, " ");
+		checkPrice(p2, " ");
+		
+		onScreen(publicPart);
+		onScreen("Bal hátsó oldalsó ajtó üveg");
+		checkPrice(randPrice, " ");
+		
+		clickXpath("//a[contains(text(), 'adatlapja')]");
+		sleep(3000);
+		
 		clickLinkWithText("Karosszéria javítás");
+		
+		clickLinkWithText("Szerkesztés");
+		
+		clickXpath("(//div[@class='col-xs-1']/span)[1]");
+		fillName("car_mycar_service_log_items[1][price]", "4444");
+		p1 = 4444;
+		fillName("car_mycar_service_log_items[1][item_description]", "test text");
+		randPrice = new Random().nextInt(123456);
+		fillName("price_work", ""+randPrice);
+		RN = new Random().nextInt(123456);
+		noteText = "Test note " + RN;
+		fillName("note", noteText);
+		
+		submit();
+		clickLinkWithText("Karosszéria javítás");
+		
+		onScreen(now);
+		onScreen("Karosszéria javítás");
+		onScreen(noteText);
+		
+		checkPrice(p1, " ");
+		
+		onScreen("Bal hátsó oldalsó ajtó üveg");
+		checkPrice(randPrice, " ");
+		
 		click("i.fa-trash");
 		clickLinkWithText("Esemény törlése");
 		sleep(3000);
