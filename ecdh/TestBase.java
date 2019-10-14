@@ -1577,6 +1577,11 @@ try {
 		click("ul li.ui-menu-item:nth-child(2) a");
 
 		submit();
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
+		
 		sleep(1000);
 
 		Log.log("Esemény: tankolás beküldve.");
