@@ -2946,6 +2946,11 @@ try {
 		String noteText = "Test note " + randNumber;
 		fillName("note", noteText);
 		submit();
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
+		
 		sleep(2000);
 		Log.log("Sikeresen mentve");
 		
