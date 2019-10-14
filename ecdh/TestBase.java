@@ -2000,6 +2000,10 @@ try {
 
 		driver.findElement(By.className("submitBtn")).click();
 		sleep(2000);
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
 
 		Log.log("Esemény: egyéb beküldve.");
 
