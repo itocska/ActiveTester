@@ -3074,6 +3074,11 @@ try {
 		fillName("note", noteText);
 
 		submit();
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
+		
 		sleep(1000);
 		onScreen(penaltyType);
 		checkPrice(price, " ");
