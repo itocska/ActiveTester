@@ -3063,8 +3063,12 @@ try {
 		// goToPage(url+"/hu/autopalya-matrica-hozzadasa/" + getCarId());
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_highway_ticket")));
-		click(".sprite-mycar_highway_ticket");
-
+		clickXpath("//h3[@class='title float-left']");
+		sleep(2000);
+		//wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".sprite-mycar_highway_ticket"))).click();
+		click(".icon-inner .sprite-mycar_highway_ticket");
+		//clickLinkWithText("Pályamatrica");
+		
 		driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
 		driver.findElement(By.id("start-date")).sendKeys(Keys.ENTER);
 		List<WebElement> list = driver.findElements(By.cssSelector("input[type=\"radio\"]:not([id=\"ticket1\"])"));
@@ -3074,8 +3078,7 @@ try {
 		// list.get(randNumber).click();
 		driver.findElement(By.xpath("//label[@for='" + id + "']")).click();
 		String name = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-name")).getText();
-		String expiration = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-expiration"))
-				.getText();
+		String expiration = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-expiration")).getText();
 		String price = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-price")).getText();
 
 		Log.log(name + " autópálya matrica kiválasztva.");
@@ -3085,6 +3088,10 @@ try {
 
 		sleep(4000);
 
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
+		
 		String pattern = "//dt[contains(text(),' Autópálya-matrica érvényessége')]//following-sibling::dd[1]";
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement insuranceParent = driver.findElement(By.xpath(pattern));
@@ -3104,7 +3111,20 @@ try {
 		sleep(1000);
 		onScreen(expiration);
 		onScreen(name);
-		onScreen(price);
+		
+		String priceView = driver.findElement(By.xpath("(//dl[@class='col-12 col-sm'])[6]//dd")).getText();
+		
+		if(priceView.equals(price)) {
+			
+			Log.log("Az ár egyezik");
+			
+		}else {
+			
+			Log.log("Az ár nem stimmel!");
+			driver.close();
+			System.exit(0);
+			
+		}
 
 		clickLinkWithText("Szerkesztés");
 
@@ -3137,13 +3157,26 @@ try {
 		
 		assertTrue("Autópályamatrica adatok OK.", insurance.contains(name));
 		Log.log("Autópályamatrica adatok OK.");
-
+		
 		onScreen("Új autópálya matrica");
 		clickLinkWithText("Új autópálya matrica");
 		sleep(1000);
 		onScreen(expiration);
 		onScreen(name);
-		onScreen(price);
+		
+		priceView = driver.findElement(By.xpath("(//dl[@class='col-12 col-sm'])[6]//dd")).getText();
+		
+		if(priceView.equals(price)) {
+			
+			Log.log("Az ár egyezik");
+			
+		}else {
+			
+			Log.log("Az ár nem stimmel!");
+			driver.close();
+			System.exit(0);
+			
+		}
 		
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		sleep(2000);
