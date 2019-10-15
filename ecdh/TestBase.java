@@ -2879,6 +2879,10 @@ try {
 		submit();
 		sleep(2000);
 		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
+		
 		driver.findElement(By.cssSelector("a[href*='szerviz-esemeny-megtekintese']")).click();
 		
 		onScreen(partName);
