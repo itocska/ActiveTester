@@ -11,9 +11,9 @@ public class AddNewCarOtherCountryTest extends TestBase {
 		TestBase.main("AddNewCarOtherCountryTest", 0);
 		try {
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+		  TestBase.passShepherd();
 		  TestBase.goToPage(TestBase.url + "/hu/sajat-autom-felvitel");
 		  Thread.sleep(3000);
-		  TestBase.passShepherd();
 		  TestBase.addNewCarOtherCountryTest();
 		  //test
 		} 

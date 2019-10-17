@@ -991,7 +991,29 @@ public class TestBase {
 	public static void addNewCarOtherCountryTest() throws IOException, InterruptedException, AWTException {
 		
 		Random rand = new Random();
-		String carYear = randomSelect("car_year");
+		String carYear;
+		
+		try {
+			  
+			carYear = randomSelect("car_year");
+			  
+		  }catch(NoSuchElementException e) {
+			  
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'Saját autó limit')]")));
+			//String text = driver.findElement(By.xpath("//h1[contains(text(), 'Saját autó limit')]")).getText();
+			deleteUserCars();
+			sleep(5000);
+			goToPage(TestBase.url + "/hu/sajat-autom-felvitel");
+			sleep(5000);
+			rand = new Random();
+			carYear = randomSelect("car_year");
+			  
+		  }
+		
+		
+		
+		//Random rand = new Random();
+		//String carYear = randomSelect("car_year");
 		String carMonth = randomSelect("car_month");
 		sleep(2000);
 		manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
@@ -3602,6 +3624,9 @@ try {
 		sleep(2000);
 		driver.findElement(By.id("rent-description")).clear();
 		driver.findElement(By.id("rent-description")).sendKeys(getRandomText(50));
+		
+		fillName("car_user[mobile]","12345678");
+		
 		submit();
 		sleep(5000);
 		
@@ -3717,6 +3742,16 @@ try {
 
 		
 		driver.findElement(By.id("notes")).sendKeys(getRandomText(50));
+		
+		
+		fillName("last_name","Vezeték");
+		fillName("first_name","Kereszt");
+		fillName("mothers_name","Anyja");
+		fillName("driving_licence_number","123456789");
+		fillName("personal_ident","123456AB");
+		driver.findElement(By.id("birth")).sendKeys("1970-10-10");
+		driver.findElement(By.id("birth")).sendKeys(Keys.ENTER);
+		
         
 		try {
 			
