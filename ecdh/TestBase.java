@@ -36,6 +36,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -988,7 +989,7 @@ public class TestBase {
 		checkPrice(kmNumberInt," ");
 
 	}
-	public static void addNewCarOtherCountryTest() throws IOException, InterruptedException, AWTException {
+	public static void addNewCarOtherCountryTest() throws IOException, InterruptedException, AWTException, TimeoutException  {
 		
 		Random rand = new Random();
 		String carYear;
@@ -997,7 +998,7 @@ public class TestBase {
 			  
 			carYear = randomSelect("car_year");
 			  
-		  }catch(NoSuchElementException e) {
+		  }catch(TimeoutException  e) {
 			  
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'Saját autó limit')]")));
 			//String text = driver.findElement(By.xpath("//h1[contains(text(), 'Saját autó limit')]")).getText();
