@@ -4549,7 +4549,12 @@ try {
 		fillName("price", taxPrice);
 		String noteText = "Test note " + randNumber;
 		fillName("note", noteText);
+		sleep(3000);
 		submit();
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
 
 		Log.log("Sikeresen mentve");
 		sleep(2000);
@@ -4591,6 +4596,10 @@ try {
 
 		Log.log("Sikeresen mentve");
 		sleep(2000);
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
 
 		goToPage(TestBase.url + "/hu/teljesitmenyado-befizetesek/" + getCarId());
 		sleep(3000);
@@ -4665,6 +4674,10 @@ try {
 		String noteText3 = "Test note " + randNumber;
 		fillName("note", noteText3);
 		submit();
+		
+		sleep(2000);
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(3000);
 
 		Log.log("Sikeresen mentve");
 		sleep(2000);
