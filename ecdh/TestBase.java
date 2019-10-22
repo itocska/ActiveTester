@@ -35,6 +35,7 @@ import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -152,30 +153,14 @@ public class TestBase {
 		System.out.println(string);
 	}
 
-	protected static void deleteUser() throws IOException, InterruptedException, TimeoutException{
+	protected static void deleteUser() throws IOException, InterruptedException {
 		click(".user-img");
 		clickLinkWithText("Adatmódosítás");
 		clickLinkWithText("Fiók törlése");
-		try {
-			
-			click(".btn-red");
-			
-		}catch(TimeoutException e) {
-			
-			driver.findElement(By.xpath("//div[@id='popup-content']//a[contains(text(), 'Garázs')]")).click();
-			deleteUserCars();
-			sleep(2000);
-			click(".user-img");
-			clickLinkWithText("Adatmódosítás");
-			clickLinkWithText("Fiók törlése");
-			click(".btn-red");
-
-		}
-		
+		click(".btn-red");
 		Log.log("Felhasználó törlése.");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(), 'Sikeres törlés email küldés!')]")));
-		Log.log("Törlés email elküldve");
-		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert-success")));
+		Log.log("Felhasználó törölve.");
 	}
 
 	protected static void activateUser() throws Exception {
@@ -1835,11 +1820,9 @@ try {
 		click(".sprite-tire");
 
 		click("input[name=\"service_date\"]");
-		// click("body");
-		//new Actions(driver).moveByOffset(0, 0).click().build().perform();
 		driver.findElement(By.id("service-date")).sendKeys(Keys.ENTER);
 
-		clickLinkWithText("Új felvétele");
+		clickLinkWithText("+ Új gumi felvitel");
 
 		randomSelect("width");
 		randomSelect("height");
@@ -1861,27 +1844,93 @@ try {
 		String noteText = "Note " + String.valueOf(randomNum);
 		fillName("tire_storage", noteText);
 
-		driver.findElement(By.cssSelector("#add-wheel .submitBtn")).click();
-
-		sleep(10000);
 
 		int price = 1000 + rand.nextInt((50000 - 1) + 1);
 		String priceString = "" + price;
-		// fillName("car_mycar_service_log_items[0][price]", priceString);
-		randomSelect("car_mycar_service_log_items[0][tire_position]");
-		fillName("car_company_id_ac", "Abc Kft.");
+		
 
 		price = 1000 + rand.nextInt((50000 - 1) + 1);
 		priceString = "" + price;
-		fillName("price_work", priceString);
+		fillName("price", priceString);
+        driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
 
-		randomNum = 1000 + rand.nextInt((50000 - 1) + 1);
-		noteText = "Note " + String.valueOf(randomNum);
-		fillName("note", noteText);
-
-		driver.findElement(By.cssSelector("#form .submitBtn")).click();
-
-		Log.log("Esemény: gumicsere elmentve.");
+        
+        sleep(5000);
+		Actions builder = new Actions(driver);
+	    WebElement from = driver.findElement(By.cssSelector(".tire-link.draggable.ui-draggable.ui-draggable-handle")); 
+		WebElement to = driver.findElement(By.cssSelector(".row.axis-draggable"));	 
+		builder.dragAndDrop(from, to).perform();
+		Log.log("A Gumi hozzáadása Sikeres, felhelyezve az autóra");
+		click("input[name=\"service_date\"]");
+		fillName("car_company_id_ac","Teszt");
+		fillName("price_work","50000");
+		fillName("note","Teszt2000");
+		
+		submit(); 
+		
+		clickLinkWithText("Szerkesztés");
+	    builder = new Actions(driver);
+	    from = driver.findElement(By.cssSelector(".row.axis-draggable.ui-draggable.ui-draggable-handle")); 
+		 to = driver.findElement(By.cssSelector(".row"));	 
+		builder.dragAndDrop(from, to).perform();
+		Log.log("A Gumi Levétele Sikeres, visszahelyezve a gumi raktárba");
+		
+		Log.log("Visszalépés a Garázsba");
+		sleep(1000);
+		driver.findElement(By.cssSelector(".fas.fa-long-arrow-alt-left")).click();
+		Log.log("Gumi raktár kiválasztása");
+		sleep(1000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//dd[@class='side-list']"))).click();
+		sleep(3000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fas.fa-shopping-cart.circle"))).click();
+		Log.log("Gumi ajánlatkérés készítése..");
+		sleep(1000);
+		fillName("loc_zip_id_ac","1112");
+		sleep(1000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loc-zip-id"))).sendKeys(Keys.ENTER);
+		sleep(1000);
+		fillName("note","Teszt, ajánlatkérésre");
+		sleep(1000);
+		LocalDate dueDate = LocalDate.now().plusDays(3);
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-LL-dd");
+		String strDueDate = dueDate.format(dateFormat);
+		fillName("end_date", strDueDate);
+				
+		//submit(); Broken 
+	    driver.findElement(By.cssSelector(".fas.fa-long-arrow-alt-left")).click();
+		
+	    clickLinkWithText("Gumicsere");
+	    clickLinkWithText("Szerkesztés");
+	    
+			dueDate = LocalDate.now().plusDays(3);
+		    dateFormat = DateTimeFormatter.ofPattern("yyyy-LL-dd");
+			strDueDate = dueDate.format(dateFormat);
+			fillName("service_date", strDueDate);
+			 builder = new Actions(driver);
+			 from = driver.findElement(By.cssSelector(".tire-link.draggable.ui-draggable.ui-draggable-handle")); 
+		     to = driver.findElement(By.cssSelector(".row.axis-draggable"));	 
+			 builder.dragAndDrop(from, to).perform();
+			Log.log("Gumik Felhelyezve az autóra.");
+			
+		    randomSelect("summer_tire_change_month");
+		    fillName("summer_tire_change_day","22");
+		    randomSelect("winter_tire_change_month");
+		    fillName("winter_tire_change_day","22");
+		    fillName("car_company_id_ac","Teszt2");
+			fillName("price_work","500000");
+			fillName("note","Gumi Esemény szerkesztése");
+			Log.log("A gumi esemény szerkeztve!");
+			submit();
+			sleep(2000);
+			driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+			click("a[data-apply=\"confirmation\"]");
+			Log.log("A gumi esemény törölve!");
+	        driver.findElement(By.xpath("//li[@class='breadcrumb-item'][2]/a")).click();
+	        driver.findElement(By.xpath("//i[@class='fas fa-circle mr-2 is-on']")).click();
+	        driver.findElement(By.xpath("//i[@class='fas fa-trash circle']")).click();
+	        click("a[data-apply=\"confirmation\"]");
+	    	Log.log("A gumi a raktárból sikeresen Törölve Esemény Vége!");
+	    
 
 	}
 
@@ -2708,7 +2757,7 @@ try {
 	}
 
 	public static void deleteUserCars() throws IOException {
-		List<WebElement> elements = driver.findElements(By.xpath("#mycar-block .numberplate"));
+		List<WebElement> elements = driver.findElements(By.cssSelector(".numberplate"));
 		List<String> list = new ArrayList<String>();
 		for (WebElement element : elements) {
 			String numberplate = element.getText();
@@ -3070,33 +3119,78 @@ try {
 	public static void importCarSearch() throws IOException, InterruptedException, AWTException {
 		
 		
-	driver.findElement(By.name("mf_ac")).click();
-	
-	manufacturer = fillCarField("#mf", "#ui-id-1");
+		driver.findElement(By.name("mf_ac")).click();
+		manufacturer = fillCarField("#mf", "#ui-id-1");
+			
 		try {	
-		model = fillCarField("#mu", "#ui-id-2");
-		
-		}catch(IllegalArgumentException e){
-		
-			driver.findElement(By.id("mf")).clear();
-			manufacturer = fillCarField("#mf", "#ui-id-1");	
 			model = fillCarField("#mu", "#ui-id-2");
-		}
-		
-		driver.findElement(By.xpath("//div[@class='col-sm-6'][3]/div[@class='form-group  select  fg-line']/div[@class='multiple-select-holder  ']/span[@class='multiselect-native-select']/div[@class='btn-group']/button[@class='multiselect dropdown-toggle btn btn-default']")).click();
-		sleep(2000);
-		driver.findElement(By.xpath("//div[@class='btn-group show']/ul[@class='multiselect-container dropdown-menu show']/li[2]/a/label[@class='checkbox']")).click();
-		driver.findElement(By.xpath("//div[@class='col-sm-6'][4]/div[@class='row']/div[@class='col-10 pl-1 petrolHolder']/div[@class='form-group  select  fg-line']/div[@class='multiple-select-holder  ']/span[@class='multiselect-native-select']/div[@class='btn-group']/button[@class='multiselect dropdown-toggle btn btn-default']")).click();
-		driver.findElement(By.xpath("//ul[@class='multiselect-container dropdown-menu show']/li[2]/a/label[@class='checkbox']")).click();
-		Select yearfrom = new Select(driver.findElement(By.name("yearfrom")));
-		yearfrom.selectByVisibleText("2012");
-		fillName("kmto","1200");
-		fillName("priceto","12");
-		sleep(2000);
-		submit();
-		
-		
-		
+			
+			}catch(IllegalArgumentException e){
+			
+				driver.findElement(By.id("mf")).clear();
+				manufacturer = fillCarField("#mf", "#ui-id-1");	
+				sleep(5000);
+				model = fillCarField("#mu", "#ui-id-2");
+			}
+			 
+			driver.findElement(By.cssSelector(".multiselect.dropdown-toggle.btn.btn-default")).click();
+			List<WebElement> options = driver.findElements(By.xpath("//ul[@class='multiselect-container dropdown-menu show']"));
+			Random rand = new Random();
+			int list= rand.nextInt(options.size());
+			options.get(list).click();
+		 
+			
+			sleep(2000);
+			
+			driver.findElement(By.xpath("//div[@class='col-10 pl-1 petrolHolder']")).click();
+			options = driver.findElements(By.xpath("//div[@class='btn-group show']/ul[@class='multiselect-container dropdown-menu show']"));
+			rand = new Random();
+			list= rand.nextInt(options.size());
+			options.get(list).click();
+			Select yearfrom = new Select(driver.findElement(By.name("yearfrom")));
+			yearfrom.selectByVisibleText("2012");
+			fillName("kmto","1200");
+			fillName("priceto","12");
+			submit();
+			try {	
+				
+				driver.findElement(By.cssSelector(".car-type")).click();
+					
+			}catch(NoSuchElementException e)
+			{
+			onScreen("Sajnos nincs találat");
+			onScreen("Próbáld újra más feltételekkel!");
+			
+			clickLinkWithText("Keresési feltételek törlése");
+			driver.findElement(By.id("form-button")).click();
+			driver.findElement(By.cssSelector(".car-type")).click();
+			
+			fillName("phone","701234567");
+			fillName("message","Autót vásárolnék a hirdetésben szereplő paraméterekkel");
+			driver.findElement(By.id("form-button")).click();
+			
+			
+			String carname  = driver.findElement(By.xpath("//h1[@class='container']")).getText();
+			String carprice =  driver.findElement(By.cssSelector(".price.py-2.mt-3")).toString();
+			String cardate =  driver.findElement(By.xpath("//dl[@class='row'][2]/dd[@class='col-12 col-md-4 col-md-8']")).toString();
+			String carkm = driver.findElement(By.xpath("//dl[@class='row'][1]/dd[@class='col-12 col-md-4 col-md-8']")).toString();
+			
+			Log.log(carname);
+			Log.log(carprice);
+			Log.log(cardate);
+			Log.log(carkm);
+			
+			carname.split(" ");
+			clickLinkWithText("Import autó hirdetések");
+			
+			fillName("mf_ac",""+carname);
+			
+			
+			
+			onScreen("autó neve:"+carname);
+			
+			clickLinkWithText("Import autó hirdetések");
+			}
 		
 	}
 
@@ -5863,6 +5957,85 @@ public static void deleteTestRSSChannel()  throws IOException, InterruptedExcept
 	Log.log("Sikeres teszt");
 	
 	}
+
+public static void MontlySurvey() throws IOException, InterruptedException {
+
+	
+	driver.findElement(By.xpath("//a[@class='add-link popup']")).click();
+	sleep(2000);
+	driver.findElement(By.xpath("//span[@class='sprite sprite-mycar_monthly_inspection']")).click();
+	submit();
+	sleep(2000);
+	click(".ts-date-picker");
+	fillName("exterior_condition","Karosszéria külső állapota");
+	fillName("interior_condition","Utastér állapota");
+	driver.findElement(By.id("tire-condition-fine-0")).click();
+	fillName("tire_condition","Gumik állapota Sérült");
+	Random rand = new Random();
+	Integer randRPD = rand.nextInt(10)+2;
+	Select RPD = new Select(driver.findElement(By.name("thread_depth_front_left")));
+	RPD.selectByVisibleText(randRPD+" mm");
+	randRPD = rand.nextInt(10)+2;
+	RPD = new Select(driver.findElement(By.name("thread_depth_front_right")));
+	RPD.selectByVisibleText(randRPD+" mm");
+	randRPD = rand.nextInt(10)+2;
+	RPD = new Select(driver.findElement(By.name("thread_depth_rear_left")));
+	RPD.selectByVisibleText(randRPD+" mm");
+	randRPD = rand.nextInt(10)+2;
+	RPD = new Select(driver.findElement(By.name("thread_depth_rear_right")));
+	RPD.selectByVisibleText(randRPD+" mm");
+	
+	List<WebElement> myradioBlist = driver.findElements(By.xpath("//div[@class='row list-item'][1]/div[@class='col-9']/div[@class='form-group radio fg-line']//div[@class='radio-holder']"));
+	System.out.println("Number of elements are : " + myradioBlist.size()); 
+	sleep(10000);
+	
+	int option = rand.nextInt(4)+1 ; 
+	List<WebElement> radios = driver.findElements(By.name("engine_oil"));
+    if (option > 0 && option <= radios.size()) {
+        radios.get(option - 1).click();
+    } else {
+        throw new NotFoundException("option " + option + " not found");
+    }
+	
+    option = rand.nextInt(2)+1 ; 
+	radios = driver.findElements(By.name("break_fluid"));
+    if (option > 0 && option <= radios.size()) {
+        radios.get(option - 1).click();
+    } else {
+        throw new NotFoundException("option " + option + " not found");
+    }
+	
+	
+   
+  option = rand.nextInt(2)+1 ; 
+	radios = driver.findElements(By.name("cooling_liquid"));
+ if (option > 0 && option <= radios.size()) {
+     radios.get(option - 1).click();
+ } else {
+     throw new NotFoundException("option " + option + " not found");
+ }
+	
+	
+ 
+ 
+ option = rand.nextInt(2)+1 ; 
+	radios = driver.findElements(By.name("landing_gear"));
+if (option > 0 && option <= radios.size()) {
+  radios.get(option - 1).click();
+} else {
+  throw new NotFoundException("option " + option + " not found");
+}
+ 
+ 
+  
+ 
+ 
+ 
+	
+}		
+	
+		
+		
 
 
 }
