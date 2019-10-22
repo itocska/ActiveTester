@@ -152,14 +152,30 @@ public class TestBase {
 		System.out.println(string);
 	}
 
-	protected static void deleteUser() throws IOException, InterruptedException {
+	protected static void deleteUser() throws IOException, InterruptedException, TimeoutException{
 		click(".user-img");
 		clickLinkWithText("Adatmódosítás");
 		clickLinkWithText("Fiók törlése");
-		click(".btn-red");
+		try {
+			
+			click(".btn-red");
+			
+		}catch(TimeoutException e) {
+			
+			driver.findElement(By.xpath("//div[@id='popup-content']//a[contains(text(), 'Garázs')]")).click();
+			deleteUserCars();
+			sleep(2000);
+			click(".user-img");
+			clickLinkWithText("Adatmódosítás");
+			clickLinkWithText("Fiók törlése");
+			click(".btn-red");
+
+		}
+		
 		Log.log("Felhasználó törlése.");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert-success")));
-		Log.log("Felhasználó törölve.");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(), 'Sikeres törlés email küldés!')]")));
+		Log.log("Törlés email elküldve");
+		
 	}
 
 	protected static void activateUser() throws Exception {
@@ -2692,7 +2708,7 @@ try {
 	}
 
 	public static void deleteUserCars() throws IOException {
-		List<WebElement> elements = driver.findElements(By.cssSelector(".numberplate"));
+		List<WebElement> elements = driver.findElements(By.xpath("#mycar-block .numberplate"));
 		List<String> list = new ArrayList<String>();
 		for (WebElement element : elements) {
 			String numberplate = element.getText();
