@@ -2659,19 +2659,22 @@ try {
 	public static void FillUserPersonalData() throws IOException, InterruptedException {
 		click(".user-img");
 		clickLinkWithText("Adatmódosítás");
-		fillName("mobile", "12345678");
+		sleep(3000);
+		driver.findElement(By.id("mobile")).clear();
+		sleep(2000);
+		fillName("mobile", "99999999");
 		fillName("user[last_name]", "Teszt");
 		fillName("user[first_name]", "Eszter");
 		fillName("mothers_name", "Kovács Hilda Géza");
 		fillName("birthdate", "1970-12-12");
 		fillName("personal_ident", "AE12345678");
 		fillName("driving_licence_number", "fdsfdsAE12345678");
-		clickLinkWithText("Módosítások mentése");
+		driver.findElement(By.id("form-button")).click();
 		Thread.sleep(5000);
-		click(".logo");
+		click(".logos");
 		Log.log("Vissza a főoldalra.");
 		clickLinkWithText("profil szerkesztése");
-		checkField("mobile", "3636123456");
+		checkField("mobile", "3699999969");
 		checkField("user[last_name]", "Teszt");
 		checkField("user[first_name]", "Eszter");
 		checkField("mothers_name", "Kovács Hilda Géza");
