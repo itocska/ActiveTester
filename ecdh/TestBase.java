@@ -153,14 +153,74 @@ public class TestBase {
 		System.out.println(string);
 	}
 
-	protected static void deleteUser() throws IOException, InterruptedException {
+	protected static void deleteUser() throws Exception, IOException, InterruptedException, TimeoutException {
+		sleep(5000);
+		passShepherd();
+		
 		click(".user-img");
 		clickLinkWithText("Adatmódosítás");
 		clickLinkWithText("Fiók törlése");
-		click(".btn-red");
+		
+		try {
+			
+			click(".btn-red");
+			
+		}catch(TimeoutException e) {
+			
+			driver.findElement(By.xpath("//div[@id='popup-content']//a[contains(text(), 'Garázs')]")).click();
+			sleep(3000);
+			deleteUserCars();
+			sleep(2000);
+			click(".user-img");
+			clickLinkWithText("Adatmódosítás");
+			clickLinkWithText("Fiók törlése");
+			click(".btn-red");
+
+		}
+		
 		Log.log("Felhasználó törlése.");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert-success")));
-		Log.log("Felhasználó törölve.");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(), 'Sikeres törlés email küldés!')]")));
+		Log.log("Törlés email elküldve");
+		deleteUserInEmail();
+		
+	}
+	
+	protected static void deleteUserInEmail() throws Exception {
+		
+		driver.get("https://gmail.com");
+
+		driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys(testerMail);
+		driver.findElement(By.xpath("//*[text()='Következő']")).click();
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
+
+		driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
+		driver.findElement(By.xpath("//*[text()='Következő']")).click();
+		Log.log("Login Gmail");
+
+		sleep(6000);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("(//*[text()='Fiók törlése - megerősítés (ECDH) To:"+ personalUser +"'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Fiók törlése - megerősítés (ECDH) To:"+ personalUser +"'])[2]")).click();
+		sleep(3000);
+
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Fiók végleges törlése')]")));
+		driver.findElement(By.xpath("//a[contains(text(), 'Fiók végleges törlése')]")).click();
+		
+		sleep(3000);
+		
+		for (String winHandle : driver.getWindowHandles()) {
+			System.out.println(winHandle);
+			driver.switchTo().window(winHandle);
+		}
+		
+		driver.findElement(By.cssSelector(".btn.btn-red.btn-lg.w-100.mb-1.mt-3")).click();
+		
+		Log.log("Fiók végleges törlése");
+		
+		
+		
 	}
 
 	protected static void activateUser() throws Exception {
@@ -2904,7 +2964,7 @@ public class TestBase {
 	}
 
 	public static void deleteUserCars() throws IOException {
-		List<WebElement> elements = driver.findElements(By.cssSelector(".numberplate"));
+		List<WebElement> elements = driver.findElements(By.cssSelector("#mycar-block .numberplate"));
 		List<String> list = new ArrayList<String>();
 		for (WebElement element : elements) {
 			String numberplate = element.getText();
