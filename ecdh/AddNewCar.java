@@ -11,7 +11,6 @@ public class AddNewCar extends TestBase {
 		TestBase.main("AddNewCar", 0);
 		try {
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
-		  TestBase.goToPage(TestBase.url + "/hu/sajat-autom-felvitel");
 		  Thread.sleep(3000);
 		  TestBase.passShepherd();
 		  TestBase.addNewCar();

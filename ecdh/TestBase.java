@@ -931,50 +931,82 @@ public class TestBase {
 	}
 
 	public static void addNewCar() throws IOException, InterruptedException, AWTException {
-		Random rand = new Random();
-		String carYear = randomSelect("car_year");
+		TestBase.goToPage(TestBase.url + "/hu/sajat-autom-felvitel");
+		sleep(3000);
 		
+		Random rand = new Random();
+		String carYear;
+		
+		try {
+			  
+			carYear = randomSelect("car_year");
+			  
+		  }catch(TimeoutException  e) {
+			
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'Saját autó limit')]")));
+			//String text = driver.findElement(By.xpath("//h1[contains(text(), 'Saját autó limit')]")).getText();
+			goToPage(TestBase.url + "/hu/garazs");
+			sleep(3000);
+			deleteUserCars();
+			sleep(5000);
+			goToPage(TestBase.url + "/hu/sajat-autom-felvitel");
+			sleep(5000);
+			rand = new Random();
+			carYear = randomSelect("car_year");
+			  
+		  }
 		String carMonth = randomSelect("car_month");
 		sleep(2000);
-		manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
-		sleep(2000);
+		
+		
+		
+		//Random rand = new Random();
+		//String carYear = randomSelect("car_year");
+
+		/*manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
+		sleep(2000);*/
+		
 		
 		try {
 			
-			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi gyártó')]"));
+			//driver.findElement(By.xpath("//*[contains(text(), 'Egyedi gyártó')]")).click();
+			
+				manufacturer = fillCarField("#car-manufacturer-id", "#ui-id-1");
+				sleep(2000);
+				
+				
+				try {
+					
+					model = fillCarField("#car-model-id", "#ui-id-2");
+					sleep(2000);
+
+					//driver.findElement(By.xpath("//*[contains(text(), 'Egyedi modell')]")).click();
+					
+				}catch(ElementNotVisibleException e) {
+					
+					driver.findElement(By.xpath("(//a[@class='custom-combobox-toggle'])[2]")).click();
+					driver.findElement(By.xpath("//div[@id='carModelBlock']//a[@id='ui-id-extra ui-menu-item']")).click();
+					sleep(2000);
+					
+					fillName("car_model_custom","Test Modell");
+					fillName("car_type_custom","Test Típus");
+					
+					model = "Test Modell";
+					
+				}
+				
+			
+		}catch(ElementNotVisibleException e) {
+			
+			driver.findElement(By.xpath("(//a[@class='custom-combobox-toggle'])[1]")).click();
+			driver.findElement(By.xpath("//div[@id='carManufacturerBlock']//a[@id='ui-id-extra ui-menu-item']")).click();
+			sleep(2000);
 			
 			fillName("car_manufacturer_custom","Test Gyártó");
 			fillName("car_model_custom","Test Modell");
 			fillName("car_type_custom","Test Típus");
-			
-		}catch(ElementNotVisibleException e) {
-			
-		}
-		
-		model = fillCarField("#car-model-id", "#ui-id-2");
-		sleep(2000);
-
-		try {
-			
-			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi modell')]"));
-			
-			fillName("car_model_custom","Test Modell");
-			fillName("car_type_custom","Test Típus");
-			
-		}catch(ElementNotVisibleException e) {
-			
-		}
-		
-		click("#car-type-id");
-		sleep(5000);
-
-		try {
-			
-			driver.findElement(By.xpath("//*[contains(text(), 'Egyedi típus')]"));
-			
-			fillName("car_type_custom","Test Típus");
-			
-		}catch(ElementNotVisibleException e) {
+			manufacturer =  "Test Gyártó";
+			model = "Test Modell";
 			
 		}
 		
