@@ -11,7 +11,6 @@ public class AddNewCarError extends TestBase {
 		TestBase.main("AddNewCarError", 0);
 		try {
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
-		  TestBase.goToPage(TestBase.url + "/hu/sajat-autom-felvitel");
 		  Thread.sleep(3000);
 		  TestBase.passShepherd();
 		  TestBase.addNewCarError();
