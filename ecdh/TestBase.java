@@ -237,13 +237,14 @@ public class TestBase {
 
 		sleep(6000);
 		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH)'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH)'])[2]")).click();
+				.visibilityOfElementLocated(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH) To:"+ personalUser +"'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH) To:"+ personalUser +"'])[2]")).click();
 
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")));
 		driver.findElement(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")).click();
 		Log.log("New user account activation");
+		sleep(5000);
 
 		System.out.println(driver.getTitle());
 
@@ -866,8 +867,8 @@ public class TestBase {
 
 		sleep(6000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH)'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH)'])[2]")).click();
+				By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH) To:"+ companyUser +"'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Céges fiók létrehozása - adatellenőrzés (ECDH) To:"+ companyUser +"'])[2]")).click();
 
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Céges fiók létrehozása')]")));
@@ -4790,12 +4791,12 @@ public class TestBase {
 		}
 
 		sleep(6000);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='ECDH Esemény értesítő'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='ECDH Esemény értesítő'])[2]")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='ECDH Esemény értesítő To:"+ personalUser +"'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='ECDH Esemény értesítő To:" + personalUser + "'])[2]")).click();
 
-		int found1 = driver.findElements(By.xpath("//*[contains(text(), \"jogosítványod lejárata\")]")).size();
+		int found1 = driver.findElements(By.xpath("//*[contains(text(), 'jogosítványod lejárata')]")).size();
 		String string = day + " nap múlva esedékes lesz";
-		int found2 = driver.findElements(By.xpath("//*[contains(text(), \"" + string + "\")]")).size();
+		int found2 = driver.findElements(By.xpath("//*[contains(text(), '" + string + "')]")).size();
 		assertTrue("Email kiment a jogosítvány lejártáról " + day + " nap", found1 > 0 & found2 > 0);
 		Log.log("Email kiment jogosítvány lejártáról +" + day + " nap");
 		driver.get("https://accounts.google.com/Logout");
@@ -5080,8 +5081,8 @@ public class TestBase {
 
 		sleep(2000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra)'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra)'])[2]"))
+				By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:"+ personalUser +"'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:"+ personalUser +"'])[2]"))
 				.click();
 
 		wait.until(ExpectedConditions
@@ -5141,8 +5142,8 @@ public class TestBase {
 
 		sleep(4000);
 		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH)'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH)'])[2]")).click();
+				.visibilityOfElementLocated(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH) To:"+ personalUser +"'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH) To:" + personalUser +"'])[2]")).click();
 
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")));
