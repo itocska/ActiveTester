@@ -843,8 +843,8 @@ public class TestBase {
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][floor]']")).sendKeys("2");
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][door]']")).sendKeys("204");
 		Log.log("hsz, épület, emelet, ajtó kitöltés");
-		driver.findElement(By.cssSelector("input[name='user[last_name]']")).sendKeys("Mr");
-		driver.findElement(By.cssSelector("input[name='user[first_name]']")).sendKeys("Tester");
+		driver.findElement(By.cssSelector("input[name='main_company[last_name]']")).sendKeys("Mr");
+		driver.findElement(By.cssSelector("input[name='main_company[first_name]']")).sendKeys("Tester");
 		Log.log("cégvezető neve kitöltés");
 		driver.findElement(By.className("register")).click();
 		Log.log("Regisztráció mentése");
@@ -894,8 +894,19 @@ public class TestBase {
 		}
 
 		System.out.println(driver.getTitle());
+		sleep(2000);
 		passShepherd();
+		sleep(2000);
+		passShepherd();
+		sleep(2000);
+		passShepherd();
+		sleep(2000);
+		passShepherd();
+		sleep(2000);
 		Log.log("Activation succeed");
+		
+		goToPage(url + "/hu/kijelentkezes");
+		Log.log("Kijelentkezés");
 
 	}
 
