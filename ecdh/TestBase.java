@@ -6168,76 +6168,289 @@ public static void deleteTestRSSChannel()  throws IOException, InterruptedExcept
 
 public static void MontlySurvey() throws IOException, InterruptedException {
 
-	
+	Log.log("Havi szemle esemény felvitel!");
 	driver.findElement(By.xpath("//a[@class='add-link popup']")).click();
 	sleep(2000);
 	driver.findElement(By.xpath("//span[@class='sprite sprite-mycar_monthly_inspection']")).click();
 	submit();
+	Log.log("Mibden Rendben állapot mentése !");
 	sleep(2000);
 	click(".ts-date-picker");
+	sleep(2000);
+	driver.findElement(By.xpath("//div[@class='col-md-6']/div[@class='form-group toggle ']/div/label[@class='input-toggle']/span[@class='switch']")).click();
+	submit();
+	sleep(2000);
+	Log.log("A havi szemle állapot sikersen mentve!");
+	onScreen("Minden rendben");
+	driver.findElement(By.cssSelector(".fas.fa-long-arrow-alt-left")).click();
+	Log.log("Mentés ellenőrzése");
+	sleep(2000);
+	Log.log(" Esemény Szerkeztés");
+	driver.findElement(By.xpath("//div[2]/div[@class='event timeline'][1]/div[@class='event-body mr-3']/div[@class='lv-small']/a/b")).click();
+	driver.findElement(By.xpath("//a[@class='text-uppercase btn btn-secondary']")).click();
+	click(".ts-date-picker");
+	driver.findElement(By.xpath("//div[@class='col-md-6']/div[@class='form-group toggle ']/div/label[@class='input-toggle']/span[@class='switch']")).click();
 	fillName("exterior_condition","Karosszéria külső állapota");
 	fillName("interior_condition","Utastér állapota");
 	driver.findElement(By.id("tire-condition-fine-0")).click();
 	fillName("tire_condition","Gumik állapota Sérült");
+	
 	Random rand = new Random();
 	Integer randRPD = rand.nextInt(10)+2;
-	Select RPD = new Select(driver.findElement(By.name("thread_depth_front_left")));
-	RPD.selectByVisibleText(randRPD+" mm");
-	randRPD = rand.nextInt(10)+2;
-	RPD = new Select(driver.findElement(By.name("thread_depth_front_right")));
-	RPD.selectByVisibleText(randRPD+" mm");
-	randRPD = rand.nextInt(10)+2;
-	RPD = new Select(driver.findElement(By.name("thread_depth_rear_left")));
-	RPD.selectByVisibleText(randRPD+" mm");
-	randRPD = rand.nextInt(10)+2;
-	RPD = new Select(driver.findElement(By.name("thread_depth_rear_right")));
-	RPD.selectByVisibleText(randRPD+" mm");
+	 Select depth = new Select(driver.findElement(By.name("thread_depth_front_left")));
+	 depth.selectByVisibleText(randRPD+" mm");
 	
-	List<WebElement> myradioBlist = driver.findElements(By.xpath("//div[@class='row list-item'][1]/div[@class='col-9']/div[@class='form-group radio fg-line']//div[@class='radio-holder']"));
-	System.out.println("Number of elements are : " + myradioBlist.size()); 
-	sleep(10000);
 	
-	int option = rand.nextInt(4)+1 ; 
+	Integer randRPD1 = rand.nextInt(10)+2;
+	depth = new Select(driver.findElement(By.name("thread_depth_front_right")));
+	depth.selectByVisibleText(randRPD1+" mm");
+	
+	
+	Integer randRPD2 = rand.nextInt(10)+2;
+	depth = new Select(driver.findElement(By.name("thread_depth_rear_left")));
+	depth.selectByVisibleText(randRPD2+" mm");
+	
+	
+	Integer randRPD3 = rand.nextInt(10)+2;
+	depth = new Select(driver.findElement(By.name("thread_depth_rear_right")));
+	depth.selectByVisibleText(randRPD3+" mm");
+	
+	
+	sleep(2000);
+			
+	
+	int eo = rand.nextInt(4)+1 ; 
 	List<WebElement> radios = driver.findElements(By.name("engine_oil"));
-    if (option > 0 && option <= radios.size()) {
-        radios.get(option - 1).click();
+    if (eo > 0 && eo <= radios.size()) {
+        radios.get(eo).click();
     } else {
-        throw new NotFoundException("option " + option + " not found");
+        throw new NotFoundException("option " + eo + " not found");
     }
-	
-    option = rand.nextInt(2)+1 ; 
+
+    int bf = rand.nextInt(2)+1 ; 
 	radios = driver.findElements(By.name("break_fluid"));
-    if (option > 0 && option <= radios.size()) {
-        radios.get(option - 1).click();
+    if (bf > 0 && bf <= radios.size()) {
+        radios.get(bf +1).click();
     } else {
-        throw new NotFoundException("option " + option + " not found");
+        throw new NotFoundException("option " + bf + " not found");
     }
 	
 	
-   
-  option = rand.nextInt(2)+1 ; 
+    int cl = rand.nextInt(2)+1 ; 
 	radios = driver.findElements(By.name("cooling_liquid"));
- if (option > 0 && option <= radios.size()) {
-     radios.get(option - 1).click();
- } else {
-     throw new NotFoundException("option " + option + " not found");
- }
+	if (cl > 0 && cl <= radios.size()) {
+     radios.get(cl + 1).click();
+	} else {
+     throw new NotFoundException("Ez a gomb" + cl + "nem található");
+	}
 	
+		 
+ 
+	 int lg = rand.nextInt(1)+1 ; 
+		radios = driver.findElements(By.name("landing_gear"));
+	if (lg > 0 && lg <= radios.size()) {
+	  radios.get(lg).click();
+	} else {
+	  throw new NotFoundException("Ez a gomb" + lg + "nem található");
+	  
+	  
+	}
+	  int sl = rand.nextInt(2)+1 ; 
+		radios = driver.findElements(By.name("straight_line"));
+	if (sl > 0 && sl <= radios.size()) {
+	radios.get(sl + 1).click();
+	} else {
+	throw new NotFoundException("Ez a gomb" + sl + "nem található");
+	  
+	  
+	} 
+	int ep = rand.nextInt(2)+1 ; 
+	radios = driver.findElements(By.name("engine_power"));
+	if (ep > 0 && ep <= radios.size()) {
+	radios.get(ep + 1).click();
+	} else {
+	throw new NotFoundException("Ez a gomb" + ep + "nem található"); 
+	}
+	 
+	int l = rand.nextInt(1)+1 ; 
+	radios = driver.findElements(By.name("lightning"));
+	if (l > 0 && l <= radios.size()) {
+	radios.get(l + 1).click();
+	} else {
+	throw new NotFoundException("Ez a gomb" + l + "nem található"); 
+	}
+	  
+	List<WebElement> elements = driver.findElements(By.cssSelector(".form-group.checkbox.fg-line"));
+	for (WebElement element : elements) {
+		rand = new Random();
+		int randomNum = rand.nextInt(3)+1;
+		if (randomNum == 3) {
+			element.click();
 	
- 
- 
- option = rand.nextInt(2)+1 ; 
-	radios = driver.findElements(By.name("landing_gear"));
-if (option > 0 && option <= radios.size()) {
-  radios.get(option - 1).click();
-} else {
-  throw new NotFoundException("option " + option + " not found");
+		}
+	
+
 }
+	
+   elements = driver.findElements(By.cssSelector(".form-group.checkbox.fg-line"));
+	for (WebElement element : elements) {
+		rand = new Random();
+		int randomNum = rand.nextInt(3)+1;
+		if (randomNum == 1 || randomNum==2 || randomNum==3 ) {
+			element.click();
+	
+		}
+
+	}
+	
+	fillName("opinion","Szubjektív Vélemény");
+	sleep(2000);
+	submit();
+	sleep(2000);
+	driver.findElement(By.cssSelector(".fas.fa-eye.circle")).click();
+	onScreen("Karosszéria külső állapota");
+	onScreen("Utastér állapota");
+	onScreen("Gumik állapota Sérült");
+	onScreen("Szubjektív Vélemény");
+	onScreen(randRPD+" mm");
+	onScreen(randRPD1+" mm");
+	onScreen(randRPD2+" mm");
+	onScreen(randRPD3+" mm");
+    clickLinkWithText("Szerkesztés");
+    
+    click(".ts-date-picker");
+	
+	fillName("exterior_condition","Karosszéria külső állapota új ");
+	fillName("interior_condition","Utastér állapota új");
+	driver.findElement(By.id("tire-condition-fine-0")).click();
+	fillName("tire_condition","Gumik állapota Sérült új");
+	
+	 rand = new Random();
+	 randRPD = rand.nextInt(10)+2;
+	  depth = new Select(driver.findElement(By.name("thread_depth_front_left")));
+	 depth.selectByVisibleText(randRPD+(1)+" mm");
+	
+	
+	 randRPD1 = rand.nextInt(10)+2;
+	depth = new Select(driver.findElement(By.name("thread_depth_front_right")));
+	depth.selectByVisibleText(randRPD1+" mm");
+	
+	
+	 randRPD2 = rand.nextInt(10)+2;
+	depth = new Select(driver.findElement(By.name("thread_depth_rear_left")));
+	depth.selectByVisibleText(randRPD2+" mm");
+	
+	
+	 randRPD3 = rand.nextInt(10)+2;
+	depth = new Select(driver.findElement(By.name("thread_depth_rear_right")));
+	depth.selectByVisibleText(randRPD3+" mm");
+	
+	
+	sleep(2000);
+			
+	
+	 eo = rand.nextInt(4)+1 ; 
+	radios = driver.findElements(By.name("engine_oil"));
+    if (eo > 0 && eo <= radios.size()) {
+        radios.get(eo).click();
+    } else {
+        throw new NotFoundException("option " + eo + " not found");
+    }
+
+     bf = rand.nextInt(2)+1 ; 
+	radios = driver.findElements(By.name("break_fluid"));
+    if (bf > 0 && bf <= radios.size()) {
+        radios.get(bf +1).click();
+    } else {
+        throw new NotFoundException("option " + bf + " not found");
+    }
+	
+	
+     cl = rand.nextInt(2)+1 ; 
+	radios = driver.findElements(By.name("cooling_liquid"));
+	if (cl > 0 && cl <= radios.size()) {
+     radios.get(cl + 1).click();
+	} else {
+     throw new NotFoundException("Ez a gomb" + cl + "nem található");
+	}
+	
+		 
  
- 
+	  lg = rand.nextInt(1)+1 ; 
+		radios = driver.findElements(By.name("landing_gear"));
+	if (lg > 0 && lg <= radios.size()) {
+	  radios.get(lg).click();
+	} else {
+	  throw new NotFoundException("Ez a gomb" + lg + "nem található");
+	  
+	  
+	}
+	   sl = rand.nextInt(2)+1 ; 
+		radios = driver.findElements(By.name("straight_line"));
+	if (sl > 0 && sl <= radios.size()) {
+	radios.get(sl + 1).click();
+	} else {
+	throw new NotFoundException("Ez a gomb" + sl + "nem található");
+	  
+	  
+	} 
+	ep = rand.nextInt(2)+1 ; 
+	radios = driver.findElements(By.name("engine_power"));
+	if (ep > 0 && ep <= radios.size()) {
+	radios.get(ep + 1).click();
+	} else {
+	throw new NotFoundException("Ez a gomb" + ep + "nem található"); 
+	}
+	 
+	 l = rand.nextInt(1)+1 ; 
+	radios = driver.findElements(By.name("lightning"));
+	if (l > 0 && l <= radios.size()) {
+	radios.get(l + 1).click();
+	} else {
+	throw new NotFoundException("Ez a gomb" + l + "nem található"); 
+	}
+	  
+	 elements = driver.findElements(By.cssSelector(".form-group.checkbox.fg-line"));
+	for (WebElement element : elements) {
+		rand = new Random();
+		int randomNum = rand.nextInt(3)+1;
+		if (randomNum == 3) {
+			element.click();
+	
+		}
+	
+
+}
+	
+   elements = driver.findElements(By.cssSelector(".form-group.checkbox.fg-line"));
+	for (WebElement element : elements) {
+		rand = new Random();
+		int randomNum = rand.nextInt(3)+1;
+		if (randomNum == 1 || randomNum==2 || randomNum==3 ) {
+			element.click();
+	
+		}
+
+	}
+	
+	fillName("opinion","Szubjektív Vélemény");
+	sleep(2000);
+	submit();
+	sleep(2000);
+	driver.findElement(By.cssSelector(".fas.fa-eye.circle")).click();
+	onScreen("Karosszéria külső állapota új");
+	onScreen("Utastér állapota új");
+	onScreen("Gumik állapota Sérült új");
+	onScreen("Szubjektív Vélemény");
+	driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+	sleep(1000);
+	driver.findElement(By.cssSelector(".btn.grayBtn.deleteAttachedItem")).click();
+   Log.log("Sikeresen Törölve");
+    
   
- 
- 
+	
+}	
+
  
 	
 }		
@@ -6246,4 +6459,3 @@ if (option > 0 && option <= radios.size()) {
 		
 
 
-}
