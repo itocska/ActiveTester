@@ -2341,14 +2341,18 @@ public class TestBase {
 		Thread.sleep(5000);
 	}
 
-	public static void adminActivatecompany(String companyName) throws IOException {
+	public static void adminActivatecompany(String companyName) throws IOException, InterruptedException {
 		goToPage(url + "/hu/admin/car/car-companies");
 		Log.log("Admin cégek");
 		clickLinkWithText(companyName);
 
 		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/a")).click();
 		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/ul/li[1]/a")).click();
-		driver.findElement(By.xpath("/html/body/section/section/div/form/div[3]/div[2]/div[1]/div[2]/a[2]/i")).click();
+		
+		sleep(3000);
+		driver.findElement(By.xpath("//a[class='btn btn-default command btn-link waves-effect']")).click();
+		
+		
 		Log.log("Cég jóváhagyva");
 		goToPage(url + "/hu/kijelentkezes");
 		Log.log("Admin kijelentkezés");
