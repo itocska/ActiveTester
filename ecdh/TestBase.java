@@ -911,29 +911,54 @@ public class TestBase {
 
 	}
 
-	public static void forgottenPassword(String email, String emailpassword, String password) throws Exception {
+	public static void forgottenPassword() throws Exception {
 		driver.findElement(By.partialLinkText("Elfelejtetted")).click();
-		driver.findElement(By.cssSelector("input[name='email_check']")).sendKeys(email);
+		driver.findElement(By.cssSelector("input[name='email_check']")).sendKeys(personalUser);
+		sleep(1000);
 		driver.findElement(By.className("btn-success")).click();
+		sleep(1000);
+		
+		driver.get("https://gmail.com");
 
-		driver.get(Gmail.getMails(email, emailpassword, "Elfelejtett", "href=\"(.*?)\">Jelszóváltás"));
-		driver.findElement(By.id("password")).sendKeys(password);
-		driver.findElement(By.id("confirm-password")).sendKeys(password);
+		driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys(testerMail);
+		driver.findElement(By.xpath("//*[text()='Következő']")).click();
 
-		driver.findElement(By.id("form-button")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
 
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), \"Vissza\")]")));
-		driver.findElement(By.xpath("//span[contains(text(), \"Vissza\")]")).click();
+		driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
+		driver.findElement(By.xpath("//*[text()='Következő']")).click();
+		Log.log("Login Gmail");
 
-		driver.findElement(By.id("username")).sendKeys(email);
-		driver.findElement(By.id("password")).sendKeys(password);
+		sleep(6000);
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("(//*[text()='Elfelejtett jelszó (ECDH) To:"+ personalUser +"'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Elfelejtett jelszó (ECDH) To:"+ personalUser +"'])[2]")).click();
 
-		driver.findElement(By.className("btn-secondary")).click();
-		Log.log("Click on Login");
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Jelszóváltás')]")));
+		driver.findElement(By.xpath("//a[contains(text(), 'Jelszóváltás')]")).click();
+		Log.log("Jelszóváltás");
+		sleep(5000);
 
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("user-img")));
-		Log.log("Login succeed");
+		System.out.println(driver.getTitle());
 
+		for (String winHandle : driver.getWindowHandles()) {
+			System.out.println(winHandle);
+			driver.switchTo().window(winHandle);
+		}
+
+		System.out.println(driver.getTitle());
+
+		fillName("password", personalPassword);
+		fillName("confirm_password", personalPassword);
+		sleep(1000);
+		submit();
+		sleep(3000);
+		driver.findElement(By.xpath("//a[@class='btn btn-lg btn-primary btn-block btn-success']")).click();
+		
+		login(personalUser, personalPassword);
+		Log.log("Sikeres jelszó módosítás");
+		
 	}
 
 	public static final int GYARTO = 1;

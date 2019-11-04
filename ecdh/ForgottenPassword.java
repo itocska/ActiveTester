@@ -8,7 +8,7 @@ public class ForgottenPassword extends TestBase {
 		
 		TestBase.main("ForgottenPassword", 1);
 		try {
-		  TestBase.forgottenPassword(TestBase.personalUser, TestBase.testerPassword, TestBase.personalPassword);
+		  TestBase.forgottenPassword();
 		} 
 		catch (AssertionError|WebDriverException e) {
 			Log.error = true;
