@@ -385,9 +385,10 @@ public class TestBase {
 		}
 	}
 
-	public static void login(String username, String password) throws IOException {
+	public static void login(String username, String password) throws IOException, InterruptedException {
 		clickLinkWithText("Belépés");
 		Log.log("Click login");
+		sleep(3000);
 
 		try {
 			element = driver.findElement(By.className("ok"));
@@ -1383,7 +1384,7 @@ public class TestBase {
 
 			
 			String randomNumStr2 ="";
-			randomNum = rand.nextInt((899999) + 10000);
+			randomNum = rand.nextInt((899999) + 100000);
 			String registrationNumber = randomNum.toString();
 			randomNumStr2 = String.valueOf(registrationNumber) + 'A';
 			fillName("registration_number", randomNumStr2);
@@ -1392,18 +1393,28 @@ public class TestBase {
 			String fuelCapacity = randomNum.toString();
 			fillName("fuel_capacity", fuelCapacity);
 
-			
+			sleep(3000);
 			driver.findElement(By.name("doors")).click();
-			driver.findElement(By.name("doors")).clear();
-			sleep(2000);
-			randomNum = rand.nextInt(3)+3;
+			sleep(3000);
+			//driver.findElement(By.name("doors")).clear();
+			//sleep(3000);
+			randomNum = rand.nextInt(3)+2;
 			String doors = randomNum.toString();
-			fillName("doors",doors);
+			Log.log(doors+" ajtó szám");
+			//Log.log(randomNum+" ajtó szám");
+			sleep(3000);
+			//fillName("doors", doors);
+			//fillName("doors", ""+randomNum);
+			driver.findElement(By.cssSelector("input[name='doors']")).clear();
+			driver.findElement(By.cssSelector("input[name='doors']")).sendKeys(Keys.BACK_SPACE);
+			driver.findElement(By.cssSelector("input[name='doors']")).sendKeys(doors);
+			sleep(3000);
 
 
 			randomNum = rand.nextInt(4) + 1;
 			String seats = randomNum.toString();
 			fillName("seats",seats);
+			sleep(3000);
 			
 			String Cylinder="";
 			String make ="";
@@ -1431,7 +1442,7 @@ public class TestBase {
 	        
 			int engine_capacity =0;
 			randomNum = rand.nextInt(2000) + 1000;
-			engine_capacity = rand.nextInt(9989)+1000;
+			engine_capacity = rand.nextInt(999)+1000;
 			fillName("engine_capacity",""+engine_capacity);
 
 			String netWeight ="";
@@ -1522,12 +1533,14 @@ public class TestBase {
 			ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class = 'half-box'][1]/dd[contains(text(), '"+ seats +"')]")));
 			System.out.println(seats);
 			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(seats));
-			Log.log("Képernyőn: " + seats);
+			Log.log("Képernyőn: " + seats + "Ülés");
+			sleep(4000);
 			
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class = 'half-box'][2]/dd[contains(text(),'" + doors + "')])[1]")));
 			System.out.println(doors);
 			assertTrue("Szerepel a forrásban", driver.getPageSource().contains(doors));
-			Log.log("Képernyőn: " + doors);
+			Log.log("Képernyőn: " + doors + "Ajtó");
+			sleep(4000);
 					
 			onScreen("Dízel");
 			checkPrice(engine_capacity," ");
@@ -1571,7 +1584,7 @@ public class TestBase {
 		    driver.findElement(By.id("save-and-back")).click();
 		   
 		    
-
+		    /*
 		    
 		    
 		    clickLinkWithText("Adatok szerkesztése");
@@ -1782,6 +1795,7 @@ public class TestBase {
 		    onScreen(currentValue3);
 		    onScreen(currentValue4);
 		    onScreen(currentValue5);
+		    */
 
 	}
 
@@ -2376,6 +2390,7 @@ public class TestBase {
 
 	public static void oneStepInner() throws IOException, InterruptedException {
 
+		sleep(3000);
 		 try {
 			 
 			 	List<WebElement> elements = driver.findElements(By.cssSelector("#mycar-block.card .profile-car-item"));
