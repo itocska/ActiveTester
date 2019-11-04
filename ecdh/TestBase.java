@@ -512,11 +512,12 @@ public class TestBase {
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains(personalUser));
 		Log.log("Képernyőn: " + personalUser);
 		
+		/*
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@value='" + "HU" + "']")));
 		System.out.println("Magyarország");
 		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("HU"));
 		Log.log("Képernyőn: " + "Magyarország");
-
+		*/
 		
 	
 		
@@ -600,10 +601,11 @@ public class TestBase {
 		sleep(2000);
 		Log.log("Tovább a fizetéshez");
 
-		driver.findElement(By.cssSelector(".bg-blue.btnClass.uppercase.paymentButton")).click();
+		driver.findElement(By.cssSelector(".button.bggreen.actionable")).click();
 		sleep(2000);
 		Log.log("Fizetés");
-
+		
+		sleep(5000);
 		driver.findElement(By.cssSelector(".btn.btn-lg.btn-primary.btn-block.btn-success")).click();
 		sleep(2000);
 		Log.log("Siker");
