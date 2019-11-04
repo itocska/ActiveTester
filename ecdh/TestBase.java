@@ -844,8 +844,8 @@ public class TestBase {
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][floor]']")).sendKeys("2");
 		driver.findElement(By.cssSelector("input[name='main_company[car_address][door]']")).sendKeys("204");
 		Log.log("hsz, épület, emelet, ajtó kitöltés");
-		driver.findElement(By.cssSelector("input[name='main_company[last_name]']")).sendKeys("Mr");
-		driver.findElement(By.cssSelector("input[name='main_company[first_name]']")).sendKeys("Tester");
+		driver.findElement(By.cssSelector("input[name='user[last_name]']")).sendKeys("Mr");
+		driver.findElement(By.cssSelector("input[name='user[first_name]']")).sendKeys("Tester");
 		Log.log("cégvezető neve kitöltés");
 		driver.findElement(By.className("register")).click();
 		Log.log("Regisztráció mentése");
@@ -895,19 +895,8 @@ public class TestBase {
 		}
 
 		System.out.println(driver.getTitle());
-		sleep(2000);
 		passShepherd();
-		sleep(2000);
-		passShepherd();
-		sleep(2000);
-		passShepherd();
-		sleep(2000);
-		passShepherd();
-		sleep(2000);
 		Log.log("Activation succeed");
-		
-		goToPage(url + "/hu/kijelentkezes");
-		Log.log("Kijelentkezés");
 
 	}
 
@@ -2355,18 +2344,14 @@ public class TestBase {
 		Thread.sleep(5000);
 	}
 
-	public static void adminActivatecompany(String companyName) throws IOException, InterruptedException {
+	public static void adminActivatecompany(String companyName) throws IOException {
 		goToPage(url + "/hu/admin/car/car-companies");
 		Log.log("Admin cégek");
 		clickLinkWithText(companyName);
 
 		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/a")).click();
 		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/ul/li[1]/a")).click();
-		
-		sleep(3000);
-		driver.findElement(By.xpath("//a[class='btn btn-default command btn-link waves-effect']")).click();
-		
-		
+		driver.findElement(By.xpath("/html/body/section/section/div/form/div[3]/div[2]/div[1]/div[2]/a[2]/i")).click();
 		Log.log("Cég jóváhagyva");
 		goToPage(url + "/hu/kijelentkezes");
 		Log.log("Admin kijelentkezés");
@@ -6196,7 +6181,7 @@ public static void deleteTestRSSChannel()  throws IOException, InterruptedExcept
 	
 	}
 
-public static void MontlySurvey() throws IOException, InterruptedException {
+public static void addNewCarEventMontlySurvey() throws IOException, InterruptedException {
 
 	Log.log("Havi szemle esemény felvitel!");
 	driver.findElement(By.xpath("//a[@class='add-link popup']")).click();
