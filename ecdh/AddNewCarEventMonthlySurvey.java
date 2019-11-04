@@ -2,14 +2,14 @@ package ecdh;
 
 import org.openqa.selenium.WebDriverException;
 
-public class MontlySurvey {
+public class AddNewCarEventMonthlySurvey {
 	public static void main(String[] args) throws Throwable {
 		
-		TestBase.main("MontlySurvey", 0);
+		TestBase.main("AddNewCarEventMonthlySurvey", 0);
 		try {
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.oneStepInner();
-		  TestBase.MontlySurvey();
+		  TestBase.addNewCarEventMonthlySurvey();
 		  
 		} 
 		catch (AssertionError|WebDriverException e) {

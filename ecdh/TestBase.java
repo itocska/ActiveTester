@@ -6196,7 +6196,7 @@ public static void deleteTestRSSChannel()  throws IOException, InterruptedExcept
 	
 	}
 
-public static void MontlySurvey() throws IOException, InterruptedException {
+public static void addNewCarEventMonthlySurvey() throws IOException, InterruptedException {
 
 	Log.log("Havi szemle esemény felvitel!");
 	driver.findElement(By.xpath("//a[@class='add-link popup']")).click();
