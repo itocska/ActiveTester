@@ -2201,9 +2201,11 @@ public class TestBase {
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-cleaning")));
 		click(".sprite-cleaning");
+		sleep(3000);
 
 		String cleaningType = randomSelect("cleaning_type");
-		click("input[name=\"cleaning_date\"]");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("cleaning-date"))).click();
+		sleep(1000);
 		click(".logo-title");
 
 		Random rand = new Random();
@@ -2211,6 +2213,10 @@ public class TestBase {
 		int price = randomNum;
 		String priceString = String.valueOf(randomNum);
 		fillName("price", priceString);
+		
+		fillName("car_company_id_ac", "a");
+		sleep(4000);
+		click("ul#ui-id-1 li:nth-child(1)");
 
 		rand = new Random();
 		randomNum = 1000 + rand.nextInt((50000 - 1) + 1);
@@ -2239,6 +2245,7 @@ public class TestBase {
 		onScreen(noteText);
 
 		clickLinkWithText("Szerkesztés");
+		sleep(2000);
 		checkField("cleaning_type", cleaningType);
 		checkField("price", priceString);
 		checkField("note", noteText);
@@ -2258,6 +2265,7 @@ public class TestBase {
 		checkField("cleaning_type", cleaningType);
 		checkField("price", priceString);
 		checkField("note", noteText);
+		sleep(2000);
 		submit();
 		sleep(3000);
 		
