@@ -408,6 +408,7 @@ public class TestBase {
 		// assertTrue("Login succeed",
 		// driver.getPageSource().contains("Bejelentkezve"));
 		Log.log("Login succeed");
+		passShepherd();
 	}
 
 	public static void select(String string, String string2) throws IOException {
@@ -1830,7 +1831,7 @@ public class TestBase {
 		clickLinkWithText("esemény");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-fueling")));
 		click(".sprite-fueling");
-
+		sleep(3000);
 		submit();
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'A mező nem lehet üres')]")));
@@ -5492,7 +5493,7 @@ public static void addNewCalendarEvent() throws IOException, InterruptedExceptio
 		
 		Log.log("Naptári esemény sikeresen felvive");
 		
-		sleep(1000);
+		sleep(4000);
 		driver.findElement(By.xpath("//*[@class='fc-view-container']//*[contains(text(),'20')]")).click();
 		sleep(1000);
 		driver.findElement(By.xpath("//*[contains(text(),'"+titleText+"')]")).click();
@@ -5530,7 +5531,7 @@ public static void addNewCalendarEvent() throws IOException, InterruptedExceptio
 		driver.findElement(By.id("recurring-data-end-condition")).sendKeys(Keys.ENTER);
 		fillName("recurring_data[count]","1");
 		
-		sleep(2000);
+		sleep(3000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn.btn-primary.w-100"))).click();
 		onScreen(titleText);
 		onScreen("20.");
