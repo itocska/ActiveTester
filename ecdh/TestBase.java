@@ -3818,6 +3818,7 @@ public class TestBase {
 
 	public static void addNewCarEventGapInsurance() throws IOException, InterruptedException {
 
+		//FELVITEL
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_insurance")));
 		clickLinkWithText("GAP");
@@ -3839,10 +3840,14 @@ public class TestBase {
 		fillName("price", stringPrice);
 		submit();
 		
+		//FELVITEL VÉGE
+		
 		sleep(2000);
 		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
 		sleep(3000);
 
+		//MEGTEKINTÉS ADATLAPON
+		
 		String pattern = "//dt[contains(text(),'GAP biztosítás')]//following-sibling::dd[1]";
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement insuranceParent = driver.findElement(By.xpath(pattern));
@@ -3855,12 +3860,17 @@ public class TestBase {
 		assertTrue("GAP biztosítás lejárat OK.", insurance.contains("Lejár: " + dateLocale(dueDate)));
 		Log.log("GAP biztosítás lejárat OK.");
 
+		//MEGTEKINTÉS ESEMÉNY
+		
 		clickLinkWithText("biztosítás");
+		sleep(4000);
 		onScreen(company);
 		// onScreen(period);
 		onScreen(ident);
 
 		checkPrice(price, " ");
+		
+		//MÓDOSÍTÁS + FELVITEL ELLENŐRZÉS
 
 		clickLinkWithText("Szerkesztés");
 		checkSelect("type", "GAP biztosítás");
@@ -3879,6 +3889,9 @@ public class TestBase {
 		fillName("price", stringPrice);
 
 		submit();
+		
+		//MÓDOSÍTOTT ELLENŐRZÉSE
+		
 		sleep(2000);
 			
 		clickLinkWithText("biztosítás");
@@ -3888,6 +3901,9 @@ public class TestBase {
 
 		checkPrice(price, " ");
 
+		//MÓDOSÍTOTT FELVITEL ELLENŐRZÉSE
+		
+		sleep(3000);
 		clickLinkWithText("Szerkesztés");
 		sleep(2000);
 		checkSelect("type", "GAP biztosítás");
@@ -3898,6 +3914,8 @@ public class TestBase {
 
 		submit();
 		sleep(2000);
+		
+		//TÖRÖL
 		
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		click("a[data-apply=\"confirmation\"]");
@@ -6247,10 +6265,13 @@ public static void addNewCarEventMonthlySurvey() throws IOException, Interrupted
 	driver.findElement(By.xpath("//a[@class='add-link popup']")).click();
 	sleep(2000);
 	driver.findElement(By.xpath("//span[@class='sprite sprite-mycar_monthly_inspection']")).click();
-	submit();
-	Log.log("Mibden Rendben állapot mentése !");
+	//submit();
+	//Minden Rendben állapot mentése
 	sleep(2000);
-	click(".ts-date-picker");
+	
+	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("date"))).click();
+	driver.findElement(By.cssSelector(".logo-title.d-none.d-md-inline-block.ml-3")).click();
+	
 	sleep(2000);
 	driver.findElement(By.xpath("//div[@class='col-md-6']/div[@class='form-group toggle ']/div/label[@class='input-toggle']/span[@class='switch']")).click();
 	submit();
@@ -6260,10 +6281,11 @@ public static void addNewCarEventMonthlySurvey() throws IOException, Interrupted
 	driver.findElement(By.cssSelector(".fas.fa-long-arrow-alt-left")).click();
 	Log.log("Mentés ellenőrzése");
 	sleep(2000);
-	Log.log(" Esemény Szerkeztés");
+	Log.log("Esemény Szerkesztés");
 	driver.findElement(By.xpath("//div[2]/div[@class='event timeline'][1]/div[@class='event-body mr-3']/div[@class='lv-small']/a/b")).click();
-	driver.findElement(By.xpath("//a[@class='text-uppercase btn btn-secondary']")).click();
-	click(".ts-date-picker");
+	clickLinkWithText("Szerkesztés");
+	//click(".ts-date-picker");
+	sleep(3000);
 	driver.findElement(By.xpath("//div[@class='col-md-6']/div[@class='form-group toggle ']/div/label[@class='input-toggle']/span[@class='switch']")).click();
 	fillName("exterior_condition","Karosszéria külső állapota");
 	fillName("interior_condition","Utastér állapota");
