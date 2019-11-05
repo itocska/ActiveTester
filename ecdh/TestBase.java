@@ -3821,9 +3821,13 @@ public class TestBase {
 		clickLinkWithText("esemény hozzáadása");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mycar_insurance")));
 		clickLinkWithText("GAP");
+		sleep(2000);
 
 		String company = randomSelect("company");
-		driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("start-date"))).click();
+		sleep(1000);
+		//driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
 		// String period = randomSelect("period");
 
 		int randNumber = new Random().nextInt(123456);
