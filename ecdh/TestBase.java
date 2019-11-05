@@ -3079,6 +3079,7 @@ public class TestBase {
 		driver.findElement(By.cssSelector("input[name=\"service_date\"]")).sendKeys();
 		sleep(2000);
 		goToPage(TestBase.url + "/hu/szerviz-esemeny-letrehozasa/4/" + getCarId());
+		sleep(3000);
 		click(".ts-date-picker");
 		click("h2");
 		fillName("car_company_id_ac", "a");
@@ -3143,8 +3144,12 @@ public class TestBase {
 			selectCarPartItem(list.get(randomNumber), 3);
 
 		}
-		sleep(1000);
+		sleep(3000);
 		
+		publicPart = driver.findElement(By.id("car-mycar-service-log-items-0-text")).getAttribute("value");
+		Log.log(publicPart+" mentve");
+		
+		sleep(1000);
 		int randPrice = new Random().nextInt(123456);
 		fillName("price_work", "" + randPrice);
 		sleep(1000);
