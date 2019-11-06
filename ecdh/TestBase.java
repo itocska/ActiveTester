@@ -4852,14 +4852,16 @@ public class TestBase {
 		   
 		   driver.switchTo().defaultContent();
 		   driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-		   sleep(2000);
-		   driver.findElement(By.id("MainContent_controlCheckBoxInvoiceRequired")).click();
+		   
+		   
 		   sleep(3000);
 		 
-		   fillName("ctl00$MainContent$controlTextBoxCegnev","Teszt Ember");
-		   fillName("ctl00$MainContent$controlTextBoxAdoszam","1035678942");
-		   fillName("ctl00$MainContent$controlTextBoxCimTelepules","Soroksár");
-		   fillName("ctl00$MainContent$controlTextBoxCimIranyitoszam","1238");
+		   fillName("ctl00$MainContent$txtBankcardOwnerName","Teszt Ember");
+		   fillName("ctl00$MainContent$txtBankcardOwnerEmail","teszt@gmail.com");
+		   fillName("ctl00$MainContent$controlTextBoxCegnev","Kovács Józsi");
+		   fillName("ctl00$MainContent$controlTextBoxAdoszam","123456789");
+		   fillName("ctl00$MainContent$controlTextBoxCimTelepules","Budapest");
+		   fillName("ctl00$MainContent$controlTextBoxCimIranyitoszam","1052");
 		   fillName("ctl00$MainContent$controlTextBoxCimKozteruletNeve","Táncsics Mihály Utca 76");
 		   driver.findElement(By.name("ctl00$MainContent$ControlForwardToCCPayment")).click();
 		   Log.log("Fizetés elindítása");
