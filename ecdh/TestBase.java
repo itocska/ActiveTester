@@ -4904,9 +4904,9 @@ public class TestBase {
 
 		click(".sprite-mycar_other_event");
 
-		click(".ts-date-picker");
-
-		driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+		sleep(1000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("date"))).click();
+		driver.findElement(By.cssSelector(".logo-title.d-none.d-md-inline-block.ml-3")).click();
 
 		submit();
 
@@ -4922,12 +4922,13 @@ public class TestBase {
 		 * driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
 		 * 
 		 * submit();
-		 * 
-		 * driver.findElement(By.cssSelector(".fas.fa-trash circle")).click();
-		 * driver.findElement(By.className("btn-secondary")).click();
-		 * 
-		 * Log.log("Esemény: Km óra állás sikeresen törölve.");
 		 */
+		sleep(3000);
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		clickLinkWithText("Esemény törlése");
+		 
+		Log.log("Esemény: Km óra állás sikeresen törölve.");
+		 
 	}
 
 	public static void addNewCarEventVehicleTax() throws IOException, InterruptedException {
