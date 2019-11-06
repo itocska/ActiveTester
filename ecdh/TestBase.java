@@ -5286,8 +5286,8 @@ public class TestBase {
 
 		sleep(2000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:"+ personalUser +"'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:"+ personalUser +"'])[2]"))
+				By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:"+ testerMail +"'])[2]")));
+		driver.findElement(By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:"+ testerMail +"'])[2]"))
 				.click();
 
 		wait.until(ExpectedConditions
