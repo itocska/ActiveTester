@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriverException;
 public class SendRequestForOfferPart {
 	public static void main(String[] args) throws Throwable {
 		
+		//Alkatrész kereskedéssel kell rendelkezzen a cég, és az értesítéseket be kell állítani(default érték hogy ne kapjon)
 		
 		TestBase.main("SendRequestForOfferPart", 0);
 		try {

@@ -2857,7 +2857,9 @@ public class TestBase {
 	
 	public static void checkRequestOfferPart(String companyName, String price) throws IOException, InterruptedException {
 		
+		sleep(3000);
 		driver.findElement(By.cssSelector("#active-piecepart-requests .list-item:nth-child(1) a")).click();
+		sleep(3000);
 		onScreen(companyName);
 		Log.log("Ajánlat megérkezett.");
 
@@ -2952,8 +2954,21 @@ public class TestBase {
 		int priceInt = Integer.parseInt(price);
 		checkPrice(priceInt, " ");
 		
-		onScreen("1052 Budapest, Sas utca 25.");
-		onScreen("hey!");
+		//onScreen("1052 Budapest, Sas utca 25.");
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()[contains(.,'1052 Budapest, Sas utca 25.')]]")));
+		System.out.println("1052 Budapest, Sas utca 25.");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("1052 Budapest, Sas utca 25."));
+		Log.log("Képernyőn: " + "1052 Budapest, Sas utca 25.");
+		
+		
+		//onScreen("hey!");
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()[contains(.,'hey!')]]")));
+		System.out.println("hey!");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("hey!"));
+		Log.log("Képernyőn: " + "hey!");
+		
 		onScreen("Fékcső");
 		onScreen("test");
 		
