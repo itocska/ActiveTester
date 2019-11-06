@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriverException;
 public class SendRequestForOfferTire {
 	public static void main(String[] args) throws Throwable {
 		
+		//Gumi kereskedéssel kell rendelkezzen a cég, és az értesítéseket be kell állítani(default érték hogy ne kapjon)
 		
 		TestBase.main("SendRequestForOfferTire", 0);
 		try {
