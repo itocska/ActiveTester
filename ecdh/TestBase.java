@@ -602,7 +602,7 @@ public class TestBase {
 		sleep(2000);
 		Log.log("Tovább a fizetéshez");
 
-		driver.findElement(By.cssSelector(".button.bggreen.actionable")).click();
+		driver.findElement(By.id("actionPay")).click();
 		sleep(2000);
 		Log.log("Fizetés");
 		
