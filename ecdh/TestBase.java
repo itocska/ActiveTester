@@ -3558,6 +3558,7 @@ public class TestBase {
 		
 		driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
 		driver.findElement(By.id("start-date")).sendKeys(Keys.ENTER);
+		driver.findElement(By.cssSelector(".logo-title.d-none.d-md-inline-block.ml-3")).click();
 		List<WebElement> list = driver.findElements(By.cssSelector("input[type=\"radio\"]:not([id=\"ticket1\"])"));
 		int size = list.size();
 		int randNumber = new Random().nextInt(size - 1) + 1;
