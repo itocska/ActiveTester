@@ -2411,7 +2411,7 @@ public class TestBase {
 		driver.findElement(By.xpath("/html/body/section/section/div/div[1]/ul/li/ul/li[1]/a")).click();
 		
 		sleep(3000);
-		driver.findElement(By.xpath("//a[class='btn btn-default command btn-link waves-effect']")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//i[@class='zmdi zmdi-thumb-up']"))).click();
 		
 		
 		Log.log("Cég jóváhagyva");
