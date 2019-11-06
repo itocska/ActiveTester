@@ -6009,7 +6009,10 @@ public static void companySearch() throws IOException, InterruptedException {
 
 public static void companyRate() throws IOException, InterruptedException {
 
-	clickLinkWithText("Cégkereső");
+	goToPage(url+"/hu/szolgaltatas-kereso");
+	sleep(3000);
+
+	/*
 	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
 	Boolean goodFilter = false;
 	Select profileSelect = new Select(driver.findElement(By.id("profiles")));
@@ -6037,29 +6040,25 @@ public static void companyRate() throws IOException, InterruptedException {
 				
 			}
 		
-	}
+	}*/
 	
-	boolean staleElement = true; 
-	while(staleElement){
-	  try{
-	     driver.findElement(By.xpath("//*[contains(text(), 'részletes értékelés')]")).click();
-	     staleElement = false;
+	driver.findElement(By.xpath("//div[@class='row result-list align-items-center'][1]//div[@class='result-name']")).click();
+	sleep(4000);
+	
 
-	  } catch(StaleElementReferenceException e){
-	    staleElement = true;
-	  }
-	}
+	driver.findElement(By.xpath("//*[contains(text(), 'Részletes értékelés')]")).click();
+
 	
-	sleep(1000);
+	sleep(3000);
 	
-	driver.findElement(By.xpath("//div[@class='detailed-ratings row']/div[@class='col-4'][1]/div/div/div/div/span/span[3]")).click();
-	driver.findElement(By.xpath("//div[@class='detailed-ratings row']/div[@class='col-4'][2]/div/div/div/div/span/span[3]")).click();
-	driver.findElement(By.xpath("//div[@class='detailed-ratings row']/div[@class='col-4'][3]/div/div/div/div/span/span[3]")).click();
-	driver.findElement(By.xpath("//div[@class='detailed-ratings row']/div[@class='col-4'][4]/div/div/div/div/span/span[3]")).click();
-	driver.findElement(By.xpath("//div[@class='detailed-ratings row']/div[@class='col-4'][5]/div/div/div/div/span/span[3]")).click();
+	driver.findElement(By.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][1]/div/div/div/div/span/span[3])[1]")).click();
+	driver.findElement(By.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][2]/div/div/div/div/span/span[3])[1]")).click();
+	driver.findElement(By.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][3]/div/div/div/div/span/span[3])[1]")).click();
+	driver.findElement(By.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][4]/div/div/div/div/span/span[3])[1]")).click();
+	driver.findElement(By.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][5]/div/div/div/div/span/span[3])[1]")).click();
 	sleep(1000);
 	int rateTextNum = new Random().nextInt(500)+100;
-	fillName("car_company_ratings[1][text_rate]","Teszt értékelő szöveg "+rateTextNum);
+	fillName("car_company_ratings[7][text_rate]","Teszt értékelő szöveg "+rateTextNum);
 	submit();
 	sleep(1000);
 	
