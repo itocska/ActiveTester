@@ -939,6 +939,7 @@ public class TestBase {
 
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Jelszóváltás')]")));
+		sleep(4000);
 		driver.findElement(By.xpath("//a[contains(text(), 'Jelszóváltás')]")).click();
 		Log.log("Jelszóváltás");
 		sleep(5000);
