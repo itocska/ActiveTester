@@ -307,7 +307,7 @@ public class TestBase {
 		Log.log(name + " field filled with: " + text);
 	}
 
-	protected static void registerUser(String user, String password, Boolean obligatory) throws IOException {
+	protected static void registerUser(String user, String password, Boolean obligatory) throws IOException, InterruptedException {
 		// obligatory checkboxes not checked test
 		clickLinkWithText("Regisztráció");
 		Log.log("Click Registraion");
@@ -334,7 +334,7 @@ public class TestBase {
 		Log.log("Regisztrálás blokkolva");
 	}
 
-	protected static void registerUser(String username, String password) throws IOException {
+	protected static void registerUser(String username, String password) throws IOException, InterruptedException {
 		clickLinkWithText("Regisztráció");
 		Log.log("Click Registraion");
 
@@ -1934,8 +1934,10 @@ public class TestBase {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mot")));
 		click(".sprite-mot");
 
-		click("input[name=\"test_date\"]");
-		click(".logo-title");
+		sleep(2000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("test-date"))).click();
+		driver.findElement(By.cssSelector(".logo-title.d-none.d-md-inline-block.ml-3")).click();
+
 
 		Random rand = new Random();
 		int randomNum = 1000 + rand.nextInt((50000 - 1) + 1);
@@ -1951,8 +1953,8 @@ public class TestBase {
 
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), 'Autó vizsgáztatva')]")));
 
-		assertTrue("Mûszaki vizsga elmentve", driver.getPageSource().contains("Autó vizsgáztatva"));
-		Log.log("Esemény: mûszaki vizsga elmentve.");
+		assertTrue("Műszaki vizsga elmentve", driver.getPageSource().contains("Autó vizsgáztatva"));
+		Log.log("Esemény: műszaki vizsga elmentve.");
 
 		onScreen("Abc kft.");
 		
@@ -1966,6 +1968,9 @@ public class TestBase {
 
 		onScreen(now);
 		onScreen(noteText);
+		
+		now = dateLocale(LocalDate.now().plusYears(2));
+		onScreen(now);
 
 		clickLinkWithText("Szerkesztés");
 
@@ -1974,10 +1979,14 @@ public class TestBase {
 		checkField("car_company_id_ac", "Abc kft.");
 		onScreen(noteText);
 
-		driver.findElement(By.xpath("//*[contains(text(), 'Taxi')]")).click();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("label[for=is-taxi]"))).click();
+		sleep(2000);
 		submit();
+		sleep(3000);
 
 		clickLinkWithText("Műszaki vizsga");
+		sleep(2000);
 		
 		now = dateLocale(LocalDate.now().plusYears(1));
 		onScreen(now);
@@ -2731,7 +2740,7 @@ public class TestBase {
 		driver.findElement(By.cssSelector(css)).click();
 	}
 
-	public static void checkRequestOfferTire(String companyName, String price) throws IOException {
+	public static void checkRequestOfferTire(String companyName, String price) throws IOException, InterruptedException {
 		driver.findElement(By.cssSelector("#active-tire-requests .list-item:nth-child(1) a")).click();
 		onScreen(companyName);
 		Log.log("Ajánlat megérkezett.");
@@ -2761,7 +2770,7 @@ public class TestBase {
 		
 	}
 	
-	public static void checkRequestOfferPart(String companyName, String price) throws IOException {
+	public static void checkRequestOfferPart(String companyName, String price) throws IOException, InterruptedException {
 		
 		driver.findElement(By.cssSelector("#active-piecepart-requests .list-item:nth-child(1) a")).click();
 		onScreen(companyName);
@@ -2832,7 +2841,7 @@ public class TestBase {
 
 	}
 
-	public static void checkRequestFinalOrderTire(String price) throws IOException {
+	public static void checkRequestFinalOrderTire(String price) throws IOException, InterruptedException {
 		click(".bell");
 		clickLinkWithText("Gumi rendelés");
 		onScreen(price);
@@ -2844,7 +2853,7 @@ public class TestBase {
 		clickLinkWithText("Teljesítve");
 		Log.log("Archiválva");
 	}
-	public static void checkRequestFinalOrderPart(String price) throws IOException {
+	public static void checkRequestFinalOrderPart(String price) throws IOException, InterruptedException {
 		
 		click(".bell");
 		clickLinkWithText("Alkatrész rendelés");
@@ -2916,12 +2925,14 @@ public class TestBase {
 		return driver.findElement(By.cssSelector(".order-1 a")).getText();
 	}
 
-	private static void clickLinkWithText(String string) {
+	private static void clickLinkWithText(String string) throws InterruptedException {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
 				"//a[not(contains(@class,'d-sm-none'))]/descendant-or-self::*[contains(text(),'" + string + "')]")));
 		driver.findElement(By.xpath(
 				"//a[not(contains(@class,'d-sm-none'))]/descendant-or-self::*[contains(text(),'" + string + "')]"))
 				.click();
+		
+		sleep(3000);
 	}
 	
 	private static void clickXpath(String string) {
@@ -3003,7 +3014,7 @@ public class TestBase {
 
 	}
 
-	public static void checkCarProperties() throws IOException {
+	public static void checkCarProperties() throws IOException, InterruptedException {
 		clickLinkWithText("Adatok szerkesztése");
 		checkField("car_manufacturer_id", "BMW");
 		checkField("car_model_id", "116");
@@ -3026,13 +3037,13 @@ public class TestBase {
 
 	}
 
-	public static void deleteCar(String numberPlate) throws IOException {
+	public static void deleteCar(String numberPlate) throws IOException, InterruptedException {
 		selectCar(numberPlate);
 		clickLinkWithText("Autó törlése");
 		click(".deleteAttachedItem");
 	}
 
-	public static void deleteUserCars() throws IOException {
+	public static void deleteUserCars() throws IOException, InterruptedException {
 		List<WebElement> elements = driver.findElements(By.cssSelector("#mycar-block .numberplate"));
 		List<String> list = new ArrayList<String>();
 		for (WebElement element : elements) {
@@ -4819,7 +4830,7 @@ public class TestBase {
 		}
 	}
 
-	public static void cronRun() throws IOException {
+	public static void cronRun() throws IOException, InterruptedException {
 		goToPage(url + "/hu/admin/car/pages/run-cron/event");
 		clickLinkWithText("Események cron futtatása");
 	}
