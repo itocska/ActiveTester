@@ -3028,7 +3028,7 @@ public class TestBase {
 		sleep(3000);
 		driver.findElement(By.id("mobile")).clear();
 		sleep(2000);
-		fillName("mobile", "99999999");
+		fillName("mobile", "11111111");
 		fillName("user[last_name]", "Teszt");
 		fillName("user[first_name]", "Eszter");
 		fillName("mothers_name", "Kovács Hilda Géza");
@@ -3040,7 +3040,7 @@ public class TestBase {
 		click(".logos");
 		Log.log("Vissza a főoldalra.");
 		clickLinkWithText("profil szerkesztése");
-		checkField("mobile", "3699999969");
+		checkField("mobile", "3611111111");
 		checkField("user[last_name]", "Teszt");
 		checkField("user[first_name]", "Eszter");
 		checkField("mothers_name", "Kovács Hilda Géza");
