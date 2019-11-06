@@ -3481,13 +3481,21 @@ public class TestBase {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-penalty")));
 		click(".sprite-penalty");
 
+		sleep(2000);
 		String penaltyType = randomSelect("penalty_type");
-		driver.findElement(By.cssSelector("input[name=\"penalty_date\"]")).click();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("penalty-date"))).click();
+		driver.findElement(By.cssSelector(".logo-title.d-none.d-md-inline-block.ml-3")).click();
+		
 		LocalDate dueDate = LocalDate.now().plusMonths(3);
 
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-LL-dd");
 		String strDueDate = dueDate.format(dateFormat);
-		fillName("pay_due_date", strDueDate);
+		Log.log(strDueDate + " tesztre");
+
+		driver.findElement(By.id("pay-due-date")).sendKeys(strDueDate);
+		driver.findElement(By.id("pay-due-date")).sendKeys(Keys.ENTER);
+		
 		Random rand = new Random();
 		Integer price = 1000 + rand.nextInt((50000 - 1) + 1);
 		fillName("price", "" + price);
@@ -3507,6 +3515,7 @@ public class TestBase {
 		
 		sleep(3000);
 		driver.findElement(By.cssSelector("a[href*='birsag-esemeny-megtekintese']")).click();
+		sleep(3000);
 		onScreen(penaltyType);
 		onScreen("Nem");
 
@@ -3530,11 +3539,14 @@ public class TestBase {
 		onScreen(penaltyType);
 		onScreen("Igen");
 		
+		sleep(3000);
+		
 		clickLinkWithText("Szerkesztés");
 		checkField("penalty_type", penaltyType);
 		checkField("price", "" + price);
 		onScreen(noteText);
 		
+		sleep(1000);
 		submit();
 		sleep(2000);
 
