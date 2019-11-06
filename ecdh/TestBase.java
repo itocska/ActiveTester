@@ -4218,7 +4218,7 @@ public class TestBase {
 	    onScreen("8.5");
 	    String rentURLfromrp = driver.getCurrentUrl();
 	    Log.log("Az autó szerepel a Bérautó listában");
-	    
+	    driver.findElement(By.xpath("//div[@class='col-lg adverter px-2']/div[@class='col pl-0 item-footer subscript']/a[@class='col btn btn-secondary']")).click();
 	    
 		DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 		Date systemDate = new Date();
