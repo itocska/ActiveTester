@@ -2342,15 +2342,17 @@ public class TestBase {
 		clickLinkWithText("esemény");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-other")));
 		driver.findElement(By.className("sprite-other")).click();
+		sleep(2000);
 
 		Random rand = new Random();
 		Integer randomNum = 1 + rand.nextInt((3000000 - 1) + 1);
 		String randNum = String.valueOf(randomNum);
 		String eventText = "Teszt esemény " + randNum;
-		driver.findElement(By.cssSelector("input[name=\"title\"]")).sendKeys("Teszt esemény " + randNum);
 
-		click("input[name=\"event_date\"]");
-		click(".logo-title");
+		fillName("title","Teszt esemény "+randNum);
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("event-date"))).click();
+		driver.findElement(By.cssSelector(".logo-title.d-none.d-md-inline-block.ml-3")).click();
 
 		int randNumber = new Random().nextInt(123456);
 		String noteText = "Test note " + randNumber;
