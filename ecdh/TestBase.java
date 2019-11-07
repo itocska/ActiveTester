@@ -2388,8 +2388,8 @@ public class TestBase {
 
 		int randNumber = new Random().nextInt(123456);
 		String noteText = "Test note " + randNumber;
-		// fillName("note", noteText);
-		driver.findElement(By.cssSelector("textarea[name=\"note\"]")).sendKeys(noteText);
+		fillName("note", noteText);
+		//driver.findElement(By.cssSelector("textarea[name=\"note\"]")).sendKeys(noteText);
 
 		submit();
 
