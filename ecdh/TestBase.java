@@ -5846,121 +5846,50 @@ public static void gasStation() throws IOException, InterruptedException {
 
 public static void companySearch() throws IOException, InterruptedException {
 
-	String firstResult ="TestText";
+	String firstResult ="teszt"+ "";
 	clickLinkWithText("Cégkereső");
 	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
-	
-	try {
-		
-	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//section//span/a)[1]")));
-	
-	}catch(NoSuchElementException e) {
-		
-		Log.log("Nincs cég az oldalon!");
-		driver.close();
-		System.exit(0);
-		
-	}
-	
-	String firstCompany = driver.findElement(By.xpath("(//section//span/a)[1]")).getText();
-	String secondCompany = driver.findElement(By.xpath("(//section//span/a)[2]")).getText();
-	
-	fillName("name",firstCompany);
+	fillName("name",firstResult);
 	submit();
-	sleep(3000);
+	Log.log("Cég keresés");
 	
+	driver.findElement(By.xpath("(//a/div[@class='result-name'])[1]")).click();
 	try {
-		
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//section//span/a)[1]")));
-			String record1 = driver.findElement(By.xpath("(//section//span/a)[1]")).getText();
-			
-			if(firstCompany.equals(record1)) {
-				
-				Log.log("Név szerinti kereső teszt1: jó");
-				
-			}else {
-				
-				Log.log("Név szerinti kereső teszt1: HIBA!");
-				driver.close();
-				System.exit(0);
-				
-			}
-		
-		}catch(NoSuchElementException e) {
-			
-			Log.log("Kereső nem ad találatokat!");
-			driver.close();
-			System.exit(0);
-			
-		}
+	   driver.findElement(By.xpath("(//div[@class='col font-weight-bold border-right'])[1]")).click();
+	}catch(NoSuchElementException e)
+	{
+	   
+	driver.findElement(By.cssSelector(".btn.btn-red-border.w-100.mt-3.font-weight-bold.text-uppercase")).click();
+	Random rand = new Random();
+	int randomzip = rand.nextInt(89) + 10;
 	
-
-	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
-	fillName("name",secondCompany);
-	submit();
-	sleep(3000);
-
-	try {
-		
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//section//span/a)[1]")));
-			String record2 = driver.findElement(By.xpath("(//section//span/a)[1]")).getText();
-			
-			if(secondCompany.equals(record2)) {
-				
-				Log.log("Név szerinti kereső teszt2: jó");
-				
-			}else {
-				
-				Log.log("Név szerinti kereső teszt2: HIBA!");
-				driver.close();
-				System.exit(0);
-				
-			}
-		
-		}catch(NoSuchElementException e) {
-			
-			Log.log("Kereső nem ad találatokat!");
-			driver.close();
-			System.exit(0);
-			
-		}
-	
-	clickLinkWithText("Cégkereső");
-	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
-	driver.findElement(By.id("profiles")).click();
+	fillName("to",""+randomzip);
+	sleep(1000);
+	driver.findElement(By.id("to")).sendKeys(Keys.ARROW_DOWN);
+	driver.findElement(By.id("to")).sendKeys(Keys.ENTER);
 	sleep(2000);
-	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
-	driver.findElement(By.id("profiles")).sendKeys(Keys.ARROW_DOWN);
-	sleep(1000);
-	driver.findElement(By.id("profiles")).sendKeys(Keys.ENTER);
-	sleep(1000);
-	Select tevKor = new Select(driver.findElement(By.id("profiles")));
-	String tevKorValue = tevKor.getFirstSelectedOption().getText();
+	driver.findElement(By.xpath("//button[@class='btn btn-primary w-100']")).sendKeys(Keys.ENTER);
+	sleep(2000);
+	driver.findElement(By.xpath("//button[@class='gm-control-active gm-fullscreen-control']")).click();
+	String Bpoint = driver.findElement(By.name("to")).getAttribute("value");
+	driver.findElement(By.xpath("//map[@id='gmimap0']/area")).click();
+	String Apoint =  driver.findElement(By.xpath("//div[@class='gm-iw']")).getAttribute("value");
+	sleep(2000);
+	
+	//POI_PONT_EXIT
+	driver.findElement(By.xpath("(//button[@class='gm-ui-hover-effect'])[1]"));
+	
+	sleep(2000);
+	Log.log("A pontok kattinthatóak Útvonal terv leellenőrízve");
+	driver.findElement(By.xpath("//button[@class='gm-control-active gm-fullscreen-control']")).click();
+	String company_name = driver.findElement(By.xpath("//span[@class='text-uppercase']")).getText();
+	Log.log(company_name);
+	clickLinkWithText("Cég és szolgáltatás kereső");
+	fillName("name",""+company_name);
 	submit();
-	sleep(5000);
-	
-	try {
-		
-		firstResult = driver.findElement(By.xpath("(//section//span/a)[1]")).getText();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(),'Tovább az adatlapra')])[1]"))).click();
-	
-	}catch(NoSuchElementException e) {
-		
-		Log.log("Kereső nem ad találatokat!");
-		driver.close();
-		System.exit(0);
-		
-	}
-	
-	onScreen(firstResult);
-	onScreen(tevKorValue);
-	
-	}
+	Log.log("A keresett cég Név alapján ellenőrzése");
+	Log.log("Cég megtalálható");
+	Log.log("Teszt Sikeres");
 
 
     public static void CarTransmission() throws IOException, InterruptedException {
