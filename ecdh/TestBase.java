@@ -5890,6 +5890,8 @@ public static void companySearch() throws IOException, InterruptedException {
 	Log.log("A keresett cég Név alapján ellenőrzése");
 	Log.log("Cég megtalálható");
 	Log.log("Teszt Sikeres");
+	}
+}
 
 
     public static void CarTransmission() throws IOException, InterruptedException {
