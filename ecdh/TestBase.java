@@ -2049,7 +2049,9 @@ public class TestBase {
 		driver.findElement(By.id("save-and-back")).click();
 		sleep(2000);
 		checkPrice(randomprice, " ");
+		sleep(2000);
 		driver.findElement(By.cssSelector(".fas.fa-eye")).click();
+		sleep(2000);
 		checkPrice(randomprice, " ");
 		onScreen(randomText);
 		WebElement nameText = driver.findElement(By.className("name"));
@@ -3146,7 +3148,9 @@ public class TestBase {
 
 	public static void deleteCar(String numberPlate) throws IOException, InterruptedException {
 		selectCar(numberPlate);
+		sleep(2000);
 		clickLinkWithText("Autó törlése");
+		sleep(2000);
 		click(".deleteAttachedItem");
 	}
 
@@ -6336,13 +6340,21 @@ public static void setNewRSSChannel()  throws IOException, InterruptedException 
 		 Log.log("Adatok nélkül mentve");
 		 */
 		
+		sleep(3000);
 		fillName("title","HVG_itocska_test");
+		sleep(1000);
 		fillName("url","https://hvg.hu/rss/cegauto");
 		sleep(2000);
 		submit();
 		// TÖRIK A TESZT Bug #12297
 		sleep(2000);
-		onScreen("Sikeres Rss Heads hozzáadás");
+		//onScreen("Sikeres RssHeads hozzáadás");
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()[contains(.,'Sikeres RssHeads hozzáadás')]]")));
+		System.out.println("Sikeres RssHeads hozzáadás");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("Sikeres RssHeads hozzáadás"));
+		Log.log("Képernyőn: " + "Sikeres RssHeads hozzáadás");
+		
 
 	}
 	
@@ -6350,14 +6362,20 @@ public static void setNewRSSChannel()  throws IOException, InterruptedException 
 
 public static void checkRSSChannel()  throws IOException, InterruptedException {
 	
-	onScreen("HVG_itocska_test");
-	onScreen("http://hvg.hu/");
+	//RSS megnevezése
+	onScreenValue("HVG_itocska_test");
+	//link
+	onScreenValue("http://hvg.hu/");
+	//onScreenValue("hvg.hu RSS");
+	//megjegyzés
 	onScreen("hvg.hu RSS");
-	onScreen("hvg@hvg.hu");
-	onScreen("hvg.hu");
+	//Copyright
+	onScreenValue("hvg@hvg.hu");
+	//Forrás
+	onScreenValue("https://hvg.hu/rss/cegauto");
 	sleep(3000);
 	goToPage(url+"/hu/admin/car/rss-items");
-	sleep(1000);
+	sleep(2000);
 	onScreen("HVG_itocska_test");
 	goToPage(url+"/hu/mediafigyelo");
 	onScreen("HVG_itocska_test");
