@@ -5846,7 +5846,7 @@ public static void gasStation() throws IOException, InterruptedException {
 
 public static void companySearch() throws IOException, InterruptedException {
 
-	String firstResult ="teszt"+ "";
+	String firstResult ="teszt";
 	clickLinkWithText("Cégkereső");
 	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
 	fillName("name",firstResult);
@@ -6012,7 +6012,43 @@ public static void companyRate() throws IOException, InterruptedException {
 	
 	}
 
+public static void selectPartner() throws IOException, InterruptedException {
 
+	sleep(2000);
+	clickLinkWithText("Partner Kiválasztása");
+	sleep(2000);
+	clickLinkWithText("Új partner felvétele");
+	sleep(2000);
+	Log.log("Partner felvétel...");
+	fillName("last_name","TesztCsalád");
+	fillName("first_name","TesztVezeték");
+	fillName("personal_ident","123456AB");
+	fillName("mothers_name","Partner Anyu");
+	fillName("birth_date","1956-03-11");
+	fillName("birth_place","Budapest");
+	fillName("nationality","Magyar");
+	fillName("email","test@email.com");
+	fillName("phone","12345678");
+	fillName("car_address[loc_zip_id_ac]","1052");
+	sleep(3000);
+	driver.findElement(By.id("car-address-loc-zip-id")).sendKeys(Keys.ENTER);
+	sleep(3000);
+	fillName("car_address[street]","Sas");
+	driver.findElement(By.id("car-address-street-type")).click();
+	sleep(1000);
+	driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ARROW_DOWN);
+	sleep(1000);
+	driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ENTER);
+	sleep(1000);
+	fillName("car_address[street_num]","25");
+	fillName("car_address[building]","A");
+	fillName("car_address[floor]","2");
+	fillName("car_address[door]","204");
+	driver.findElement(By.xpath("//section//button[@type='submit']")).click();
+	sleep(2000);
+	
+}
+	
 public static void documentGenerator() throws IOException, InterruptedException {
 	
 	clickLinkWithText("Dokumentum generáló");
@@ -6045,45 +6081,22 @@ public static void documentGenerator() throws IOException, InterruptedException 
 	String plateNum = driver.findElement(By.id("car-plate-number")).getAttribute("value");
 	String carVin = driver.findElement(By.id("car-vin")).getAttribute("value");
 	
+	if(carVin.length() < 17) {
+		
+		driver.findElement(By.id("car-vin")).sendKeys("12345678911234567");
+		carVin = "12345678911234567";
+		
+	}
+	
 	int randKeys = new Random().nextInt(5)+1;
 	fillName("car_keys",""+randKeys);
 	
 	int randKomment = new Random().nextInt(500)+1;
 	fillName("note","Teszt megjegyzés "+randKomment);
 	
-	clickLinkWithText("Partner Kiválasztása");
-	sleep(2000);
-	clickLinkWithText("Új partner felvétele");
-	sleep(2000);
 	
 	//partner----------------------------------------------------
-	Log.log("Partner felvétel...");
-	fillName("last_name","TesztCsalád");
-	fillName("first_name","TesztVezeték");
-	fillName("personal_ident","123456AB");
-	fillName("mothers_name","Partner Anyu");
-	fillName("birth_date","1956-03-11");
-	fillName("birth_place","Budapest");
-	fillName("nationality","Magyar");
-	fillName("email","test@email.com");
-	fillName("phone","12345678");
-	fillName("car_address[loc_zip_id_ac]","1052");
-	sleep(3000);
-	driver.findElement(By.id("car-address-loc-zip-id")).sendKeys(Keys.ENTER);
-	sleep(3000);
-	fillName("car_address[street]","Sas");
-	driver.findElement(By.id("car-address-street-type")).click();
-	sleep(1000);
-	driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ARROW_DOWN);
-	sleep(1000);
-	driver.findElement(By.id("car-address-street-type")).sendKeys(Keys.ENTER);
-	sleep(1000);
-	fillName("car_address[street_num]","25");
-	fillName("car_address[building]","A");
-	fillName("car_address[floor]","2");
-	fillName("car_address[door]","204");
-	driver.findElement(By.xpath("//section//button[@type='submit']")).click();
-	sleep(2000);
+	selectPartner();
 	//partner vége----------------------------------------------------
 	
 	String buyerName = driver.findElement(By.id("partner1-name")).getAttribute("value");
@@ -6105,6 +6118,17 @@ public static void documentGenerator() throws IOException, InterruptedException 
 	fillName("witness2_personal_ident","345678EF");
 	fillName("witness2_address","Igazából ez bármi lehet");
 	submit();
+	
+	try{
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+		
+		}catch(NoSuchElementException e){
+		
+		
+	}
+	
+	
 	
 	}
 
@@ -6305,12 +6329,13 @@ public static void checkRSSChannel()  throws IOException, InterruptedException {
 	//Forrás
 	onScreenValue("https://hvg.hu/rss/cegauto");
 	sleep(3000);
+	/*
 	goToPage(url+"/hu/admin/car/rss-items");
 	sleep(2000);
 	onScreen("HVG_itocska_test");
 	goToPage(url+"/hu/mediafigyelo");
 	onScreen("HVG_itocska_test");
-	/*
+	
 	első HVG mentése, majd ellenőrzése
 	goToPage(url+"/hu/admin/car/rss-items");
 	sleep(2000);
@@ -6319,16 +6344,20 @@ public static void checkRSSChannel()  throws IOException, InterruptedException {
 	clickLinkWithText("RSS Csatorna");
 	*/
 	goToPage(url+"/hu/admin/car/rss-heads");
+	sleep(2000);
 	onScreen("HVG_itocska_test");
 	onScreen("https://hvg.hu/rss/cegauto");
-	driver.findElement(By.cssSelector(".zmdi.zmdi-check")).click();
+	/*driver.findElement(By.cssSelector(".zmdi.zmdi-check")).click();
 	goToPage(url+"/hu/mediafigyelo");
 	onScreen("HVG_itocska_test");
-	goToPage(url+"/hu/admin/car/rss-heads");
+	goToPage(url+"/hu/admin/car/rss-heads");*/
 	driver.findElement(By.cssSelector(".zmdi.zmdi-edit")).click();
+	sleep(2000);
 	fillName("title","HVG_itocska_test2");
 	submit();
+	sleep(2000);
 	goToPage(url+"/hu/admin/car/rss-heads");
+	sleep(2000);
 	onScreen("HVG_itocska_test2");
 	
 	}
@@ -6337,6 +6366,7 @@ public static void checkRSSChannel()  throws IOException, InterruptedException {
 public static void deleteTestRSSChannel()  throws IOException, InterruptedException {
 	
 	goToPage(url+"/hu/admin/car/rss-heads");
+	sleep(2000);
 	driver.findElement(By.cssSelector(".zmdi.zmdi-delete")).click();
 	driver.findElement(By.cssSelector(".btn.bgm-lightblue")).click();
 	Log.log("Sikeres teszt");

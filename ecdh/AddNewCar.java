@@ -10,7 +10,8 @@ public class AddNewCar extends TestBase {
 		
 		TestBase.main("AddNewCar", 0);
 		try {
-		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+		  //TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+		  TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 		  Thread.sleep(3000);
 		  TestBase.passShepherd();
 		  TestBase.addNewCar();
