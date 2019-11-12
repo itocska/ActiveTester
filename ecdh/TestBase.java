@@ -2086,7 +2086,11 @@ public class TestBase {
 	}
 
 	public static void addNewCarEventTires() throws IOException, InterruptedException {
-				
+		
+		sleep(2000);
+		String myCarId = getCarId();
+		//Esemény felvitel
+		sleep(3000);
 		clickLinkWithText("esemény");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("sprite-mot")));
 		click(".sprite-tire");
@@ -2094,17 +2098,18 @@ public class TestBase {
 		click("input[name=\"service_date\"]");
 		sleep(2000);
 		driver.findElement(By.id("service-date")).sendKeys(Keys.ENTER);
-      //Uj GUmi felvitel kezdete
+        
+		//Új gumi felvitel
 		clickLinkWithText("+ Új gumi felvitel");
 
-		randomSelect("width");
-		randomSelect("height");
-		randomSelect("diameter");
-		randomSelect("type");
-		randomSelect("mufacturer");
+		String width = randomSelect("width");
+		String height = randomSelect("height");
+		String diameter = randomSelect("diameter");
+		String type = randomSelect("type");
+		String mufacturer = randomSelect("mufacturer");
 		fillName("item_description", "test model");
 		select("number", "4");
-		randomSelect("worn");
+		String worn = randomSelect("worn");
 		randomSelect("dot_week");
 		randomSelect("dot_year");
 		String td1 = randomSelect("thread_depth_1");
@@ -2132,6 +2137,8 @@ public class TestBase {
 		priceString = "" + price;
 		fillName("price", priceString);
         driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+        //Gumi felvitel vége
+        
 
         
         sleep(5000);
@@ -2140,151 +2147,167 @@ public class TestBase {
 	    WebElement from = driver.findElement(By.cssSelector(".tire-link.draggable.ui-draggable.ui-draggable-handle")); 
 		WebElement to = driver.findElement(By.cssSelector(".row.axis-draggable"));	 
 		builder.dragAndDrop(from, to).perform();
+		//Felhelyezés vége
+		
 		Log.log("A Gumi hozzáadása Sikeres, felhelyezve az autóra");
 		click("input[name=\"service_date\"]");
 		fillName("car_company_id_ac","Teszt");
 		fillName("price_work","50000");
-		fillName("note","Teszt2000");
 		
-		 rand = new Random();
-		 int randomNum2 = 1000 + rand.nextInt((50000 - 1) + 1);
+		 int randomNum2 =rand.nextInt(50000) + 1000;
 		 String noteText2 = "Note " + String.valueOf(randomNum2);
 		 fillName("note", noteText2);
 		
-		
-		
-		//Gumi felhelyezése az autóra Vége
+
+		//Gumi CSERE ESEMÉNY VÉGE
 		submit(); 
-		//Uj Gumi felvitel vége
+		
+		sleep(3000);
+		
+		onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		sleep(2000);
+		
+		//Esemény adatok ellenőrzés az esemény adatlapján
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='row event-view-row-sm']//*[contains(text(), 'Gumicsere')]")));
+		System.out.println("Gumicsere");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("Gumicsere"));
+		Log.log("Képernyőn: Gumicsere");
+		
+		onScreen("50 000");
+		onScreen(type);
+		onScreen(mufacturer);
+		onScreen("4 db");
+		onScreen(width+"/"+height+"/"+diameter);
 		
 		//Szerkesztés
 		sleep(2000);
 		clickLinkWithText("Szerkesztés");
-		 
-	
+		sleep(4000);
+		
+		//Első Gumi levétele
 		 builder = new Actions(driver);
 		 from = driver.findElement(By.xpath("//div[@class='row'][1]/div[@class='axis col-12']")); 
 		 to = driver.findElement(By.xpath("//div[@class='col-12 col-lg-6']"));
 		 sleep(2000);
 	     builder.dragAndDrop(from, to).perform();
+	     
+	     sleep(3000);
+	     //második gumi felvitel
 		 clickLinkWithText("+ Új gumi felvitel");
 		
-		randomSelect("width");
-		randomSelect("height");
-		randomSelect("diameter");
-		randomSelect("type");
-		randomSelect("mufacturer");
-		fillName("item_description", "test model");
-		select("number", "4");
-		randomSelect("worn");
-		randomSelect("dot_week");
-		randomSelect("dot_year");
+		 width= randomSelect("width");
+		 height = randomSelect("height");
+		 diameter = randomSelect("diameter");
+		 type = randomSelect("type");
+		 mufacturer = randomSelect("mufacturer");
+		 fillName("item_description", "test model");
+		 select("number", "4");
+		 randomSelect("worn");
+		 randomSelect("dot_week");
+		 randomSelect("dot_year");
 		 td1 = randomSelect("thread_depth_1");
 		 td2 = randomSelect("thread_depth_2");
 		 td3 = randomSelect("thread_depth_3");
 		 td4 = randomSelect("thread_depth_4");
 		
-		td1 = td1.substring(0, td1.length()-3);
-		td2 = td2.substring(0, td2.length()-3);
-		td3 = td3.substring(0, td3.length()-3);
-		td4 = td4.substring(0, td4.length()-3);
+		 td1 = td1.substring(0, td1.length()-3);
+		 td2 = td2.substring(0, td2.length()-3);
+		 td3 = td3.substring(0, td3.length()-3);
+		 td4 = td4.substring(0, td4.length()-3);
 		
-		
-		 rand = new Random();
-		 randomNum = 1000 + rand.nextInt((50000 - 1) + 1);
+		 randomNum =rand.nextInt(50000) + 1000;
 		 noteText = "Note " + String.valueOf(randomNum);
 		 fillName("tire_storage", noteText);
-
-		 price = 1000 + rand.nextInt((50000 - 1) + 1);
-		 priceString = "" + price;		
 		 
-		 price = 1000 + rand.nextInt((50000 - 1) + 1);
+		 price = rand.nextInt(50000) + 1000;
 		 priceString = "" + price;
 		 fillName("price", priceString);
 		 driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
+		 //második gumi vége
+		 
+		 Log.log("Új gumi hozzáadása");
+		 
+		 //második gumi feltétel
 		 sleep(2000);
 		 builder = new Actions(driver);
-		 from = driver.findElement(By.xpath("((//div[@class='tire-link draggable ui-draggable ui-draggable-handle'][2]))")); 
+		 from = driver.findElement(By.xpath("//div[@class='tire-link draggable ui-draggable ui-draggable-handle'][2]")); 
 		 to = driver.findElement(By.xpath("//div[@class='col-4 offset-4 wheelson-box']/div[@class='info-box']"));	 
 		 builder.dragAndDrop(from, to).perform();		
-		
-		
-		Log.log("Új gumi hozzáadása");
-		Log.log("Az új Gumi az autóra felhelyezve.");
+		 Log.log("Az új Gumi az autóra felhelyezve.");
+		//második gumi feltétel vége
+		 
+		onScreen(noteText2);
+			
+		int randprice = rand.nextInt(500)+100000;
+		fillName("price_work",""+randprice);
+			
+		randomNum2 =rand.nextInt(50000) + 1000;
+		noteText2 = "Note " + String.valueOf(randomNum2);
+		fillName("note", noteText2);
+		sleep(1000);
+		driver.findElement(By.xpath("//div[@class='logo-title d-none d-md-inline-block ml-3']")).click();
+		sleep(3000);
+		 
 		sleep(1000);	
 		submit(); 
 		//Szerkesztés vége
-		//Felvitt adatok ell
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[1]/i[@class='fas fa-eye circle']"))).click();
-		onScreen("Teszt");
-		onScreen("50 000 Ft");
 		
-		//Gumi ellenőrzése
-		Log.log("Gumi raktár kiválasztása");
 		sleep(1000);
-		driver.findElement(By.xpath("//li[@class='breadcrumb-item'][2]/a")).click();
-		driver.findElement(By.xpath("//dd[@class='side-list']")).click();
-		element = driver.findElement(By.xpath("//dd[@class='side-list']"));
-		Actions actions = new Actions(driver);
-		actions.moveToElement(element);
-		actions.perform();
-		sleep(3000);
-	  
-		onScreen("test model");
-		onScreen(td1+"/"+td2+"/"+td3+"/"+td4+" mm");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='car-modal-heading px-3']/button[@class='close']/span"))).click();
-		//Gumi ell. vége
+		onScreenAlert("Sikeres szerviz esemény hozzáadás");
 		
-		//Gumi csere esemény módosítása
-		sleep(3000);
-		WebElement element = driver.findElement(By.xpath("//div[@class='event timeline'][1]/div[@class='event-body mr-3']/div[@class='lv-small']/a/b"));
-		actions = new Actions(driver);
-		actions.moveToElement(element);
-		actions.perform();
-		 driver.findElement(By.xpath("//div[@class='event timeline'][1]/div[@class='event-body mr-3']/div[@class='lv-small']/a/b"));
-	    sleep(2000);
-	    clickLinkWithText("Szerkesztés");
-	    sleep(2000);
-	    click("input[name=\"service_date\"]");
-	
 		
-	    //GUMI UJRA FELHELYEZÉS
-	    builder = new Actions(driver);
-		    from = driver.findElement(By.cssSelector(".tire-link.draggable.ui-draggable.ui-draggable-handle")); 
-			to = driver.findElement(By.cssSelector(".row.axis-draggable"));	
-			builder.dragAndDrop(from,to).perform();
-			Log.log("Gumik Felhelyezve az autóra.");
-			
-		    randomSelect("summer_tire_change_month");
-		    fillName("summer_tire_change_day","22");
-		    randomSelect("winter_tire_change_month");
-		    fillName("winter_tire_change_day","22");
-		    fillName("car_company_id_ac","Teszt2");
-			fillName("price_work","500000");
-			fillName("note","Gumi Esemény szerkesztése");
-			Log.log("A gumi esemény szerkeztve!");
-			submit();
-			//Gumi csere esemény módosítása vége
-			
-			//Esemény törlése
-			sleep(2000);
-			driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
-			click("a[data-apply=\"confirmation\"]");
-			Log.log("A gumi esemény törölve!");
-	        sleep(1000);
-			driver.findElement(By.xpath("//li[@class='breadcrumb-item'][2]/a")).click();
-			 sleep(1000);
-			driver.findElement(By.xpath("//i[@class='fas fa-circle mr-2 is-on']")).click();
-	       // driver.findElement(By.xpath("//dd[@class='side-list']")).click();
-			sleep(1000);
-			driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
-	        click("a[data-apply=\"confirmation\"]");
-	        sleep(1000);
-	        driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
-	        click("a[data-apply=\"confirmation\"]");
-	    	Log.log("A gumi a raktárból sikeresen Törölve Esemény Vége!");
-	    //Vége
-
+		//esemény adatok ellenőrzése az esemény listában
+		onScreen(noteText2);
+		checkPrice(randprice, " ");
+		onScreen("Teszt");
+		sleep(2000);
+		
+		//Felvitt adatok ellenőrzése az esemény adatlapján
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='fas fa-eye circle']"))).click();
+		onScreen("Teszt");
+		checkPrice(randprice, " ");
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='row event-view-row-sm']//*[contains(text(), 'Gumicsere')]")));
+		System.out.println("Gumicsere");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("Gumicsere"));
+		Log.log("Képernyőn: Gumicsere");
+		
+		onScreen(type);
+		onScreen(mufacturer);
+		onScreen("4 db");
+		onScreen(width+"/"+height+"/"+diameter);
+		
+		//Garázsban ellenőrzés
+		goToPage(url + "/hu/sajat-auto/" + myCarId);
+		sleep(4000);
+		clickLinkWithText("Gumicsere");
+		sleep(2000);
+		
+		//Esemény törlés
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='fas fa-trash circle']"))).click();
+		sleep(2000);
+		clickLinkWithText("Esemény törlése");
+		sleep(2000);
+		onScreenAlert("A szerviz esemény sikeresen törölve.");
+		
+		//Gumik törlése
+		goToPage(url + "/hu/sajat-auto/" + myCarId);
+		sleep(3000);
+		driver.findElement(By.xpath("//*[text()[contains(.,'" + type + "')]]")).click();
+		sleep(2000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='fas fa-trash circle']"))).click();
+		sleep(1000);
+		clickLinkWithText("Igen");
+		sleep(1000);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='fas fa-trash circle']"))).click();
+		sleep(1000);
+		clickLinkWithText("Igen");
+		sleep(1000);
+		onScreenAlert("A gumi törölve lett");
+		
+		Log.log("SIKERES GUMICSERE TESZT");
+		
 	}
 
 	public static void addNewCarEventCleaning() throws IOException, InterruptedException {
