@@ -4172,8 +4172,8 @@ public class TestBase {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rent-penalty-days"))).click();
 		int randomday = rand.nextInt(10);
 		fillName("rent_penalty_days", ""+randomday);
-		int randompenalty = rand.nextInt(90)+10;
-		fillName("rent_penalty_percentage", ""+randompenalty);
+		/*int randompenalty = rand.nextInt(90)+10;
+		fillName("rent_penalty_percentage", ""+randompenalty);*/
 		fillName("fuel_combined","8.5");
 		int randomzip = rand.nextInt(89) + 10;
 		
@@ -4268,11 +4268,14 @@ public class TestBase {
 		checkPrice(randomNum2, " ");
 		checkPrice(randomNum3, " ");
 		checkPrice(randomNum4, " ");
-	    onScreen(""+randompenalty);
+	    //onScreen(""+randompenalty);
 	    onScreen("8.5");
 	    String rentURLfromrp = driver.getCurrentUrl();
 	    Log.log("Az autó szerepel a Bérautó listában");
-	    driver.findElement(By.xpath("//div[@class='col-lg adverter px-2']/div[@class='col pl-0 item-footer subscript']/a[@class='col btn btn-secondary']")).click();
+	    //driver.findElement(By.xpath("//div[@class='col-lg adverter px-2']/div[@class='col pl-0 item-footer subscript']/a[@class='col btn btn-secondary']")).click();
+	    sleep(2000);
+	    clickLinkWithText("Érdekel");
+	    sleep(3000);
 	    
 		DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 		Date systemDate = new Date();
@@ -4364,7 +4367,11 @@ public class TestBase {
          fillName("car_address[door]","1");
          driver.findElement(By.cssSelector(".mb-3.col.btn.btn-primary")).click(); 
          Log.log("Bérlés kérelem kitöltve");
+         sleep(3000);
+         
+         onScreenAlert("Sikeres foglalás létrehozás!");
          sleep(2000);
+         
          goToPage(carURL);
          
          wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fas.fa-pencil-alt"))).click();
