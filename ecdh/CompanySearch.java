@@ -7,8 +7,10 @@ public class CompanySearch {
 		
 		TestBase.main("CompanySearch", 0);
 		try {
+			
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.companySearch();
+		  TestBase.routePlanner();
 		  
 		} 
 		catch (AssertionError|WebDriverException e) {
