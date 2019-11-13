@@ -7255,7 +7255,54 @@ public static void addNewCarEventMonthlySurvey() throws IOException, Interrupted
 	
 }	
 
- 
+public static void serviceSearch() throws IOException, InterruptedException {
+	
+	//szolgaltatas kereso inditasa
+	sleep(3000);
+	clickLinkWithText("Cégkereső");
+	sleep(1000);
+	driver.findElement(By.cssSelector(".fas.fa-search.mr-0")).click();
+	sleep(1000);
+
+	String firstre = driver.findElement(By.xpath("//div[@class='row result-list company-result-item align-items-center' and .//span[contains(@class, 'service-btn')]]")).getText();
+	 String [] allData = firstre.split("\n");
+	System.out.println(allData[0]);
+	sleep(2000);
+	driver.findElement(By.xpath("//*[contains(text(), '"+allData[0] + "')]")).click();
+    
+	sleep(3000);
+	String companyTitle = driver.findElement(By.cssSelector(".company-profile.company-profile-title")).getText();
+    
+	
+	String  cAdress = driver.findElement(By.xpath("//div[@class='col-12 text-darker mb-2']/span")).getText();
+    
+    String [] tadress = cAdress.split(" ");
+    //cAdress.indexOf(0, 1);
+    Log.log(companyTitle);
+    System.out.println(tadress[0]);
+    System.out.println(tadress[1]);
+    
+    
+    
+    clickLinkWithText("Cég és szolgáltatás kereső");
+    
+   sleep(2000); 
+   driver.findElement(By.xpath("//button[@class='multiselect dropdown-toggle btn btn-default']")).click();
+   driver.findElement(By.xpath("//label[contains(text(),'"+companyTitle+"')]")).click();
+   fillName("location", tadress[0]+" "+tadress[1]);
+   sleep(2000);
+   driver.findElement(By.cssSelector(".fas.fa-search.mr-0")).click();
+   sleep(2000);
+   onScreen(companyTitle);
+   onScreen(allData[0]);
+   
+	Log.log("Siekres szolgáltatás kereső teszt");
+   
+
+   
+	
+}
+
 	
 }		
 	
