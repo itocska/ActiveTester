@@ -13,12 +13,11 @@ public class RegisterActivateDeleteCompany extends TestBase {
 		
 		try {
 		  Random rand = new Random();
-		  Integer randomNum = 1 + rand.nextInt((3000000 - 1) + 1);
-		  String randNum = String.valueOf(randomNum);
+		  Integer randomNum = rand.nextInt(3000000 - 1) + 1;
 			
 		  String companyEmail = TestBase.companyUser;
-		  String companyName = "Teszt Ceg" + randNum;
-		  TestBase.registerCompany(companyName, companyEmail);
+		  String companyName = "Teszt Ceg " + randomNum;
+		  //TestBase.registerCompany(companyName, companyEmail);
 		  TestBase.activateCompany(true, companyEmail);
 		  TestBase.adminLogin();
 		  TestBase.adminActivatecompany(companyName);

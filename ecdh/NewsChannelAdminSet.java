@@ -9,7 +9,7 @@ public class NewsChannelAdminSet{
 		TestBase.main("NewsChannelAdminSet", 0);
 		try {
 			
-		  TestBase.login(TestBase.adminUser, TestBase.adminPassword);
+		  TestBase.adminLogin();
 		  TestBase.oneStepInner();
 		  //Teszt mindig a HVG RSS-el
 		  TestBase.setNewRSSChannel();
