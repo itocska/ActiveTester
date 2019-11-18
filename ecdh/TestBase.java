@@ -152,6 +152,15 @@ public class TestBase {
 	private static void print(String string) {
 		System.out.println(string);
 	}
+	
+	private static void logout() throws InterruptedException, IOException {
+
+		sleep(3000);
+		goToPage(url + "/hu/kijelentkezes");
+		sleep(3000);
+	
+	}
+	
 
 	protected static void deleteUser() throws Exception, IOException, InterruptedException, TimeoutException {
 		sleep(5000);
@@ -849,8 +858,57 @@ public class TestBase {
 	}
 
 	public static void activateCompany(Boolean realActivation, String companyEmail) throws Exception {
+		
+			sleep(2000);
+			driver.get("https://mail.ecdh.hu/hpronto/");
+			Log.log("Open Pronto");
+			sleep(4000);
+			driver.findElement(By.cssSelector("input[type=text]")).sendKeys(testerMail);
+			Log.log("Fill username");
+			driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
+			Log.log("Fill password");
+			sleep(2000);
+			clickXpath("//input[@type='submit']");
+			Log.log("Login Pronto");
 
+			sleep(6000);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@title='ECDH test']")));
+			
+			sleep(3000);
+			
+			driver.switchTo().frame(driver.findElements(By.tagName("iframe")).get(1));
+			new WebDriverWait(driver, 20).until( ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(), 'Céges fiók létrehozása')]"))).click();
+			
+
+			Log.log("New user account activation");
+
+			System.out.println(driver.getTitle());
+
+			for (String winHandle : driver.getWindowHandles()) {
+				System.out.println(winHandle);
+				driver.switchTo().window(winHandle);
+			}
+
+			System.out.println(driver.getTitle());
+			sleep(2000);
+			passShepherd();
+			sleep(2000);
+			passShepherd();
+			sleep(2000);
+			passShepherd();
+			sleep(2000);
+			passShepherd();
+			sleep(2000);
+			Log.log("Activation succeed");
+			
+			goToPage(url + "/hu/kijelentkezes");
+			sleep(3000);
+			onScreenAlert("Sikeres kijelentkezés!");
+			
+			Log.log("Kijelentkezés");
+			
 	}
+
 
 	public static void forgottenPassword() throws Exception {
 		driver.findElement(By.partialLinkText("Elfelejtetted")).click();

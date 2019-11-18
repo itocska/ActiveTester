@@ -17,7 +17,7 @@ public class RegisterActivateDeleteCompany extends TestBase {
 			
 		  String companyEmail = TestBase.companyUser;
 		  String companyName = "Teszt Ceg " + randomNum;
-		  //TestBase.registerCompany(companyName, companyEmail);
+		  TestBase.registerCompany(companyName, companyEmail);
 		  TestBase.activateCompany(true, companyEmail);
 		  TestBase.adminLogin();
 		  TestBase.adminActivatecompany(companyName);
