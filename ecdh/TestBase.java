@@ -7278,7 +7278,8 @@ public class TestBase {
 		sleep(3000);
 		
 		//view user page
-		clickXpath("(//span[@class='zmdi zmdi-eye'])[1]");;
+		clickXpath("(//span[@class='zmdi zmdi-eye'])[1]");
+		sleep(3000);
 		
 		//get token
 		String url = driver.getCurrentUrl();
@@ -7308,7 +7309,90 @@ public class TestBase {
 		
 		sleep(3000);
 		onScreenWS("objektum törlés megtörtént");
-		Log.log("Purge User test successfull!");
+		Log.log("Purge User test successful!");
+		
+	}
+	
+public static void purgeCompany() throws IOException, InterruptedException {
+		
+		
+		adminLogin();
+		
+		//Admin page
+		clickXpath("//a[@id='profileMiniImg']");
+		sleep(2000);
+		clickLinkWithText("Admin");
+		
+		//Desktop size errors treatment
+
+		try {
+
+			WebElement isVisibleElement = driver.findElement(By.xpath("//*[contains(text(), 'Cégjegyzék')]"));
+			boolean visible = isVisibleElement.isDisplayed();
+			Log.log("" + visible);
+
+			if (visible == true) {
+
+				clickLinkWithText("Cégek");
+
+			} else {
+
+				Log.log("Cégjegyzék keresése sidebarban");
+				isVisibleElement = driver.findElement(By.xpath("//*[contains(text(), 'Cégjegyzék')]"));
+				visible = isVisibleElement.isDisplayed();
+
+				if (visible == true) {
+
+					clickLinkWithText("Cégjegyzék");
+					clickLinkWithText("Cégek");
+
+				} else {
+
+					Log.log("oldal menü kinyitása");
+					driver.findElement(By.cssSelector(".hi-trigger.ma-trigger")).click();
+					sleep(2000);
+					clickLinkWithText("Cégjegyzék");
+					clickLinkWithText("Cégek");
+				}
+			}
+
+		} catch (NoSuchElementException e) {
+
+			goToPage(url + "/hu/admin/car/car-companies");
+
+		}
+
+		//search the actual user
+		sleep(3000);
+		fillName("quick_search", companyUser);
+		sleep(2000);
+		clickButton("Keres");
+		sleep(3000);
+		
+		//view user page
+		clickXpath("(//span[@class='zmdi zmdi-eye'])[1]");
+		sleep(3000);
+		
+		//get token
+		String url = driver.getCurrentUrl();
+		String companyId = url.replaceFirst(".*\\/([^\\/?]+).*", "$1");
+		
+		//go to user purge page
+		sleep(3000);
+		goToPage(url + "/hu/admin/car/car-user-purge-protocoll");
+		
+		//purge company
+		fillName("company", companyId);
+		sleep(2000);
+		clickButton("Vizsgálat");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Törlés')]")));
+		clickButton("Törlés");
+		sleep(1000);
+		driver.switchTo().alert().accept();
+		
+		sleep(3000);
+		onScreenWS("objektum törlés megtörtént");
+		Log.log("Purge Company test successful!");
 		
 	}
 
