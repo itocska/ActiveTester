@@ -2446,7 +2446,11 @@ public class TestBase {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//i[@class='zmdi zmdi-thumb-up']"))).click();
 
 		Log.log("Cég jóváhagyva");
+		
 		goToPage(url + "/hu/kijelentkezes");
+		sleep(3000);
+		onScreenAlert("Sikeres kijelentkezés!");
+		
 		Log.log("Admin kijelentkezés");
 	}
 
@@ -2654,7 +2658,11 @@ public class TestBase {
 	public static void userLogout() throws IOException, InterruptedException {
 		sleep(3000);
 		Log.log("Kijelentkezés a fiókból.");
+
 		goToPage(url + "/hu/kijelentkezes");
+		sleep(3000);
+		onScreenAlert("Sikeres kijelentkezés!");
+		
 		sleep(3000);
 	}
 
@@ -4872,6 +4880,9 @@ public class TestBase {
 		}
 
 		goToPage(url + "/hu/kijelentkezes");
+		sleep(3000);
+		onScreenAlert("Sikeres kijelentkezés!");
+		
 		TestBase.adminLogin();
 
 		int c = 0;
@@ -4887,6 +4898,9 @@ public class TestBase {
 		}
 
 		goToPage(url + "/hu/kijelentkezes");
+		sleep(3000);
+		onScreenAlert("Sikeres kijelentkezés!");
+		
 		TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		clickLinkWithText(numberPlates.get(0));
 
