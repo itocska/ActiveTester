@@ -197,27 +197,25 @@ public class TestBase {
 
 	protected static void deleteUserInEmail() throws Exception {
 
-		driver.get("https://gmail.com");
-
-		driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys(testerMail);
-		driver.findElement(By.xpath("//*[text()='Következő']")).click();
-
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
-
+		sleep(2000);
+		driver.get("https://mail.ecdh.hu/hpronto/");
+		Log.log("Open Pronto");
+		sleep(4000);
+		driver.findElement(By.cssSelector("input[type=text]")).sendKeys(testerMail);
+		Log.log("Fill username");
 		driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
-		driver.findElement(By.xpath("//*[text()='Következő']")).click();
-		Log.log("Login Gmail");
+		Log.log("Fill password");
+		sleep(2000);
+		clickXpath("//input[@type='submit']");
+		Log.log("Login Pronto");
 
 		sleep(6000);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("(//*[text()='Fiók törlése - megerősítés (ECDH) To:" + personalUser + "'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Fiók törlése - megerősítés (ECDH) To:" + personalUser + "'])[2]"))
-				.click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@title='ECDH test']")));
+		
 		sleep(3000);
-
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Fiók végleges törlése')]")));
-		driver.findElement(By.xpath("//a[contains(text(), 'Fiók végleges törlése')]")).click();
+		
+		driver.switchTo().frame(driver.findElements(By.tagName("iframe")).get(1));
+		new WebDriverWait(driver, 20).until( ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(), 'Fiók végleges törlése')]"))).click();
 
 		sleep(3000);
 
