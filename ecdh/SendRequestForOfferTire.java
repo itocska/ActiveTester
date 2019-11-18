@@ -13,17 +13,22 @@ public class SendRequestForOfferTire {
 			TestBase.oneStepInner();
 			String requestId = TestBase.SendRequestTire();
 			System.out.println("REQID" + requestId);
-			TestBase.userLogout();
+			TestBase.logout();
+			
 			TestBase.login(TestBase.companyUser, TestBase.companyPassword);
+			
 			String price = TestBase.checkRequest(requestId);
 			String companyName = TestBase.GetCompanyName();
 			Log.log("Cég:" + companyName);
 			Log.log("Ajánlott ár:" + price);
-			TestBase.userLogout();
+			TestBase.logout();
+			
 			TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 			TestBase.checkRequestOfferTire(companyName, price);
+			
 			TestBase.sendRequestFinalOrder();
-			TestBase.userLogout();
+			TestBase.logout();
+			
 			TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 			TestBase.checkRequestFinalOrderTire(price);
 

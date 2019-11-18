@@ -151,16 +151,7 @@ public class TestBase {
 
 	private static void print(String string) {
 		System.out.println(string);
-	}
-	
-	private static void logout() throws InterruptedException, IOException {
-
-		sleep(3000);
-		goToPage(url + "/hu/kijelentkezes");
-		sleep(3000);
-	
-	}
-	
+	}	
 
 	protected static void deleteUser() throws Exception, IOException, InterruptedException, TimeoutException {
 		sleep(5000);
@@ -2666,7 +2657,7 @@ public class TestBase {
 		return options.get(randnMumber).getText();
 	}
 
-	public static void userLogout() throws IOException, InterruptedException {
+	public static void logout() throws IOException, InterruptedException {
 		sleep(3000);
 		Log.log("Kijelentkezés a fiókból.");
 
@@ -7358,6 +7349,7 @@ public static void purgeCompany() throws IOException, InterruptedException {
 
 		} catch (NoSuchElementException e) {
 
+			Log.log("Valami hiba van a felbontással, sidebarral!");
 			goToPage(url + "/hu/admin/car/car-companies");
 
 		}
@@ -7383,6 +7375,29 @@ public static void purgeCompany() throws IOException, InterruptedException {
 		
 		//purge company
 		fillName("company", companyId);
+		sleep(2000);
+		clickButton("Vizsgálat");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Törlés')]")));
+		clickButton("Törlés");
+		sleep(1000);
+		driver.switchTo().alert().accept();
+		
+		sleep(3000);
+		onScreenWS("objektum törlés megtörtént");
+		Log.log("Purge Company test successful!");
+		
+	}
+
+public static void purgeCar(String currentCarId) throws IOException, InterruptedException {
+	
+		adminLogin();
+		
+		//go to user purge page
+		sleep(3000);
+		goToPage(url + "/hu/admin/car/car-user-purge-protocoll");
+		
+		//purge company
+		fillName("cid", currentCarId);
 		sleep(2000);
 		clickButton("Vizsgálat");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(), 'Törlés')]")));

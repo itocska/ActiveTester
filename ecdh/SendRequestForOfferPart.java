@@ -13,7 +13,7 @@ public class SendRequestForOfferPart {
 			TestBase.oneStepInner();
 			String requestId = TestBase.SendRequestPart();
 			System.out.println("REQID" + requestId);
-			TestBase.userLogout();
+			TestBase.logout();
 			
 			TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 			
@@ -21,13 +21,13 @@ public class SendRequestForOfferPart {
 			String companyName = TestBase.GetCompanyName();
 			Log.log("Cég:" + companyName);
 			Log.log("Ajánlott ár:" + price);
-			TestBase.userLogout();
+			TestBase.logout();
 			
 			TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 			TestBase.checkRequestOfferPart(companyName, price);
 			
 			TestBase.sendRequestFinalOrder();
-			TestBase.userLogout();
+			TestBase.logout();
 			
 			TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 			TestBase.checkRequestFinalOrderPart(price);
