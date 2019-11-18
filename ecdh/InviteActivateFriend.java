@@ -7,11 +7,14 @@ public class InviteActivateFriend {
 		
 		
 		TestBase.main("InviteActivateFriend", 0);
+		
 		try {
+			
 		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
 		  TestBase.inviteActivateFriend();
-		} 
-		catch (AssertionError|WebDriverException e) {
+		  
+		}catch (AssertionError|WebDriverException e) {
+			
 			Log.error = true;
 			Log.log(e.getMessage().toString());
 			System.out.println("Exception occurred");
@@ -20,5 +23,6 @@ public class InviteActivateFriend {
 		}
 		
 		TestBase.close();
+		
 	}
 }

@@ -5287,27 +5287,33 @@ public class TestBase {
 		sleep(1000);
 		Log.log("Sikeres kijelentkezés");
 		sleep(1000);
-		driver.get("https://gmail.com");
-
-		driver.findElement(By.cssSelector("input[type=\"email\"]")).sendKeys(testerMail);
-		driver.findElement(By.xpath("//*[text()='Következő']")).click();
-
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=password]")));
-
-		driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
-		driver.findElement(By.xpath("//*[text()='Következő']")).click();
-		Log.log("Login Gmail");
-
+		
+		
 		sleep(2000);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-				"(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:" + testerMail + "'])[2]")));
-		driver.findElement(By.xpath(
-				"(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:" + testerMail + "'])[2]"))
-				.click();
+		driver.get("https://mail.ecdh.hu/hpronto/");
+		Log.log("Open Pronto");
+		sleep(4000);
+		driver.findElement(By.cssSelector("input[type=text]")).sendKeys(testerMail);
+		Log.log("Fill username");
+		driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
+		Log.log("Fill password");
+		sleep(2000);
+		clickXpath("//input[@type='submit']");
+		Log.log("Login Pronto");
 
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Jól hangzik, kezdjük!')]")));
-		driver.findElement(By.xpath("//a[contains(text(), 'Jól hangzik, kezdjük!')]")).click();
+		sleep(6000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@title='ECDH test']")));
+		
+		sleep(3000);
+		
+		driver.switchTo().frame(driver.findElements(By.tagName("iframe")).get(1));
+		new WebDriverWait(driver, 20).until( ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(), 'Jól hangzik, kezdjük!')]"))).click();
+		
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:" + testerMail + "'])[2]")));
+		//driver.findElement(By.xpath("(//*[text()='Teljeskörű autókezelő alkalmazás (meghívó az ECDH.hu-ra) To:" + testerMail + "'])[2]")).click();
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Jól hangzik, kezdjük!')]")));
+		//driver.findElement(By.xpath("//a[contains(text(), 'Jól hangzik, kezdjük!')]")).click();
+		
 		Log.log("Meghívás elfogadása");
 		goToPage(inviteLink);
 
