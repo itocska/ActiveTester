@@ -12,9 +12,9 @@ public class LandingPageChecker extends TestBase {
 		try {
 
 		  TestBase.landingPageUsedCarSell();
-		  TestBase.landingPageVehicleAnalysis();
+		  //TestBase.landingPageVehicleAnalysis();
 		  TestBase.landingPageServiceLog();
-		  TestBase.landingPageCarSellForDealer();
+		  //TestBase.landingPageCarSellForDealer();
 
 		} 
 		

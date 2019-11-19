@@ -437,6 +437,8 @@ public class TestBase {
 		Log.log("Index " + i + " selected from " + string);
 
 	}
+	
+		//Log.log(""+options.size());
 
 	public static void CarLimit() throws IOException, InterruptedException, AWTException {
 
