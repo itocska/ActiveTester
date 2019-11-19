@@ -4,19 +4,20 @@ import org.openqa.selenium.WebDriverException;
 
 import ecdh.TestBase;
 
-public class ImportCarSearch extends TestBase {
+public class LandingPageChecker extends TestBase {
 	public static void main(String[] args) throws Throwable {
 		
 		
-		TestBase.main("ImportCarSearch", 0);
+		TestBase.main("LandingPageChecker", 0);
 		try {
 
-		  TestBase.goToPage(TestBase.url + "/hu/importautok");
-		  Thread.sleep(3000);
-		  TestBase.passShepherd();
-		  TestBase.importCarSearch();
-		  //test
+		  TestBase.landingPageUsedCarSell();
+		  TestBase.landingPageVehicleAnalysis();
+		  TestBase.landingPageServiceLog();
+		  TestBase.landingPageCarSellForDealer();
+
 		} 
+		
 		catch (AssertionError|WebDriverException e) {
 			Log.error = true;
 			Log.log(e.getMessage().toString());
