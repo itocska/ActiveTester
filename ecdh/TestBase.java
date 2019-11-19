@@ -438,7 +438,22 @@ public class TestBase {
 
 	}
 	
+	public static void multiSelectByXpath(String xpath) throws IOException, InterruptedException {
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+		driver.findElement(By.xpath(xpath)).click();
+		sleep(3000);
+		List<WebElement> options = driver.findElements(By.xpath("//ul[@class='multiselect-container dropdown-menu show']/li"));
+		Random rand = new Random();
+		int list = rand.nextInt(options.size());
 		//Log.log(""+options.size());
+		//Log.log(""+list);
+		
+		options.get(list).click();
+
+		sleep(2000);
+		
+	}
 
 	public static void CarLimit() throws IOException, InterruptedException, AWTException {
 
@@ -7411,6 +7426,30 @@ public static void purgeCar(String currentCarId) throws IOException, Interrupted
 		onScreenWS("objektum törlés megtörtént");
 		Log.log("Purge Company test successful!");
 		
+	}
+
+public static void landingPageUsedCarSell() throws IOException, InterruptedException {
+	
+		goToPage(url + "/hu/hasznalt-auto-eladas");
+		sleep(3000);
+		
+		onScreen("Tartalomjegyzék");
+		onScreen("Add el használt gépjárműved profin összeállított használt autó hirdetéssel!");
+		onScreen("Eladom az autóm most");
+		onScreen("Felhasznált cikkek");
+	 
+	}
+
+public static void landingPageServiceLog() throws IOException, InterruptedException {
+	
+		goToPage(url + "/hu/szerviznaplo-alkalmazas-autosoknak");
+		sleep(3000);
+		
+		onScreen("Tartalomjegyzék");
+		onScreen("Eljött az idő, hogy Te is egyetlen rendszerbe rögzítsd az autóddal kapcsolatos adatokat, szervizeseményeket, fontosabb időpontokat és határidőket. Állíts be értesítéseket, kapj ajánlatokat egyetlen autós alkalmazás segítségével. Hoppá: és mindezt teljesen ingyen!");
+		onScreen("Regisztráld autód!");
+		onScreen("Használtautós hirdetések az ECDH-n");
+	 
 	}
 
 }
