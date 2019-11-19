@@ -64,6 +64,7 @@ public class TestBase {
 	public static WebDriverWait wait;
 	private static int close;
 	public static String url;
+	public static String urlLive;
 	public static String personalUser;
 	public static String personalPassword;
 	public static String companyUser;
@@ -117,6 +118,7 @@ public class TestBase {
 		myUrl = prop.getProperty("dbURL");
 
 		url = prop.getProperty("url");
+		urlLive = prop.getProperty("url2");
 		// end
 
 		driver = new ChromeDriver();
@@ -3563,44 +3565,39 @@ public class TestBase {
 		fillName("kmto", "1200");
 		fillName("priceto", "12");
 		submit();
-		try {
 
-			driver.findElement(By.cssSelector(".car-type")).click();
+		sleep(3000);
 
-		} catch (NoSuchElementException e) {
-			
-			onScreen("Sajnos nincs találat");
-			onScreen("Próbáld újra más feltételekkel!");
+		onScreen("Sajnos nincs találat");
+		onScreen("Próbáld újra más feltételekkel!");
 
-			clickLinkWithText("Keresési feltételek törlése");
-			driver.findElement(By.id("form-button")).click();
-			driver.findElement(By.cssSelector(".car-type")).click();
+		clickLinkWithText("Keresési feltételek törlése");
+		driver.findElement(By.id("form-button")).click();
+		sleep(3000);
+		driver.findElement(By.cssSelector(".car-type")).click();
 
-			fillName("phone", "701234567");
-			fillName("message", "Autót vásárolnék a hirdetésben szereplő paraméterekkel");
-			driver.findElement(By.id("form-button")).click();
+		fillName("phone", "701234567");
+		fillName("message", "Autót vásárolnék a hirdetésben szereplő paraméterekkel");
+		driver.findElement(By.id("form-button")).click();
 
-			String carname = driver.findElement(By.xpath("//h1[@class='container']")).getText();
-			String carprice = driver.findElement(By.cssSelector(".price.py-2.mt-3")).toString();
-			String cardate = driver.findElement(By.xpath("//dl[@class='row'][2]/dd[@class='col-12 col-md-4 col-md-8']"))
-					.toString();
-			String carkm = driver.findElement(By.xpath("//dl[@class='row'][1]/dd[@class='col-12 col-md-4 col-md-8']"))
-					.toString();
+		String carname = driver.findElement(By.xpath("//h1[@class='container']")).getText();
+		String carprice = driver.findElement(By.cssSelector(".price.py-2.mt-3")).getText();
+		String cardate = driver.findElement(By.xpath("//dl[@class='row'][2]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
+		String carkm = driver.findElement(By.xpath("//dl[@class='row'][1]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
 
-			Log.log(carname);
-			Log.log(carprice);
-			Log.log(cardate);
-			Log.log(carkm);
+		Log.log(carname);
+		Log.log(carprice);
+		Log.log(cardate);
+		Log.log(carkm);
 
-			carname.split(" ");
-			clickLinkWithText("Import autó hirdetések");
+		carname.split(" ");
+		clickLinkWithText("Import autó hirdetések");
 
-			fillName("mf_ac", "" + carname);
+		fillName("mf_ac", "" + carname);
 
-			onScreen("autó neve:" + carname);
+		onScreen("autó neve:" + carname);
 
-			clickLinkWithText("Import autó hirdetések");
-		}
+		clickLinkWithText("Import autó hirdetések");
 
 	}
 
@@ -7430,25 +7427,49 @@ public static void purgeCar(String currentCarId) throws IOException, Interrupted
 
 public static void landingPageUsedCarSell() throws IOException, InterruptedException {
 	
-		goToPage(url + "/hu/hasznalt-auto-eladas");
+		goToPage(urlLive + "/hu/hasznalt-auto-eladas");
 		sleep(3000);
 		
 		onScreen("Tartalomjegyzék");
 		onScreen("Add el használt gépjárműved profin összeállított használt autó hirdetéssel!");
-		onScreen("Eladom az autóm most");
+		onScreen("Add fel hirdetésed!");
 		onScreen("Felhasznált cikkek");
 	 
 	}
 
 public static void landingPageServiceLog() throws IOException, InterruptedException {
 	
-		goToPage(url + "/hu/szerviznaplo-alkalmazas-autosoknak");
+		goToPage(urlLive + "/hu/szerviznaplo-alkalmazas-autosoknak");
 		sleep(3000);
 		
 		onScreen("Tartalomjegyzék");
 		onScreen("Eljött az idő, hogy Te is egyetlen rendszerbe rögzítsd az autóddal kapcsolatos adatokat, szervizeseményeket, fontosabb időpontokat és határidőket. Állíts be értesítéseket, kapj ajánlatokat egyetlen autós alkalmazás segítségével. Hoppá: és mindezt teljesen ingyen!");
 		onScreen("Regisztráld autód!");
-		onScreen("Használtautós hirdetések az ECDH-n");
+		onScreen("Show must go on! Mire számíthatsz tőlünk a jövőben?");
+	 
+	}
+
+public static void landingPageVehicleAnalysis() throws IOException, InterruptedException {
+	
+		goToPage(urlLive + "/hu/jarmuelemzes");
+		sleep(3000);
+		
+		onScreen("Tartalomjegyzék");
+		onScreen("Egy professzionális járműelemzés során gyorsan kiderül a vizsgált autó valós állapota és értéke. Akár eladsz, akár venni szeretnél, egy ilyen autó vizsgálat szuper hivatkozási alap lesz!");
+		onScreen("Rendeld meg a járműelemzést!");
+		onScreen("Személyes adatok");
+	 
+	}
+
+public static void landingPageCarSellForDealer() throws IOException, InterruptedException {
+	
+		goToPage(urlLive + "/hu/hasznaltauto-eladas-kereskedoknek");
+		sleep(3000);
+		
+		onScreen("Tartalomjegyzék");
+		onScreen("Automatikus hirdetésáttöltés a legnagyobb használt autó portálokra - 5-ször nagyobb esély használtautóid értékesítésére!");
+		onScreen("Értékesíts több autót!");
+		onScreen("Rendeld meg a számodra legkedvezőbb autós csomagot!");
 	 
 	}
 

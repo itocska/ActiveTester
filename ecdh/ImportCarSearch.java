@@ -10,7 +10,7 @@ public class ImportCarSearch extends TestBase {
 		
 		TestBase.main("ImportCarSearch", 0);
 		try {
-		  TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+
 		  TestBase.goToPage(TestBase.url + "/hu/importautok");
 		  Thread.sleep(3000);
 		  TestBase.passShepherd();
