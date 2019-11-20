@@ -14,29 +14,29 @@ public class DocumentGenerator {
 		  //minden dokumentum
 		  TestBase.dgSelectAllBuyDocument();
 		  //1. Átadás-átvételi: Autó
-		  TestBase.dgSellHandoverReceiptCar();
+		  TestBase.dgBuyHandoverReceiptCar();
 		  //2. Átadás-átvételi: Kellékek
-		  TestBase.dgSellHandoverReceiptAccessories();
+		  TestBase.dgBuyHandoverReceiptAccessories();
 		  //3. Átadás-átvételi: Vételár
-		  TestBase.dgSellHandoverReceiptPrice();
+		  TestBase.dgBuyHandoverReceiptPrice();
 		  //4. Bizományból kiadás
-		  TestBase.dgSellHandoverConsignerEject();
+		  TestBase.dgBuyHandoverConsignerEject();
 		  //5. Bizományosi szerződés
-		  TestBase.dgSellHandoverConsignerContract();
+		  TestBase.dgBuyHandoverConsignerContract();
 		  //6. Foglaló
-/*		  TestBase.dgSellBooking();
+		  TestBase.dgBuyBooking();
 		  //7. Meghatalmazás: Átírás
-		  TestBase.dgSellAuthorizationRewriting();
+/*		  TestBase.dgBuyAuthorizationRewriting();
 		  //8. Meghatalmazás: Műszaki vizsga
-		  TestBase.dgSellAuthorizationTechnicalExam();
+		  TestBase.dgBuyAuthorizationTechnicalExam();
 		  //9. Meghatalmazás: Regisztrációs adó
-		  TestBase.dgSellAuthorizationRegistrationTax();
+		  TestBase.dgBuyAuthorizationRegistrationTax();
 		  //10. Átadás-átvételi: Átírási ktg
-		  TestBase.dgSellHandoverTranscriptionCost();
+		  TestBase.dgBuyHandoverTranscriptionCost();
 		  //11. Adásvételi szerződés
-		  TestBase.dgSellSalesContract();
+		  TestBase.dgBuySalesContract();
 		  //12. Állapotlap
-		  TestBase.dgSellStatusSheet();
+		  TestBase.dgBuyStatusSheet();
 */
 		  
 		  
