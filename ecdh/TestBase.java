@@ -6900,13 +6900,41 @@ public class TestBase {
 
 		// partner vége----------------------------------------------------
 
-		String buyerName = driver.findElement(By.id("partner1-name")).getAttribute("value");
-		String taxNum = driver.findElement(By.id("partner1-tax-no")).getAttribute("value");
-		String regNum = driver.findElement(By.id("partner1-reg-no")).getAttribute("value");
+		String myName = driver.findElement(By.id("partner1-name")).getAttribute("value");
+		
+		if (myName.length() < 2) {
+
+			myName = "12345678911234567";
+			fillName("partner1_name", myName);
+
+		}
+		
+		String personalIdent = driver.findElement(By.id("partner1-personal-ident")).getAttribute("value");
+		
+		if (personalIdent.length() < 2) {
+
+			personalIdent = "123456XY";
+			fillName("partner1_personal_ident", personalIdent);
+
+		}
+		
+		String motherName = driver.findElement(By.id("partner1-mothers-name")).getAttribute("value");
+		
+		if (motherName.length() < 2) {
+
+			motherName = "Teszt Anyuka";
+			fillName("partner1_mothers_name", motherName);
+
+		}
+		
 		String address = driver.findElement(By.id("partner1-address")).getAttribute("value");
-		fillName("partner1_phone", "55555555");
-		String email = driver.findElement(By.id("partner1-email")).getAttribute("value");
-		sleep(3000);
+		
+		if (address.length() < 2) {
+
+			address = "1051 Budapest, Sas utca 25. A ép. 2. em./204 aj.";
+			fillName("partner1_address", address);
+
+		}
 
 		//Keltezés
 		
@@ -6940,11 +6968,10 @@ public class TestBase {
 		// onScreenWS("Teszt megjegyzés "+ randKomment);
 		// onScreenWS("Még átvett: "+ randDoc);
 		//onScreenWS("Teszt egyéb: " + randOther);
-		onScreenWS(buyerName);
-		onScreenWS(taxNum);
-		onScreenWS(regNum);
+		onScreenWS(myName);
+		onScreenWS(motherName);
+		onScreenWS(personalIdent);
 		onScreenWS(address);
-		onScreenWS(email);
 		onScreenWS("555-555");
 		onScreenWS("Budapest");
 		onScreenWS(Tanu1[0]);
