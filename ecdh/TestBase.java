@@ -415,7 +415,7 @@ public class TestBase {
 		// assertTrue("Login succeed",
 		// driver.getPageSource().contains("Bejelentkezve"));
 		Log.log("Login succeed");
-		passShepherd();
+
 	}
 
 	public static void select(String string, String string2) throws IOException {
@@ -7473,4 +7473,65 @@ public static void landingPageCarSellForDealer() throws IOException, Interrupted
 	 
 	}
 
+public static void companySitesDetails() throws IOException, InterruptedException {
+		
+		boolean isSitesCorrect = false;
+		
+		do {
+		
+			sleep(10000);
+			
+			try {
+				
+				driver.findElement(By.xpath("(//a[@class='shepherd-button sheperd-inline-link'])[1]")).click();
+				
+			}catch(NoSuchElementException e) {
+				
+				Log.log("Nem kínál fel bővítési lehetőséget az oldal.");
+				isSitesCorrect = true;
+				break;
+				
+			}
+			
+			sleep(3000);
+			
+			List<WebElement> elements = driver.findElements(By.xpath("//label[@class='control-label']"));
+			for ( WebElement element : elements ) {
+				
+				 if ( !element.isSelected() ) {
+					 	element.click();
+				    }
+			    
+			}
+			
+			sleep(3000);
+			
+			fillName("open_mon_from", "08:00");
+			fillName("open_mon_to", "20:00");
+			fillName("open_tue_from", "08:00");
+			fillName("open_tue_to", "20:00");
+			fillName("open_wed_from", "08:00");
+			fillName("open_wed_to", "20:00");
+			fillName("open_thu_from", "08:00");
+			fillName("open_thu_to", "20:00");
+			fillName("open_fri_from", "08:00");
+			fillName("open_fri_to", "20:00");
+			fillName("open_sat_from", "10:00");
+			fillName("open_sat_to", "18:00");
+			fillName("open_sun_from", "10:00");
+			fillName("open_sun_to", "18:00");
+			
+			sleep(2000);
+			
+			clickButton("Módosítások mentése");
+			
+			sleep(2000);
+			
+			goToPage(url + "/hu/garazs");
+			
+		}while(isSitesCorrect == false);
+		
+		Log.log("Teszt vége, ha nem futott, próbáld újra frissen regelt fiókkal");
+		
+	}
 }
