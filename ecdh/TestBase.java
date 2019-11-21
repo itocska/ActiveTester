@@ -428,6 +428,14 @@ public class TestBase {
 		dropdown.selectByVisibleText(string2);
 		Log.log(string2 + " selected from " + string);
 	}
+	
+	public static void selectValue(String inputName, String value) throws IOException, InterruptedException {
+		
+		Select selectInput = new Select(driver.findElement(By.name(inputName)));
+		sleep(3000);
+		selectInput.deselectByValue(value);
+		
+	}
 
 	public static void selectIndex(String string, int i) throws IOException {
 		WebDriverWait wait = new WebDriverWait(driver, 15);
@@ -3021,6 +3029,13 @@ public class TestBase {
 
 		sleep(3000);
 	}
+	
+	private static void clickText(String string) throws InterruptedException {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'" + string + "')]")));
+		driver.findElement(By.xpath("//*[contains(text(),'" + string + "')]")).click();
+
+		sleep(3000);
+	}
 
 	private static void clickButton(String string) throws InterruptedException {
 		wait.until(ExpectedConditions
@@ -3530,75 +3545,56 @@ public class TestBase {
 	}
 
 	public static void importCarSearch() throws IOException, InterruptedException, AWTException {
-
-		driver.findElement(By.name("mf_ac")).click();
-		manufacturer = fillCarField("#mf", "#ui-id-1");
-
-		try {
-			model = fillCarField("#mu", "#ui-id-2");
-
-		} catch (IllegalArgumentException e) {
-
-			driver.findElement(By.id("mf")).clear();
-			manufacturer = fillCarField("#mf", "#ui-id-1");
-			sleep(5000);
-			model = fillCarField("#mu", "#ui-id-2");
-		}
-
-		driver.findElement(By.cssSelector(".multiselect.dropdown-toggle.btn.btn-default")).click();
-		List<WebElement> options = driver
-				.findElements(By.xpath("//ul[@class='multiselect-container dropdown-menu show']"));
-		Random rand = new Random();
-		int list = rand.nextInt(options.size());
-		options.get(list).click();
-
-		sleep(2000);
-
-		driver.findElement(By.xpath("//div[@class='col-10 pl-1 petrolHolder']")).click();
-		options = driver.findElements(
-				By.xpath("//div[@class='btn-group show']/ul[@class='multiselect-container dropdown-menu show']"));
-		rand = new Random();
-		list = rand.nextInt(options.size());
-		options.get(list).click();
-		Select yearfrom = new Select(driver.findElement(By.name("yearfrom")));
-		yearfrom.selectByVisibleText("2012");
-		fillName("kmto", "1200");
-		fillName("priceto", "12");
-		submit();
-
+		
 		sleep(3000);
+		driver.findElement(By.xpath("//a[@class='col-12 col-sm-6 col-md-4 col-lg-3 col-xl landing-sell-item-wrapper'][1]")).click();
+		
+		String carName = driver.findElement(By.xpath("//h1[@class='container']")).getText();
+		String carPrice = driver.findElement(By.cssSelector(".price.py-2.mt-3")).getText();
+		String carKm = driver.findElement(By.xpath("//dl[@class='row'][1]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
+		String carDate = driver.findElement(By.xpath("//dl[@class='row'][2]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
+		String carMake = driver.findElement(By.xpath("//dl[@class='row'][3]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
+		String carFuel = driver.findElement(By.xpath("//dl[@class='row'][4]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
+		String carEngCap = driver.findElement(By.xpath("//dl[@class='row'][5]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
+		String carGearShift = driver.findElement(By.xpath("//dl[@class='row'][7]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
+		String carkW = driver.findElement(By.xpath("//dl[@class='row'][8]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
 
-		onScreen("Sajnos nincs találat");
-		onScreen("Próbáld újra más feltételekkel!");
-
-		clickLinkWithText("Keresési feltételek törlése");
-		driver.findElement(By.id("form-button")).click();
+		String[] fullCarName = carName.split(" ");
+		String[] fullCarDate = carDate.split(" ");
+		String[] fullCarEngCap = carEngCap.split(" ");
+		String[] fullCarkW = carkW.split("kW");
+		
+		Log.log(fullCarName[0]);
+		Log.log(carPrice);
+		Log.log(carKm);
+		Log.log(carDate);
+		Log.log(carMake);
+		Log.log(carFuel);
+		Log.log(fullCarEngCap[0]);
+		Log.log(carGearShift);
+		Log.log(fullCarkW[0]);
+		
 		sleep(3000);
-		driver.findElement(By.cssSelector(".car-type")).click();
-
-		fillName("phone", "701234567");
-		fillName("message", "Autót vásárolnék a hirdetésben szereplő paraméterekkel");
-		driver.findElement(By.id("form-button")).click();
-
-		String carname = driver.findElement(By.xpath("//h1[@class='container']")).getText();
-		String carprice = driver.findElement(By.cssSelector(".price.py-2.mt-3")).getText();
-		String cardate = driver.findElement(By.xpath("//dl[@class='row'][2]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
-		String carkm = driver.findElement(By.xpath("//dl[@class='row'][1]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
-
-		Log.log(carname);
-		Log.log(carprice);
-		Log.log(cardate);
-		Log.log(carkm);
-
-		carname.split(" ");
-		clickLinkWithText("Import autó hirdetések");
-
-		fillName("mf_ac", "" + carname);
-
-		onScreen("autó neve:" + carname);
-
-		clickLinkWithText("Import autó hirdetések");
-
+		
+		goToPage(url + "/hu/importautok");
+		
+		clickLinkWithText("Részletes kereső");
+		sleep(3000);
+		
+		fillName("kmfrom", carKm);
+		fillName("kmto", carKm);
+		selectValue("yearfrom", fullCarDate[0]);
+		selectValue("yearto", fullCarDate[0]);
+		fillName("powerfrom", fullCarkW[0]);
+		fillName("powerto", fullCarkW[0]);
+		fillName("ccmfrom", fullCarEngCap[0]);
+		fillName("ccmto", fullCarEngCap[0]);
+		clickText(carMake);
+		clickText(carFuel);
+		clickText(carGearShift);
+		
+		clickButton("Találatok megtekintése");
+		
 	}
 
 	public static void addNewCarEventPenalty() throws IOException, InterruptedException {
