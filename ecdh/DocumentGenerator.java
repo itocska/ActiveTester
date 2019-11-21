@@ -26,11 +26,11 @@ public class DocumentGenerator {
 		  //6. Foglaló
 		  TestBase.dgBuyBooking();
 		  //7. Meghatalmazás: Átírás
-/*		  TestBase.dgBuyAuthorizationRewriting();
+		  TestBase.dgBuyAuthorizationRewriting();
 		  //8. Meghatalmazás: Műszaki vizsga
 		  TestBase.dgBuyAuthorizationTechnicalExam();
 		  //9. Meghatalmazás: Regisztrációs adó
-		  TestBase.dgBuyAuthorizationRegistrationTax();
+/*		  TestBase.dgBuyAuthorizationRegistrationTax();
 		  //10. Átadás-átvételi: Átírási ktg
 		  TestBase.dgBuyHandoverTranscriptionCost();
 		  //11. Adásvételi szerződés
