@@ -32,9 +32,9 @@ public class DocumentGenerator {
 		  //9. Meghatalmazás: Regisztrációs adó
 		  TestBase.dgBuyAuthorizationRegistrationTax();
 		  //10. Átadás-átvételi: Átírási ktg
-/*		  TestBase.dgBuyHandoverTranscriptionCost();
+		  TestBase.dgBuyHandoverTranscriptionCost();
 		  //11. Adásvételi szerződés
-		  TestBase.dgBuySalesContract();
+/*		  TestBase.dgBuySalesContract();
 		  //12. Állapotlap
 		  TestBase.dgBuyStatusSheet();
 */
