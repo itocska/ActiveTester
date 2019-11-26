@@ -34,10 +34,10 @@ public class DocumentGenerator {
 		  //10. Átadás-átvételi: Átírási ktg
 		  TestBase.dgBuyHandoverTranscriptionCost();
 		  //11. Adásvételi szerződés
-/*		  TestBase.dgBuySalesContract();
+		  TestBase.dgBuySalesContract();
 		  //12. Állapotlap
-		  TestBase.dgBuyStatusSheet();
-*/
+//		  TestBase.dgBuyStatusSheet();
+
 		  
 		  
 		} 
