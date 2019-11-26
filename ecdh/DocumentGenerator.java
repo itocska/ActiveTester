@@ -36,9 +36,7 @@ public class DocumentGenerator {
 		  //11. Adásvételi szerződés
 		  TestBase.dgBuySalesContract();
 		  //12. Állapotlap
-//		  TestBase.dgBuyStatusSheet();
-
-		  
+		  TestBase.dgBuyStatusSheet();
 		  
 		} 
 		catch (AssertionError|WebDriverException e) {
