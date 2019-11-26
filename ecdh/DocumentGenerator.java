@@ -37,6 +37,7 @@ public class DocumentGenerator {
 		  TestBase.dgBuySalesContract();
 		  //12. Állapotlap
 		  TestBase.dgBuyStatusSheet();
+		  TestBase.dbCheclAllBuyDoc();
 		  
 		} 
 		catch (AssertionError|WebDriverException e) {

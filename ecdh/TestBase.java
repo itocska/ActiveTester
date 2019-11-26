@@ -7805,6 +7805,25 @@ public class TestBase {
 
 	}
 	
+	public static void dbCheclAllBuyDoc() throws IOException, InterruptedException {
+
+		onScreen("Átadás-átvételi: Autó");
+		onScreen("Átadás-átvételi: Kellék");
+		onScreen("Átadás-átvételi: Vételár");
+		onScreen("Bizományból kiadás");
+		onScreen("Bizományosi szerződés");
+		onScreen("Foglaló");
+		onScreen("Meghatalmazás: Átírás");
+		onScreen("Meghatalmazás: Műszaki vizsga");
+		onScreen("Meghatalmazás: Regisztrációs adó");
+		onScreen("Átadás-átvételi: átírási ktg");
+		onScreen("Adásvételi szerződés");
+		onScreen("Állapotlap");
+
+		Log.log("All Buy document created successfully!");
+
+	}
+	
 
 	public static void documentGeneratorErrorTest() throws IOException, InterruptedException {
 
