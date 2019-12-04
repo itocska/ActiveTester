@@ -8672,7 +8672,7 @@ public class TestBase {
 
 	public static void addNewCarEventDriverService() throws IOException, InterruptedException {
 
-		//Create event---------------------------------------------------------------------------
+		//Create event sofőrszolgálat-------------------------------------------------------------
 		clickLinkWithText("esemény hozzáadása");
 		sleep(5000);
 	
@@ -8681,7 +8681,7 @@ public class TestBase {
 		actions.moveToElement(element).click().build().perform();
 	
 		//Fill details----------------------------------------------------------------------------
-		Log.log("Esemény felvitel");
+		Log.log("Sofőrszolgálat esemény felvitel");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("event-date")));
 		driver.findElement(By.id("event-date")).click();
 		sleep(3000);
@@ -8708,6 +8708,7 @@ public class TestBase {
 		submit();
 		
 		//Check in garage--------------------------------------------------------------------------
+		onScreenAlert("Sikeres esemény hozzáadás");
 		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
 		
 		onScreen("Sofőrszolgálat");
@@ -8747,6 +8748,7 @@ public class TestBase {
 		submit();
 		
 		//Check modified values in data sheet------------------------------------------------------
+		onScreenAlert("Sikeres esemény módosítás");
 		Log.log("Szerkesztett adatok ellenőrzése");
 		onScreen(serviceName);
 		onScreen(strToday);
@@ -8759,7 +8761,102 @@ public class TestBase {
 		
 		onScreenAlert("Az esemény sikeresen törölve!");
 		
-		Log.log("Esemény sikeresen törölve!");
+		Log.log("Sikeres sofőrszolgálat teszt!");
+		
+	}
+	
+	public static void addNewCarEventCarRescueAndTransport() throws IOException, InterruptedException {
+
+		//Create event autómentés-------------------------------------------------------------
+		clickLinkWithText("esemény hozzáadása");
+		sleep(5000);
+	
+		WebElement element = driver.findElement(By.cssSelector(".sprite.sprite-car_transport"));
+		Actions actions = new Actions(driver);
+		actions.moveToElement(element).click().build().perform();
+	
+		//Fill details----------------------------------------------------------------------------
+		Log.log("Autómentés és autószállítás esemény felvitel");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("event-date")));
+		driver.findElement(By.id("event-date")).click();
+		sleep(3000);
+		String nowDateTime = driver.findElement(By.id("event-date")).getText();
+		
+		/*LocalDate today = LocalDate.now();
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy. MM dd.");
+		String strToday = today.format(dateFormat);*/
+		
+		driver.findElement(By.id("mileage")).click();
+		sleep(2000);
+		
+		String serviceName = "Aki hazaszállít";
+		fillName("car_company_id_ac", serviceName);
+		sleep(2000);
+		
+		int workPrice = 15123;
+		fillName("fee", "" + workPrice);
+		sleep(2000);
+		
+		String testText = "Megjegyzés elsőre";
+		fillName("note", testText);
+		
+		submit();
+		
+		//Check in garage--------------------------------------------------------------------------
+		onScreenAlert("Sikeres esemény hozzáadás");
+		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		
+		onScreen("Autómentés és autószállítás");
+		
+		Log.log("Esemény sikeresen elmentve!");
+		
+		clickText("Autómentés és autószállítás");
+		
+		//Check in data sheet----------------------------------------------------------------------
+		Log.log("Adatok ellenőrzése");
+		onScreen(serviceName);
+		onScreen(nowDateTime);
+		checkPrice(workPrice,"");
+		onScreen(testText);
+		
+		clickText("Szerkesztés");
+		
+		//Check inputs-----------------------------------------------------------------------------
+		Log.log("Adatok ellenőrzése szerkesztés űrlapon");
+		onScreenValue(serviceName);
+		onScreenValue(nowDateTime);
+		onScreenValue("" + workPrice);
+		onScreen(testText);
+		
+		//Modify values----------------------------------------------------------------------------
+		serviceName = "Valami másik szolgáltató";
+		fillName("car_company_id_ac", serviceName);
+		sleep(2000);
+		
+		workPrice = 23456;
+		fillName("fee", "" + workPrice);
+		sleep(2000);
+		
+		testText = "Megjegyzés másodikra";
+		fillName("note", testText);
+		
+		submit();
+		
+		//Check modified values in data sheet------------------------------------------------------
+		onScreenAlert("Sikeres esemény módosítás");
+		Log.log("Szerkesztett adatok ellenőrzése");
+		onScreen(serviceName);
+		onScreen(nowDateTime);
+		checkPrice(workPrice,"");
+		onScreen(testText);
+		
+		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
+		sleep(2000);
+		clickLinkWithText("Esemény törlése");
+		
+		onScreenAlert("Az esemény sikeresen törölve!");
+		
+		Log.log("Sikeres autómentés és autószállítás teszt!");
 		
 	}
 
