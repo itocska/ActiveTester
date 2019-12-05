@@ -1149,6 +1149,7 @@ public class TestBase {
 		sleep(1000);
 		passShepherd();
 		sleep(1000);
+		onScreenAlert("Az autót sikeresen elmentette!");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='breadcrumb-item'][2]/span")));
 		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(),
 		// '" + manufacturer + "')]")));
@@ -8857,6 +8858,28 @@ public class TestBase {
 		onScreenAlert("Az esemény sikeresen törölve!");
 		
 		Log.log("Sikeres autómentés és autószállítás teszt!");
+		
+	}
+	
+	public static void checkAdminArchive() throws IOException, InterruptedException, AWTException {
+		
+		addNewCar();
+		String carID = getCarId();
+		clickLinkWithText("Autó törlése");
+		sleep(2000);
+		
+		clickButton("Autó törlése");
+		sleep(2000);
+		
+		onScreenAlert("Autó törölve!");
+		goToPage(url + "/hu/admin/car/archive");
+		sleep(3000);
+		
+		onScreen(adminUser);
+		onScreen(carID);
+		onScreen("30 napig");
+		
+		Log.log("Sikeres archívum ellenőrzés");
 		
 	}
 
