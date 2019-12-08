@@ -1167,6 +1167,7 @@ public class TestBase {
 		onScreen(carMonth);
 		onScreen("ABC-123");
 		checkPrice(kmNumberInt, " ");
+		passShepherd();
 
 	}
 
@@ -3934,11 +3935,16 @@ public class TestBase {
 		checkField("period", period);
 
 		submit();
+		onScreenAlert("Sikeres módosítás");
 		sleep(3000);
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		click("a[data-apply=\"confirmation\"]");
 
-		sleep(8000);
+		sleep(2000);
+		
+		onScreenAlert("Sikeresen törölve!");
+		
+		sleep(4000);
 		assertTrue("Event deleted", !driver.getPageSource().contains("CASCO biztosítás"));
 		Log.log("Esemény: CASCO sikeresen törölve.");
 
@@ -5675,7 +5681,7 @@ public class TestBase {
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn.grayBtn.deleteAttachedItem")))
 				.click();
-		Log.log("Esemény törölve!");
+		Log.log("A naptár esemény sikeresen törölve");
 
 	}
 
