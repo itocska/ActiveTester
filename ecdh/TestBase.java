@@ -1143,13 +1143,13 @@ public class TestBase {
 
 		click(".btn-secondary");
 		sleep(3000);
+		onScreenAlert("Az autót sikeresen elmentette");
 		passShepherd();
 		sleep(1000);
 		passShepherd();
 		sleep(1000);
 		passShepherd();
 		sleep(1000);
-		onScreenAlert("Az autót sikeresen elmentette!");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='breadcrumb-item'][2]/span")));
 		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(),
 		// '" + manufacturer + "')]")));
@@ -8660,6 +8660,10 @@ public class TestBase {
 			sleep(2000);
 			
 			clickButton("Módosítások mentése");
+			
+			sleep(2000);
+			
+			onScreenAlert("Sikeres módosítás");
 			
 			sleep(2000);
 			
