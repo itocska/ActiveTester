@@ -12,6 +12,7 @@ public class CarLimit  extends TestBase {
 		  TestBase.goToPage(TestBase.url + "/hu/csomag-elofizetes");
 		  Thread.sleep(3000);
 		  TestBase.passShepherd();
+		  
 		  TestBase.CarLimit();
 		  //test
 		} 

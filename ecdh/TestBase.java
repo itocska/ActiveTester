@@ -629,11 +629,27 @@ public class TestBase {
 		driver.findElement(By.id("actionPay")).click();
 		sleep(2000);
 		Log.log("Fizetés");
+		
+		onScreenWS("A kártyás fizetést fogadtuk!");
+		
+		String orderNumTrash = driver.findElement(By.xpath("//a[contains(text(), 'megrendeléseid')]")).getText();
 
 		sleep(5000);
 		driver.findElement(By.cssSelector(".btn.btn-lg.btn-primary.btn-block.btn-success")).click();
 		sleep(2000);
 		Log.log("Siker");
+		
+		String orderNum = orderNumTrash.replaceAll("[^0-9]", "");
+		
+		goToPage(url + "/hu/car-service-orders/ipn-success-test/" + orderNum);
+		sleep(3000);
+		
+		goToPage(url + "/hu/vasarlasok");
+		sleep(3000);
+		
+		onScreenWS("Autó limit 2-5");
+		
+		Log.log("Sikeres autólimit bővítés!");
 
 	}
 
