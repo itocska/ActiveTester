@@ -11,6 +11,9 @@ public class DocumentGenerator {
 			//required FillUserPersonalData
 		  TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 		  TestBase.oneStepInner();
+		  
+		  //TestBase.giveDocumentGeneratorAvailability();
+		  
 		  //minden dokumentum
 		  TestBase.dgSelectAllBuyDocument();
 		  //1. Átadás-átvételi: Autó

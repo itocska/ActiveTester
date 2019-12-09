@@ -6160,8 +6160,55 @@ public class TestBase {
 		fillName("witness2_address", Tanu2[2]);
 
 	}
+	
+	public static void giveDocumentGeneratorAvailability(String myCar) throws IOException, InterruptedException{
+
+		goToPage(url + "/hu/kijelentkezes");
+			
+		adminLogin();
+			
+		goToPage(url + "/hu/admin/car/car-companies");
+			
+		fillName("quick_search", companyUser);
+			
+		clickButton("Keres");
+		sleep(2000);
+			
+		clickXpath("(//a[@class='btn btn-default btn-link command command-edit'])[1]");
+		sleep(2000);
+			
+		clickXpath("//*[contains(text(), 'Dokumentum kitöltő')]");
+		sleep(1000);
+			
+		clickButton("Mentés");
+		sleep(2000);
+			
+		onScreenWS("Sikeres cég módosítás");
+			
+		goToPage(url + "/hu/kijelentkezes");
+		
+		login(TestBase.companyUser, TestBase.companyPassword);
+		sleep(2000);
+		
+		goToPage(url + "/hu/sajat-auto/" + myCar);
+		
+	}
 
 	public static void dgSelectAllBuyDocument() throws IOException, InterruptedException {
+		
+		String myCar = getCarId();
+		
+		try {
+
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Dokumentum generáló')]")));
+
+		} catch (NoSuchElementException e) {
+		
+			giveDocumentGeneratorAvailability(myCar);
+			
+		}
+		
+		Log.log("Dokumentum generáló elérhető");
 
 		clickLinkWithText("Dokumentum generáló");
 		sleep(3000);
@@ -6248,8 +6295,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -6338,8 +6385,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -6433,8 +6480,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -6518,6 +6565,9 @@ public class TestBase {
 		String taxNum = driver.findElement(By.id("partner1-tax-no")).getAttribute("value");
 		String regNum = driver.findElement(By.id("partner1-reg-no")).getAttribute("value");
 		String address = driver.findElement(By.id("partner1-address")).getAttribute("value");
+		
+		driver.findElement(By.id("partner1-phone")).click();
+		
 		fillName("partner1_phone", "55555555");
 		sleep(3000);
 
@@ -6534,8 +6584,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -6647,7 +6697,10 @@ public class TestBase {
 		String taxNum = driver.findElement(By.id("partner1-tax-no")).getAttribute("value");
 		String regNum = driver.findElement(By.id("partner1-reg-no")).getAttribute("value");
 		String address = driver.findElement(By.id("partner1-address")).getAttribute("value");
+		
+		driver.findElement(By.id("partner1-phone")).click();
 		fillName("partner1_phone", "55555555");
+		
 		String email = driver.findElement(By.id("partner1-email")).getAttribute("value");
 		sleep(3000);
 
@@ -6664,8 +6717,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -6789,7 +6842,10 @@ public class TestBase {
 		String taxNum = driver.findElement(By.id("partner1-tax-no")).getAttribute("value");
 		String regNum = driver.findElement(By.id("partner1-reg-no")).getAttribute("value");
 		String address = driver.findElement(By.id("partner1-address")).getAttribute("value");
+		
+		driver.findElement(By.id("partner1-phone")).click();
 		fillName("partner1_phone", "55555555");
+		
 		String email = driver.findElement(By.id("partner1-email")).getAttribute("value");
 		sleep(3000);
 
@@ -6809,8 +6865,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -6969,8 +7025,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -7123,8 +7179,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -7277,8 +7333,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -7430,8 +7486,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 
@@ -7610,8 +7666,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 			
@@ -7785,8 +7841,8 @@ public class TestBase {
 
 		try {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='btn btn-lg btn-secondary w-100']")));
+			clickText("Mentés és tovább");
 
 		} catch (TimeoutException e) {
 			
