@@ -217,7 +217,7 @@ public class TestBase {
 			driver.switchTo().window(winHandle);
 		}
 
-		driver.findElement(By.cssSelector(".btn.btn-red.btn-lg.w-100.mb-1.mt-3")).click();
+		onScreenAlert("Felhasználó törölve");
 
 		Log.log("Fiók végleges törlése");
 
@@ -1085,8 +1085,7 @@ public class TestBase {
 
 		} catch (TimeoutException e) {
 
-			wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'Saját autó limit')]")));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(), 'Saját autó limit')]")));
 			// String text = driver.findElement(By.xpath("//h1[contains(text(), 'Saját autó
 			// limit')]")).getText();
 			goToPage(TestBase.url + "/hu/garazs");
@@ -3177,8 +3176,7 @@ public class TestBase {
 
 	public static void selectCar(String string) throws IOException {
 
-		String pattern = "//a[\"numberplate\" and contains(translate(.,'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), \""
-				+ string + "\")]";
+		String pattern = "//div[@id='mycar-block']//a['numberplate' and contains(translate(.,'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), '"+ string + "')]";
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pattern)));
 		WebElement myElement = driver.findElement(By.xpath(pattern));
 		WebElement parent = myElement.findElement(By.xpath("../.."));
@@ -3203,8 +3201,8 @@ public class TestBase {
 			list.add(numberplate);
 		}
 		for (String oneItem : list) {
-			Log.log(oneItem + " rendszámú autó törölve.");
 			deleteCar(oneItem);
+			Log.log(oneItem + " rendszámú autó törölve.");
 		}
 
 	}
