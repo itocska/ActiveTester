@@ -8300,7 +8300,10 @@ public class TestBase {
 
 		fillName("opinion", "Szubjektív Vélemény");
 		sleep(2000);
+		
 		submit();
+		onScreenAlert("Sikeres mentés");
+		
 		sleep(2000);
 		driver.findElement(By.cssSelector(".fas.fa-eye.circle")).click();
 		onScreen("Karosszéria külső állapota");
@@ -8419,7 +8422,10 @@ public class TestBase {
 
 		fillName("opinion", "Szubjektív Vélemény");
 		sleep(2000);
+		
 		submit();
+		onScreenAlert("Sikeres módosítás");
+		
 		sleep(2000);
 		driver.findElement(By.cssSelector(".fas.fa-eye.circle")).click();
 		onScreen("Karosszéria külső állapota új");
@@ -8429,6 +8435,8 @@ public class TestBase {
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		sleep(1000);
 		driver.findElement(By.cssSelector(".btn.grayBtn.deleteAttachedItem")).click();
+		onScreenValue("Sikeresen törölve!");
+		
 		Log.log("Sikeresen Törölve");
 
 	}
