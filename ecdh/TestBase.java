@@ -2384,6 +2384,8 @@ public class TestBase {
 		// driver.findElement(By.cssSelector("textarea[name=\"note\"]")).sendKeys(noteText);
 
 		submit();
+		
+		onScreenAlert("Sikeres mentés");
 
 		Log.log("Esemény: baleset beküldve.");
 		sleep(2000);
@@ -2409,6 +2411,8 @@ public class TestBase {
 		clickLinkWithText("Szerkesztés");
 		onScreen(noteText);
 		submit();
+		sleep(3000);
+		onScreenAlert("Sikeres módosítás");
 
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("event-types")));
 		element = driver.findElement(By.className("event-types"));
@@ -2416,8 +2420,10 @@ public class TestBase {
 
 		click("i.fa-trash");
 		click("a[data-apply=\"confirmation\"]");
+		sleep(1000);
+		onScreenAlert("Sikeresen törölve!");
 
-		sleep(10000);
+		sleep(3000);
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
 		Log.log("Esemény: baleset sikeresen törölve.");
 
