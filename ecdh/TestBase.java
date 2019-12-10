@@ -8530,7 +8530,7 @@ public class TestBase {
 		
 	}
 	
-	public static void purgeCompany() throws IOException, InterruptedException {
+	public static void purgeCompany(String mail) throws IOException, InterruptedException {
 		
 		
 		adminLogin();
@@ -8568,7 +8568,7 @@ public class TestBase {
 					Log.log("oldal menü kinyitása");
 					driver.findElement(By.cssSelector(".hi-trigger.ma-trigger")).click();
 					sleep(2000);
-					clickLinkWithText("Cégjegyzék");
+					//clickLinkWithText("Cégjegyzék");
 					clickLinkWithText("Cégek");
 				}
 			}
@@ -8582,7 +8582,7 @@ public class TestBase {
 
 		//search the actual user
 		sleep(3000);
-		fillName("quick_search", companyUser);
+		fillName("quick_search", mail);
 		sleep(2000);
 		clickButton("Keres");
 		sleep(3000);
@@ -8592,11 +8592,11 @@ public class TestBase {
 		sleep(3000);
 		
 		//get token
-		String url = driver.getCurrentUrl();
-		String companyId = url.replaceFirst(".*\\/([^\\/?]+).*", "$1");
+		String currenturl = driver.getCurrentUrl();
+		String companyId = currenturl.replaceFirst(".*\\/([^\\/?]+).*", "$1");
 		
 		//go to user purge page
-		sleep(3000);
+		sleep(2000);
 		goToPage(url + "/hu/admin/car/car-user-purge-protocoll");
 		
 		//purge company
@@ -8642,7 +8642,6 @@ public class TestBase {
 		goToPage(urlLive + "/hu/hasznalt-auto-eladas");
 		sleep(3000);
 		
-		onScreen("Tartalomjegyzék");
 		onScreen("Add el használt gépjárműved profin összeállított használt autó hirdetéssel!");
 		onScreen("Add fel hirdetésed!");
 		onScreen("Felhasznált cikkek");
