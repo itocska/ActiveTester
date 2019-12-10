@@ -3734,6 +3734,7 @@ public class TestBase {
 		// clickLinkWithText("Pályamatrica");
 
 		driver.findElement(By.cssSelector("input[name=\"start_date\"]")).click();
+		sleep(3000);
 		driver.findElement(By.id("start-date")).sendKeys(Keys.ENTER);
 		driver.findElement(By.cssSelector(".logo-title.d-none.d-md-inline-block.ml-3")).click();
 		List<WebElement> list = driver.findElements(By.cssSelector("input[type=\"radio\"]:not([id=\"ticket1\"])"));
@@ -3741,6 +3742,7 @@ public class TestBase {
 		int randNumber = new Random().nextInt(size - 1) + 1;
 		String id = list.get(randNumber).getAttribute("id");
 		// list.get(randNumber).click();
+		sleep(3000);
 		driver.findElement(By.xpath("//label[@for='" + id + "']")).click();
 		String name = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-name")).getText();
 		String expiration = driver.findElement(By.cssSelector("label[for=\"" + id + "\"] .ticket-expiration"))
@@ -3910,6 +3912,7 @@ public class TestBase {
 		checkField("period", period);
 
 		submit();
+		sleep(3000);
 
 		click("i.fa-trash");
 		click("a[data-apply=\"confirmation\"]");
@@ -8785,9 +8788,12 @@ public class TestBase {
 		actions.moveToElement(element).click().build().perform();
 	
 		//Fill details----------------------------------------------------------------------------
+		sleep(2000);
 		Log.log("Sofőrszolgálat esemény felvitel");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("event-date")));
 		driver.findElement(By.id("event-date")).click();
+		sleep(2000);
+		driver.findElement(By.id("event-date")).sendKeys(Keys.ENTER);
 		sleep(3000);
 		String nowDateTime = driver.findElement(By.id("event-date")).getText();
 		
@@ -8880,9 +8886,12 @@ public class TestBase {
 		actions.moveToElement(element).click().build().perform();
 	
 		//Fill details----------------------------------------------------------------------------
+		sleep(2000);
 		Log.log("Autómentés és autószállítás esemény felvitel");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("event-date")));
 		driver.findElement(By.id("event-date")).click();
+		sleep(2000);
+		driver.findElement(By.id("event-date")).sendKeys(Keys.ENTER);
 		sleep(3000);
 		String nowDateTime = driver.findElement(By.id("event-date")).getText();
 		
