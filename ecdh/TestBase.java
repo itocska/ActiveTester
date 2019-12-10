@@ -3237,6 +3237,7 @@ public class TestBase {
 
 	public static void addNewCarEventBodyRepair() throws IOException, InterruptedException {
 		
+		//Create event
 		clickLinkWithText("esemény hozzáadása");
 		sleep(5000);
 
@@ -3255,9 +3256,7 @@ public class TestBase {
 		Actions actions = new Actions(driver);
 		actions.moveToElement(element).click().build().perform();
 
-		driver.findElement(By.cssSelector("input[name=\"service_date\"]")).sendKeys();
-		sleep(2000);
-		goToPage(TestBase.url + "/hu/szerviz-esemeny-letrehozasa/4/" + getCarId());
+		//fill details
 		sleep(3000);
 		click(".ts-date-picker");
 		click("h2");
@@ -3348,7 +3347,10 @@ public class TestBase {
 		String noteText = "Test note " + RN;
 		driver.findElement(By.cssSelector("textarea[name=\"note\"]")).sendKeys(noteText);
 		submit();
-
+		
+		//onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		
+		//Check details
 		String now = dateLocale(LocalDate.now());
 		System.out.println(now);
 		onScreen(now);
@@ -3363,6 +3365,7 @@ public class TestBase {
 		onScreen("Bal hátsó oldalsó ajtó üveg");
 		checkPrice(randPrice, " ");
 
+		//check in garage
 		clickXpath("//a[contains(text(), 'adatlapja')]");
 		sleep(3000);
 
@@ -3370,6 +3373,7 @@ public class TestBase {
 
 		clickLinkWithText("Szerkesztés");
 
+		//modify
 		clickXpath("(//div[@class='col-xs-1']/span)[1]");
 		fillName("car_mycar_service_log_items[1][price]", "4444");
 		p1 = 4444;
@@ -3381,8 +3385,18 @@ public class TestBase {
 		fillName("note", noteText);
 
 		submit();
-		clickLinkWithText("Karosszéria javítás");
+		
+		//onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		
+		//check values in service list
+		onScreen(now);
+		onScreen(noteText);
+		checkPrice(randPrice, " ");
+		onScreen("Karosszéria javítás");
+		
+		driver.findElement(By.xpath("//a/b[contains(text(),'Karosszéria javítás')]")).click();
 
+		//check modded values
 		onScreen(now);
 		onScreen("Karosszéria javítás");
 		onScreen(noteText);
@@ -3392,9 +3406,13 @@ public class TestBase {
 		onScreen("Bal hátsó oldalsó ajtó üveg");
 		checkPrice(randPrice, " ");
 
+		//delete event
 		click("i.fa-trash");
 		clickLinkWithText("Esemény törlése");
 		sleep(3000);
+		
+		onScreenAlert("A szerviz esemény sikeresen törölve.");
+		
 		Log.log("A szerviz esemény sikeresen törölve.");
 
 	}
