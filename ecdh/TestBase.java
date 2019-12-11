@@ -3486,12 +3486,18 @@ public class TestBase {
 	}
 
 	public static void addNewCarEventOtherService() throws IOException, InterruptedException {
+		
+		//event upload
 		goToPage(url + "/hu/egyeb-szerviz-esemeny-letrehozasa/" + getCarId());
 		sleep(1000);
 		int randNumber = new Random().nextInt(500) + 1;
 
 		click(".ts-date-picker");
 		driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+		
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy. MM dd.");
+		String strToday = today.format(dateFormat);
 
 		driver.findElement(By.cssSelector(".btn.btn-primary.col-12")).click();
 		sleep(800);
@@ -3510,20 +3516,30 @@ public class TestBase {
 		fillName("price_work", "" + randWorkPrice);
 		String noteText = "Test note " + randNumber;
 		fillName("note", noteText);
+		
+		//save
+		
 		submit();
+		onScreenAlert("Sikeres szerviz esemény hozzáadás");
 
+		//check in timeline
 		sleep(2000);
 		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
 		sleep(3000);
 
+		onScreen("Egyéb szerviz");
+
 		sleep(2000);
 		Log.log("Sikeresen mentve");
 
+		//check in datasheet
 		driver.findElement(By.cssSelector("a[href*='szerviz-esemeny-megtekintese']")).click();
 		sleep(1000);
 		onScreen(partName);
 		onScreen(noteText);
 		checkPrice(randPrice, " ");
+		
+		//modify
 		clickLinkWithText("Szerkesztés");
 		Log.log("Módosítás");
 		sleep(2000);
@@ -3549,15 +3565,21 @@ public class TestBase {
 		noteText = "Test note " + randNumber;
 		fillName("note", noteText);
 
+		//save modded values
 		submit();
+		onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		
 		sleep(2000);
 		Log.log("Sikeres módosítás");
 
+		//check modded values in datasheet
 		Log.log("Újra ellenőrzés...");
 		clickLinkWithText("Egyéb szerviz");
 		onScreen(partName);
 		onScreen(noteText);
 		checkPrice(randPrice, " ");
+		
+		//check modded values in modify page
 		clickLinkWithText("Szerkesztés");
 		Log.log("Módosítás");
 		sleep(2000);
@@ -3573,13 +3595,16 @@ public class TestBase {
 		onScreen(noteText);
 		checkField("car_mycar_service_log_items[0][price]", randPrice + "");
 
+		//delete event
 		submit();
+		onScreenAlert("Sikeres szerviz esemény hozzáadás");
 		sleep(2000);
 		Log.log("Törlés...");
 
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		driver.findElement(By.cssSelector(".btn.btn-sm.h-100.d-flex.align-items-center.btn-secondary")).click();
 		sleep(1000);
+		onScreenAlert("A szerviz esemény sikeresen törölve");
 		assertTrue("Event deleted", !driver.getPageSource().contains(noteText));
 		Log.log("Esemény: egyéb sikeresen törölve.");
 
