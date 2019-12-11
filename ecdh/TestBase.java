@@ -2789,10 +2789,16 @@ public class TestBase {
 	}
 
 	public static void allCarNote() throws IOException, InterruptedException {
+		//check all note
+		sleep(2000);
 		driver.findElement(By.cssSelector(".car-mycar-notes .moreBtn")).click();
+		sleep(3000);
+		//write new
 		driver.findElement(By.cssSelector(".car-mycar-notes .card-header a")).click();
+		sleep(2000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("note")));
 
+		//fill note
 		Random rand = new Random();
 		Integer randomNum = 1 + rand.nextInt((3000000 - 1) + 1);
 		String randNum = String.valueOf(randomNum);
@@ -2811,6 +2817,29 @@ public class TestBase {
 
 		assertTrue("Note deleted", !driver.getPageSource().contains(note));
 		Log.log("Jegyzet: " + note + " törölve.");
+
+	}
+	
+	public static void deleteAllCarNote() throws IOException, InterruptedException {
+		
+		boolean isThereAnyNote = true;
+		
+		do {
+			
+			sleep(3000);
+			
+			try {
+				
+				clickXpath("(//a[@class='note-delete'])[1]");
+				
+			}catch(NoSuchElementException e) {
+				
+				Log.log("Nincs több jegyzet");
+				isThereAnyNote = false;
+				
+			}
+			
+		}while(isThereAnyNote = true);
 
 	}
 

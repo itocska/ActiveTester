@@ -20,7 +20,7 @@ public class AddNewCarNotes {
 		  TestBase.deleteCarNote();
 		  TestBase.allCarNote();
 		 
-		  
+		  TestBase.deleteAllCarNote();
 		} 
 		catch (AssertionError|WebDriverException e) {
 			Log.error = true;
