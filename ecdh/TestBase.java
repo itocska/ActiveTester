@@ -6149,7 +6149,7 @@ public class TestBase {
 		 * }
 		 */
 
-		driver.findElement(By.xpath("//div[@class='row result-list align-items-center'][1]//div[@class='result-name']"))
+		driver.findElement(By.xpath("//div[@class='row result-list company-result-item align-items-center'][1]//div[@class='result-name']"))
 				.click();
 		sleep(4000);
 
@@ -6158,30 +6158,34 @@ public class TestBase {
 		sleep(3000);
 
 		driver.findElement(By
-				.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][1]/div/div/div/div/span/span[3])[1]"))
+				.xpath("(//span[@class='empty-stars']/span[@class='star'][3])[2]"))
 				.click();
 		driver.findElement(By
-				.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][2]/div/div/div/div/span/span[3])[1]"))
+				.xpath("(//span[@class='empty-stars']/span[@class='star'][3])[3]"))
 				.click();
 		driver.findElement(By
-				.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][3]/div/div/div/div/span/span[3])[1]"))
+				.xpath("(//span[@class='empty-stars']/span[@class='star'][3])[4]"))
 				.click();
 		driver.findElement(By
-				.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][4]/div/div/div/div/span/span[3])[1]"))
+				.xpath("(//span[@class='empty-stars']/span[@class='star'][3])[5]"))
 				.click();
 		driver.findElement(By
-				.xpath("(//div[@class='detailed-ratings row']/div[@class='col-4'][5]/div/div/div/div/span/span[3])[1]"))
+				.xpath("(//span[@class='empty-stars']/span[@class='star'][3])[6]"))
 				.click();
 		sleep(1000);
 		int rateTextNum = new Random().nextInt(500) + 100;
-		fillName("car_company_ratings[7][text_rate]", "Teszt értékelő szöveg " + rateTextNum);
-		submit();
-		sleep(1000);
+		driver.findElement(By.xpath("//textarea")).sendKeys("Teszt értékelő szöveg " + rateTextNum);
+		sleep(2000);
+
+		clickButton("Értékelés elküldése");
+		//onScreenAlert("Sikeres értékelés mentés");
+		
+		sleep(2000);
 
 		try {
 
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
-					By.xpath("//div[contains(@class, 'row mt-2')]//span[contains(@style,'width: 60%')]")));
+					By.xpath("(//div[@class='rating-stars'])[1]//span[@class='filled-stars' and contains(@style,'width: 60%')]")));
 			Log.log("Értékelés összegző helyes eredmény");
 
 		} catch (NoSuchElementException e) {
