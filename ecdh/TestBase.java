@@ -5528,7 +5528,7 @@ public class TestBase {
 
 		// felvitel vége
 		// driver.findElement(By.cssSelector(".btn.btn-primary.submitBtn.tsLoadingIcon")).click();
-		submit();
+		clickXpath("//div[@class='card-body']//button[@type='submit']");
 
 		sleep(3000);
 
