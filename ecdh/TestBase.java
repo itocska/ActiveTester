@@ -5422,9 +5422,12 @@ public class TestBase {
 	}
 
 	public static void inviteActivateFriend() throws IOException, InterruptedException {
-
+		
+		sleep(2000);
 		driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div[4]/a")).click();
+		sleep(2000);
 		driver.findElement(By.className("sprite-invite")).click();
+		sleep(3000);
 		// clickLinkWithText("Új meghívó link");
 		try {
 
@@ -5478,6 +5481,13 @@ public class TestBase {
 		Log.log("Meghívás elfogadása");
 		goToPage(inviteLink);
 
+		/*try {
+			driver.switchTo().alert().accept();
+			goToPage(inviteLink);
+			sleep(3000);
+		} catch (NoSuchElementException e) {
+
+		}
 		try {
 			driver.switchTo().alert().accept();
 			goToPage(inviteLink);
@@ -5485,19 +5495,34 @@ public class TestBase {
 		} catch (NoSuchElementException e) {
 
 		}
-		driver.switchTo().alert().accept();
-		goToPage(inviteLink);
-		sleep(3000);
 
 		try {
 			element = driver.findElement(By.className("ok"));
 			element.click();
 		} catch (NoSuchElementException e) {
 
-		}
+		}*/
+		
+		
+		
 		Log.log("Accept cookies");
 
+		try {
+			
 		fillName("user[username]", testerMail);
+		
+		}catch(NoSuchElementException e) {
+			
+			for (String winHandle : driver.getWindowHandles()) {
+				System.out.println(winHandle);
+				driver.switchTo().window(winHandle);
+			}
+
+			sleep(3000);
+			fillName("user[username]", testerMail);
+			
+		}
+		
 		fillName("user[password]", personalPassword);
 		fillName("user[confirm_password]", personalPassword);
 
@@ -5525,18 +5550,27 @@ public class TestBase {
 		Log.log("Register succeed");
 		sleep(15000);
 
-		driver.get("https://gmail.com");
-
+		driver.get("https://mail.ecdh.hu/hpronto/");
+		Log.log("Open Pronto");
 		sleep(4000);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("(//*[text()='Regisztráció megerősítése (ECDH) To:" + personalUser + "'])[2]")));
-		driver.findElement(By.xpath("(//*[text()='Regisztráció megerősítése (ECDH) To:" + personalUser + "'])[2]"))
-				.click();
+		driver.findElement(By.cssSelector("input[type=text]")).sendKeys(testerMail);
+		Log.log("Fill username");
+		driver.findElement(By.cssSelector("input[type=password]")).sendKeys(testerPassword);
+		Log.log("Fill password");
+		sleep(2000);
+		clickXpath("//input[@type='submit']");
+		Log.log("Login Pronto");
 
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")));
-		driver.findElement(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]")).click();
+		sleep(6000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@title='ECDH test']")));
+		
+		sleep(3000);
+		
+		driver.switchTo().frame(driver.findElements(By.tagName("iframe")).get(1));
+		new WebDriverWait(driver, 20).until( ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(), 'Személyes fiók aktiválása')]"))).click();
+		
 		Log.log("New user account activation");
+		sleep(5000);
 
 		System.out.println(driver.getTitle());
 
@@ -5544,6 +5578,11 @@ public class TestBase {
 			System.out.println(winHandle);
 			driver.switchTo().window(winHandle);
 		}
+
+		System.out.println(driver.getTitle());
+
+		passShepherd();
+		Log.log("Activation succeed");
 
 	}
 
