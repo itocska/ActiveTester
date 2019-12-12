@@ -5782,7 +5782,7 @@ public class TestBase {
 
 	public static void gasStation() throws IOException, InterruptedException {
 
-		driver.findElement(By.xpath("/html/body/header/div/div/div[2]/div[4]/a")).click();
+		driver.findElement(By.xpath("//div[@class='user-nav nav-menu']/a")).click();
 		sleep(1000);
 		driver.findElement(By.className("sprite-gas-stations")).click();
 		sleep(2000);
@@ -8885,11 +8885,14 @@ public class TestBase {
 		
 		//Check in garage--------------------------------------------------------------------------
 		onScreenAlert("Sikeres esemény hozzáadás");
+		sleep(3000);
 		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
 		
 		onScreen("Sofőrszolgálat");
 		
 		Log.log("Esemény sikeresen elmentve!");
+		
+		sleep(5000);
 		
 		clickText("Sofőrszolgálat");
 		
