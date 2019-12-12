@@ -13,7 +13,9 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -8962,11 +8964,20 @@ public class TestBase {
 		sleep(2000);
 		driver.findElement(By.id("event-date")).sendKeys(Keys.ENTER);
 		sleep(3000);
-		String nowDateTime = driver.findElement(By.id("event-date")).getText();
+		//String nowDateTime = driver.findElement(By.id("event-date")).getText();
 		
-		/*LocalDate today = LocalDate.now();
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy. MM dd.");
-		String strToday = today.format(dateFormat);*/
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String nowDateTime = today.format(dateFormat);
+		
+		LocalDateTime secondToday = LocalDateTime.now();
+		LocalDateTime secondTodayMinusOneHour = secondToday.minus(1, ChronoUnit.HOURS);
+		
+		//secondToday = secondToday.setTime(LocalDateTime.getTime() - 3600 * 1000));
+		//LocalDateTime secondTodayMinusOneHour = today.minus(1);
+		
+		dateFormat = DateTimeFormatter.ofPattern("yyyy. MM. dd. HH:mm");
+		String nowDateTimeValueDot = secondTodayMinusOneHour.format(dateFormat);
 		
 		driver.findElement(By.id("mileage")).click();
 		sleep(2000);
@@ -8986,12 +8997,14 @@ public class TestBase {
 		
 		//Check in garage--------------------------------------------------------------------------
 		onScreenAlert("Sikeres esemény hozzáadás");
+		sleep(4000);
 		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
 		
 		onScreen("Autómentés és autószállítás");
 		
 		Log.log("Esemény sikeresen elmentve!");
 		
+		sleep(3000);
 		clickText("Autómentés és autószállítás");
 		
 		//Check in data sheet----------------------------------------------------------------------
@@ -9006,7 +9019,7 @@ public class TestBase {
 		//Check inputs-----------------------------------------------------------------------------
 		Log.log("Adatok ellenőrzése szerkesztés űrlapon");
 		onScreenValue(serviceName);
-		onScreenValue(nowDateTime);
+		onScreenValue(nowDateTimeValueDot);
 		onScreenValue("" + workPrice);
 		onScreen(testText);
 		
