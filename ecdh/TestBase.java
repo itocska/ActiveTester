@@ -435,7 +435,7 @@ public class TestBase {
 		
 		Select selectInput = new Select(driver.findElement(By.name(inputName)));
 		sleep(3000);
-		selectInput.deselectByValue(value);
+		selectInput.selectByValue(value);
 		
 	}
 
@@ -3651,10 +3651,10 @@ public class TestBase {
 		String carKm = driver.findElement(By.xpath("//dl[@class='row'][1]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
 		String carDate = driver.findElement(By.xpath("//dl[@class='row'][2]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
 		String carMake = driver.findElement(By.xpath("//dl[@class='row'][3]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
-		String carFuel = driver.findElement(By.xpath("//dl[@class='row'][4]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
-		String carEngCap = driver.findElement(By.xpath("//dl[@class='row'][5]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
-		String carGearShift = driver.findElement(By.xpath("//dl[@class='row'][7]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
-		String carkW = driver.findElement(By.xpath("//dl[@class='row'][8]/dd[@class='col-12 col-md-4 col-md-8']")).getText();
+		String carFuel = driver.findElement(By.xpath("//dl[@class='row'][4]/dd[@class='col-12 col-md-8']")).getText();
+		String carEngCap = driver.findElement(By.xpath("//dl[@class='row'][5]/dd[@class='col-12 col-md-8']")).getText();
+		String carGearShift = driver.findElement(By.xpath("//dl[@class='row'][7]/dd[@class='col-12 col-md-8']")).getText();
+		String carkW = driver.findElement(By.xpath("//dl[@class='row'][8]/dd[@class='col-12 col-md-8']")).getText();
 
 		String[] fullCarName = carName.split(" ");
 		String[] fullCarDate = carDate.split(" ");
