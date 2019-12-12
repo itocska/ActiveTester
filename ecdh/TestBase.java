@@ -4203,6 +4203,62 @@ public class TestBase {
 
 		return year + " " + month + " " + day;
 	}
+	
+	public static String dateTimeLocaleMinusOneHour(LocalDateTime date) {
+		DateTimeFormatter yearF = DateTimeFormatter.ofPattern("yyyy.");
+		DateTimeFormatter monthF = DateTimeFormatter.ofPattern("MMMM");
+		DateTimeFormatter dayF = DateTimeFormatter.ofPattern("d.");
+		DateTimeFormatter timeF = DateTimeFormatter.ofPattern("HH:mm");
+		LocalDateTime dateMinusOneHour = date.minus(1, ChronoUnit.HOURS);
+		
+		String year = dateMinusOneHour.format(yearF);
+		String month = dateMinusOneHour.format(monthF);
+		String day = dateMinusOneHour.format(dayF);
+		String time = dateMinusOneHour.format(timeF);
+
+		month = month.replace("January", "január");
+		month = month.replace("February", "február");
+		month = month.replace("March", "március");
+		month = month.replace("April", "április");
+		month = month.replace("May", "május");
+		month = month.replace("June", "június");
+		month = month.replace("July", "július");
+		month = month.replace("August", "augusztus");
+		month = month.replace("September", "szeptember");
+		month = month.replace("October", "október");
+		month = month.replace("November", "november");
+		month = month.replace("December", "december");
+
+		return year + " " + month + " " + day + " " + time;
+	}
+	
+	public static String dateTimeLocale(LocalDateTime date) {
+		DateTimeFormatter yearF = DateTimeFormatter.ofPattern("yyyy.");
+		DateTimeFormatter monthF = DateTimeFormatter.ofPattern("MMMM");
+		DateTimeFormatter dayF = DateTimeFormatter.ofPattern("d.");
+		DateTimeFormatter timeF = DateTimeFormatter.ofPattern("HH:mm");
+
+		
+		String year = date.format(yearF);
+		String month = date.format(monthF);
+		String day = date.format(dayF);
+		String time = date.format(timeF);
+
+		month = month.replace("January", "január");
+		month = month.replace("February", "február");
+		month = month.replace("March", "március");
+		month = month.replace("April", "április");
+		month = month.replace("May", "május");
+		month = month.replace("June", "június");
+		month = month.replace("July", "július");
+		month = month.replace("August", "augusztus");
+		month = month.replace("September", "szeptember");
+		month = month.replace("October", "október");
+		month = month.replace("November", "november");
+		month = month.replace("December", "december");
+
+		return year + " " + month + " " + day + " " + time;
+	}
 
 	public static String dateDots(LocalDate date) {
 		DateTimeFormatter yearF = DateTimeFormatter.ofPattern("yyyy.");
@@ -8863,11 +8919,18 @@ public class TestBase {
 		sleep(2000);
 		driver.findElement(By.id("event-date")).sendKeys(Keys.ENTER);
 		sleep(3000);
-		String nowDateTime = driver.findElement(By.id("event-date")).getText();
+		//String nowDateTime = driver.findElement(By.id("event-date")).getText();
 		
-		LocalDate today = LocalDate.now();
+		/*LocalDate today = LocalDate.now();
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy. MM dd.");
-		String strToday = today.format(dateFormat);
+		String strToday = today.format(dateFormat);*/
+
+		
+		String strToday = dateTimeLocaleMinusOneHour(LocalDateTime.now());
+		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime TodayMinusOneHour = today.minus(1, ChronoUnit.HOURS);
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy. MM. dd. HH:mm");
+		String strTodayMinusOneWithDot = TodayMinusOneHour.format(dateFormat);
 		
 		driver.findElement(By.id("mileage")).click();
 		sleep(2000);
@@ -8910,7 +8973,7 @@ public class TestBase {
 		//Check inputs-----------------------------------------------------------------------------
 		Log.log("Adatok ellenőrzése szerkesztés űrlapon");
 		onScreenValue(serviceName);
-		onScreenValue(nowDateTime);
+		onScreenValue(strTodayMinusOneWithDot);
 		onScreenValue("" + workPrice);
 		onScreen(testText);
 		
