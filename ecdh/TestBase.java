@@ -6191,18 +6191,18 @@ public class TestBase {
 		Log.log("Bejelentkezés!");
 		TestBase.login(TestBase.companyUser, TestBase.companyPassword);
 		click(".fas.fa-bell");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='notification-title']")))
-				.click();
+		sleep(2000);
+
+		clickXpath("//*[text()[contains(.,'Autó átvétel')]]");
+
 		onScreen(carName);
 		Log.log("Autó Átvétel Elfogadása!");
 		click(".fa.fa-check.circle");
 		click(".btn-secondary");
 
 		sleep(2000);
-
-		goToPage(url + "/hu/garazs");
-		driver.findElement(By.cssSelector(".overflow-hidden")).click();
-
+		
+		clickXpath("//div[@class='col-12 col-sm-6 col-lg'][1]/a");
 		sleep(2000);
 
 		Log.log("Autó Adatainak ellenőrzése!");
