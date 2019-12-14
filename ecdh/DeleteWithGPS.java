@@ -16,8 +16,14 @@ public class DeleteWithGPS extends TestBase {
 			Thread.sleep(3000);
 			TestBase.passShepherd();
 			TestBase.addNewCar();
+			Thread.sleep(3000);
+			goToPage(TestBase.url + "/hu/garazs");
+			Thread.sleep(3000);
+			TestBase.addGPS();
+			Thread.sleep(3000);
 			TestBase.deleteUser();
-		  
+			Thread.sleep(3000);
+			TestBase.checkGPSAlert();
 		  
 		} 
 		catch (AssertionError|WebDriverException e) {

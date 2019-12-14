@@ -5039,7 +5039,8 @@ public class TestBase {
 	}
 
 	public static void addGPS() throws IOException, InterruptedException {
-		TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+
+		
 		List<WebElement> elements = driver.findElements(By.cssSelector(".card .profile-car-item"));
 		List<String> numberPlates = new ArrayList<String>();
 		List<String> gpsCodes = new ArrayList<String>();
@@ -5048,7 +5049,9 @@ public class TestBase {
 		gpsCodes.add("864893031571469");
 		gpsCodes.add("864895030889255");
 
+		Log.log("Element: " + elements);
 		for (WebElement element : elements) {
+			Log.log("Element: " + element);
 			numberPlates.add(element.findElement(By.className("numberplate")).getText());
 		}
 
@@ -9176,6 +9179,13 @@ public class TestBase {
 		onScreen("30 napig");
 		
 		Log.log("Sikeres archívum ellenőrzés");
+		
+	}	
+	
+	public static void checkGPSAlert() throws IOException, InterruptedException, AWTException {
+		
+		//Szolgáltatást kell venni ahhoz hogy ne engedjen törölni
+		//onScreenAlert("");
 		
 	}
 

@@ -8,7 +8,10 @@ public class AddGPS  extends TestBase {
 		
 		TestBase.main("AddNewCar", 0);
 		try {
-		  TestBase.addGPS();
+			
+			TestBase.login(TestBase.personalUser, TestBase.personalPassword);
+			
+			TestBase.addGPS();
 		  
 		  
 		} 
