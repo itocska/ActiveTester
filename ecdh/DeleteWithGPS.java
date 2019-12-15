@@ -19,7 +19,7 @@ public class DeleteWithGPS extends TestBase {
 			Thread.sleep(3000);
 			goToPage(TestBase.url + "/hu/garazs");
 			Thread.sleep(3000);
-			TestBase.addGPS();
+			TestBase.buyGPS();
 			Thread.sleep(3000);
 			TestBase.deleteUser();
 			Thread.sleep(3000);

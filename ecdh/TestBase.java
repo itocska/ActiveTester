@@ -466,6 +466,16 @@ public class TestBase {
 		sleep(2000);
 		
 	}
+	
+public static void clickCheckboxById(String id) throws IOException, InterruptedException {
+	
+		String xpath = "//input[@type='checkbox' and @id='" + id + "']";
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+		driver.findElement(By.xpath(xpath)).click();
+		sleep(3000);
+		
+	}
 
 	public static void CarLimit() throws IOException, InterruptedException, AWTException {
 
@@ -9187,6 +9197,47 @@ public class TestBase {
 		//Szolgáltatást kell venni ahhoz hogy ne engedjen törölni
 		//onScreenAlert("");
 		
+	}
+	
+	public static void buyGPS() throws IOException, InterruptedException {
+
+		clickLinkWithText("GPS követő vásárlása");
+		sleep(2000);
+		driver.findElement(By.xpath("(//a[@class='btn btn-block btn-white'])[2]")).click();
+		sleep(3000);
+		fillName("name","test name");
+		fillName("phone","12345678");
+		selectValue("customer_type","1");
+		
+		fillName("invoice[loc_zip_id_ac]", "1052");
+		sleep(1000);
+		driver.findElement(By.id("invoice-loc-zip-id")).sendKeys(Keys.ENTER);
+		fillName("invoice[street]", "Sas");
+		driver.findElement(By.id("invoice-street-type")).click();
+		sleep(1000);
+		driver.findElement(By.id("invoice-street-type")).sendKeys(Keys.ARROW_DOWN);
+		driver.findElement(By.id("invoice-street-type")).sendKeys(Keys.ENTER);
+		sleep(1000);
+		fillName("invoice[street_num]", "25");
+		fillName("invoice[building]", "a");
+		fillName("invoice[floor]", "2");
+		fillName("invoice[door]", "204");
+		
+		randomSelect("car_gps_ident[requested_place]");
+		driver.findElement(By.id("car-gps-ident-requested-date-from")).click();
+		sleep(1000);
+		driver.findElement(By.id("car-gps-ident-requested-date-from")).sendKeys(Keys.ENTER);
+		sleep(1000);
+		driver.findElement(By.id("car-gps-ident-requested-date-to")).click();
+		sleep(1000);
+		driver.findElement(By.id("car-gps-ident-requested-date-to")).sendKeys(Keys.ENTER);
+		sleep(1000);
+		
+		clickCheckboxById("accept-rules");
+		clickCheckboxById("accept-rules2");
+		
+		clickButton("Tovább a fizetéshez");
+
 	}
 
 }
