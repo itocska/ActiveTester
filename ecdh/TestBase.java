@@ -467,8 +467,8 @@ public class TestBase {
 		
 	}
 	
-public static void clickCheckboxById(String id) throws IOException, InterruptedException {
-	
+	public static void clickCheckboxById(String id) throws IOException, InterruptedException {
+		
 		String xpath = "//input[@type='checkbox' and @id='" + id + "']";
 		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
@@ -2141,7 +2141,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 
 		sleep(3000);
 
-		onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		onScreenAlert("Sikeres szerviz esemény mentés");
 		sleep(2000);
 
 		// Esemény adatok ellenőrzés az esemény adatlapján
@@ -2231,7 +2231,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		// Szerkesztés vége
 
 		sleep(1000);
-		onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		onScreenAlert("Sikeres szerviz esemény mentés");
 
 		// esemény adatok ellenőrzése az esemény listában
 		onScreen(noteText2);
@@ -2842,16 +2842,17 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 			
 			try {
 				
-				clickXpath("(//a[@class='note-delete'])[1]");
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@class='note-delete'])[1]")));
+				driver.findElement(By.xpath("(//a[@class='note-delete'])[1]")).click();
 				
-			}catch(NoSuchElementException e) {
+			}catch(TimeoutException e) {
 				
 				Log.log("Nincs több jegyzet");
 				isThereAnyNote = false;
 				
 			}
 			
-		}while(isThereAnyNote = true);
+		}while(isThereAnyNote == true);
 
 	}
 
@@ -3561,7 +3562,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		//save
 		
 		submit();
-		onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		onScreenAlert("Sikeres szerviz esemény mentés");
 
 		//check in timeline
 		sleep(2000);
@@ -3608,7 +3609,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 
 		//save modded values
 		submit();
-		onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		onScreenAlert("Sikeres szerviz esemény mentés");
 		
 		sleep(2000);
 		Log.log("Sikeres módosítás");
@@ -3638,7 +3639,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 
 		//delete event
 		submit();
-		onScreenAlert("Sikeres szerviz esemény hozzáadás");
+		onScreenAlert("Sikeres szerviz esemény mentés");
 		sleep(2000);
 		Log.log("Törlés...");
 
@@ -3788,7 +3789,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		Log.log("Esemény: Bírság sikeresen törölve.");
 
 	}
-
+ 
 	public static void addNewCarEventHighwayFee() throws IOException, InterruptedException {
 		// goToPage(url+"/hu/autopalya-matrica-hozzadasa/" + getCarId());
 		clickLinkWithText("esemény hozzáadása");
@@ -5050,7 +5051,6 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 
 	public static void addGPS() throws IOException, InterruptedException {
 
-		
 		List<WebElement> elements = driver.findElements(By.cssSelector(".card .profile-car-item"));
 		List<String> numberPlates = new ArrayList<String>();
 		List<String> gpsCodes = new ArrayList<String>();
@@ -5060,7 +5060,9 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		gpsCodes.add("864895030889255");
 
 		Log.log("Element: " + elements);
+		
 		for (WebElement element : elements) {
+			
 			Log.log("Element: " + element);
 			numberPlates.add(element.findElement(By.className("numberplate")).getText());
 		}
@@ -5241,16 +5243,18 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		taxType.selectByVisibleText("Első részlet");
 
 		click(".ts-date-picker");
+		sleep(4000);
 		driver.findElement(By.xpath(
-				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/thead/tr[1]/th[2]"))
+				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/thead/tr[1]/th[1]"))
 				.click();
-		driver.findElement(By.xpath(
+		sleep(4000);
+		/*driver.findElement(By.xpath(
 				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[2]/table/tbody/tr/td/span[3]"))
-				.click();
+				.click();*/
 		driver.findElement(By.xpath(
 				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/tbody/tr[2]/td[3]"))
 				.click();
-		// driver.findElement(By.xpath("/html/body/header/div/div/div[1]/div")).click();
+		//driver.findElement(By.id("hp-tax-date")).sendKeys(Keys.ENTER);
 
 		int randPrice = new Random().nextInt(123456) + 1100;
 		int randNumber = new Random().nextInt(500) + 1;
@@ -5367,11 +5371,12 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 
 		click(".ts-date-picker");
 		driver.findElement(By.xpath(
-				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/thead/tr[1]/th[2]"))
+				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/thead/tr[1]/th[1]"))
 				.click();
-		driver.findElement(By.xpath(
+		sleep(2000);
+		/*driver.findElement(By.xpath(
 				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[2]/table/tbody/tr/td/span[3]"))
-				.click();
+				.click();*/
 		driver.findElement(By.xpath(
 				"/html/body/main/section[2]/div/div/div[2]/div/form/div[2]/div[1]/div[3]/div/div/div[1]/ul/li[1]/div/div[1]/table/tbody/tr[2]/td[3]"))
 				.click();
@@ -5844,7 +5849,9 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		onScreen("Budapest, Repülőtéri út 6, Magyarország");
 		Log.log("Ismétlődik?");
 		onScreen("Nem");
-		driver.findElement(By.cssSelector(".text-uppercase.btn.btn-secondary.popup")).click();
+		sleep(3000);
+		//driver.findElement(By.cssSelector(".text-uppercase.btn.btn-secondary.popup")).click();
+		clickLinkWithText("Szerkesztés");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("title")));
 
 		onScreen(titleText);
@@ -8358,6 +8365,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		driver.findElement(By.xpath(
 				"//div[2]/div[@class='event timeline'][1]/div[@class='event-body mr-3']/div[@class='lv-small']/a/b"))
 				.click();
+		sleep(3000);
 		clickLinkWithText("Szerkesztés");
 		// click(".ts-date-picker");
 		sleep(3000);
@@ -8470,7 +8478,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		sleep(2000);
 		
 		submit();
-		onScreenAlert("Sikeres mentés");
+		onScreenAlert("Sikeres módosítás");
 		
 		sleep(2000);
 		driver.findElement(By.cssSelector(".fas.fa-eye.circle")).click();
@@ -8603,7 +8611,8 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
 		sleep(1000);
 		driver.findElement(By.cssSelector(".btn.grayBtn.deleteAttachedItem")).click();
-		onScreenValue("Sikeresen törölve!");
+		sleep(2000);
+		onScreenAlert("Sikeresen törölve!");
 		
 		Log.log("Sikeresen Törölve");
 
@@ -9004,14 +9013,25 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		onScreenAlert("Sikeres esemény hozzáadás");
 		sleep(3000);
 		driver.findElement(By.xpath("//a[contains(text(), 'adatlapja')]")).click();
+		sleep(4000);
 		
-		onScreen("Sofőrszolgálat");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//b[contains(text(), 'Sofőrszolgálat')]")));
+		System.out.println("Sofőrszolgálat");
+		assertTrue("Szerepel a forrásban", driver.getPageSource().contains("Sofőrszolgálat"));
+		Log.log("Képernyőn: Sofőrszolgálat");
+		
 		
 		Log.log("Esemény sikeresen elmentve!");
 		
 		sleep(5000);
 		
-		clickText("Sofőrszolgálat");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+				"//a[not(contains(@class,'d-sm-none'))]/descendant-or-self::b[contains(text(),'Sofőrszolgálat')]")));
+		driver.findElement(By.xpath(
+				"//a[not(contains(@class,'d-sm-none'))]/descendant-or-self::b[contains(text(),'Sofőrszolgálat')]"))
+				.click();
+
+		sleep(3000);
 		
 		//Check in data sheet----------------------------------------------------------------------
 		Log.log("Adatok ellenőrzése");
@@ -9051,8 +9071,9 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		checkPrice(workPrice,"");
 		onScreen(testText);
 		
+		clickText(serviceName);
 		driver.findElement(By.cssSelector(".fas.fa-trash.circle")).click();
-		sleep(2000);
+		sleep(3000);
 		clickLinkWithText("Esemény törlése");
 		
 		onScreenAlert("Az esemény sikeresen törölve!");
@@ -9190,7 +9211,7 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		
 		Log.log("Sikeres archívum ellenőrzés");
 		
-	}	
+	}
 	
 	public static void checkGPSAlert() throws IOException, InterruptedException, AWTException {
 		
@@ -9239,5 +9260,6 @@ public static void clickCheckboxById(String id) throws IOException, InterruptedE
 		clickButton("Tovább a fizetéshez");
 
 	}
+	
 
 }
