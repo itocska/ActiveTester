@@ -15,7 +15,7 @@ public class PurgeProtocoll {
 		try {
 			
 			//User registration and activation
-			/*TestBase.registerUser(TestBase.personalUser, TestBase.personalPassword);
+			TestBase.registerUser(TestBase.personalUser, TestBase.personalPassword);
 			TestBase.activateUser();
 			
 			//Add new car for purge
@@ -29,7 +29,7 @@ public class PurgeProtocoll {
 			//Purge actual "personalUser"
 			TestBase.purgeUser();
 			TestBase.logout();
-			TestBase.goToPage(TestBase.url + "/hu/regisztracio");*/
+			TestBase.goToPage(TestBase.url + "/hu/regisztracio");
 			
 			//Company registration than purge
 			Random rand = new Random();

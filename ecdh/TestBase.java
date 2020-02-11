@@ -82,6 +82,7 @@ public class TestBase {
 	public static String model;
 	public static String yearfrom;
 	public static String publicPart;
+	public static String fullClearUser;
 
 	// byITOtest
 	public static Properties prop = new Properties();
@@ -9261,5 +9262,35 @@ public class TestBase {
 
 	}
 	
+	public static void giveDocuGen(String email) throws IOException, InterruptedException {
+		
+		goToPage(url + "/hu/admin/car/car-companies?quick_search=" + email);
+		
+		
+	}
+	
+	public static void justForPrivate() throws IOException, InterruptedException {
+		
+		goToPage(url + "/hu/kijelentkezes");
+		
+		Random rand = new Random();
+		int randNum = rand.nextInt(5000);
+		fullClearUser = "fullCleanUser" + randNum;
+		
+		try {
+			
+			login(fullClearUser, "ecdh1");
+			deleteUser();
+			
+		}catch(Exception e) {}
+		
+			try {
+				
+				registerUser("fullCleanUser", "ecdh1");
+				activateUser();
+				
+			}catch(Exception e) {}
+		
+	}
 
 }
