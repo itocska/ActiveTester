@@ -9266,6 +9266,12 @@ public class TestBase {
 		
 		goToPage(url + "/hu/admin/car/car-companies?quick_search=" + email);
 		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn.btn-default.btn-link.command.command-edit"))).click();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(), 'Dokumentum kitöltő')]")));
+		clickText("Dokumentum kitöltő");
+		
+		submit();
 		
 	}
 	
@@ -9291,6 +9297,88 @@ public class TestBase {
 				
 			}catch(Exception e) {}
 		
+	}
+	
+	static void registrationFirst(String username, String password) throws IOException, InterruptedException {
+		
+		goToPage(url + "/hu/regisztracio/szerviznaplo-alkalmazas-autosoknak");
+
+		try {
+			element = driver.findElement(By.className("ok"));
+			element.click();
+		} catch (NoSuchElementException e) {
+
+		}
+		Log.log("Accept cookies");
+
+		fillName("user[username]", username);
+		fillName("user[password]", password);
+		fillName("user[confirm_password]", password);
+
+		Actions actions = new Actions(driver);
+
+		WebElement myElement = driver.findElement(By.xpath("//label[@for=\"user-accept-rules\"]"));
+		WebElement parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept rules");
+
+		myElement = driver.findElement(By.xpath("//label[@for=\"user-accept-rules2\"]"));
+		parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept privacy terms");
+
+		click(".register");
+		Log.log("Click on Regisztráció");
+
+		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='A
+		// regisztrációd sikeres']")));
+		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.className("feedback-page"),
+				"regisztrációd sikeres"));
+
+		assertTrue("Registration succeed", driver.getPageSource().contains("A regisztrációd sikeres"));
+		Log.log("Register succeed");
+
+	}
+	
+	static void registrationSecond(String username, String password) throws IOException, InterruptedException {
+		
+		goToPage(url + "/hu/regisztracio/hasznalt-auto-eladas");
+
+		try {
+			element = driver.findElement(By.className("ok"));
+			element.click();
+		} catch (NoSuchElementException e) {
+
+		}
+		Log.log("Accept cookies");
+
+		fillName("user[username]", username);
+		fillName("user[password]", password);
+		fillName("user[confirm_password]", password);
+
+		Actions actions = new Actions(driver);
+
+		WebElement myElement = driver.findElement(By.xpath("//label[@for=\"user-accept-rules\"]"));
+		WebElement parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept rules");
+
+		myElement = driver.findElement(By.xpath("//label[@for=\"user-accept-rules2\"]"));
+		parent = myElement.findElement(By.xpath(".."));
+		actions.moveToElement(parent, 5, 5).click().build().perform();
+		Log.log("Accept privacy terms");
+
+		click(".register");
+		Log.log("Click on Regisztráció");
+
+		// wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='A
+		// regisztrációd sikeres']")));
+		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.className("feedback-page"),
+				"regisztrációd sikeres"));
+
+		assertTrue("Registration succeed", driver.getPageSource().contains("A regisztrációd sikeres"));
+		Log.log("Register succeed");
+
 	}
 
 }

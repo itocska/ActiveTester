@@ -9,17 +9,15 @@ public class LeadCapturePagesTest extends TestBase {
 		
 		
 		TestBase.main("LeadCapturePagesTest", 1);
-		//VideoRecord.startRecording("RegisterActivateDeleteCompany");
 		
 		try {
-		  
-			TestBase.registrationFirst();
+			
+			TestBase.registrationFirst(TestBase.personalUser, TestBase.personalPassword);
+			//szerviznaplo-alkalmazas-autosoknak	
 			TestBase.deleteUser();
 			
-			TestBase.registrationSecond();
-			TestBase.deleteUser();
-			
-			TestBase.registrationThird();
+			TestBase.registrationSecond(TestBase.personalUser, TestBase.personalPassword);
+			//hasznalt-auto-eladas
 			TestBase.deleteUser();
 			
 		} 
